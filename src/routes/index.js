@@ -25,6 +25,9 @@ const ProjectList = React.lazy(() => import('../pages/apps/Project/List'));
 const ProjectDetail = React.lazy(() => import('../pages/apps/Project/Detail/'));
 const TaskList = React.lazy(() => import('../pages/apps/Tasks/List'));
 const TaskBoard = React.lazy(() => import('../pages/apps/Tasks/Board'));
+const Properties = React.lazy(() => import('../pages/Properties/index'));
+const Addproperties = React.lazy(() => import('../pages/Properties/Addproperties'))
+const Editproperties = React.lazy(() => import('../pages/Properties/EditProperties'))
 
 // pages
 const Starter = React.lazy(() => import('../pages/other/Starter'));
@@ -127,6 +130,37 @@ const equipmentsRoutes = {
             component: AddEquipment,
             route: PrivateRoute,
         },
+
+    ],
+};
+
+const PropertiesRoutes = {
+    path: '/properties',
+    name: 'Properties',
+    route: PrivateRoute,
+    component: Properties,
+    icon: FeatherIcon.Anchor,
+    roles: ['Admin'],
+
+    children: [
+        {
+            path: '/properties',
+            name: 'List',
+            component: Properties,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-properties',
+            name: 'Add Properties',
+            component: Addproperties,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-properties/:id',
+            name: 'Edit Properties',
+            component: Editproperties,
+            route: PrivateRoute,
+        }
     ],
 };
 
@@ -458,6 +492,7 @@ const allRoutes = [
     formsRoutes,
     tableRoutes,
     authRoutes,
+    PropertiesRoutes
 ];
 
 const authProtectedRoutes = [
