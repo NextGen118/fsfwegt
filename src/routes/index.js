@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import * as FeatherIcon from 'react-feather';
 
 import { isUserAuthenticated, getLoggedInUser } from '../helpers/authUtils';
+import AddTrafficmode from '../pages/trafficmode/AddTrafficmode';
 
 // auth
 const Login = React.lazy(() => import('../pages/auth/Login'));
@@ -28,6 +29,19 @@ const TaskBoard = React.lazy(() => import('../pages/apps/Tasks/Board'));
 const Properties = React.lazy(() => import('../pages/Properties/index'));
 const Addproperties = React.lazy(() => import('../pages/Properties/Addproperties'))
 const Editproperties = React.lazy(() => import('../pages/Properties/EditProperties'))
+
+const Timezone = React.lazy(() => import('../pages/timezones/index'));
+const Addtimezone = React.lazy(() => import('../pages/timezones/AddTimezone'))
+const Edittimezone = React.lazy(() => import('../pages/timezones/EditTimezone'))
+
+
+const Trafficmode = React.lazy(() => import('../pages/trafficmode/index'));
+const Addtrafficmode = React.lazy(() => import('../pages/trafficmode/AddTrafficmode'))
+const Edittrafficmode = React.lazy(() => import('../pages/trafficmode/EditTrafficmode'))
+
+const Typeofunit = React.lazy(() => import('../pages/typeofunit/index'));
+const Addtypeofunit = React.lazy(() => import('../pages/typeofunit/AddTypeofunit'))
+const Edittypeofunit = React.lazy(() => import('../pages/typeofunit/EditTypeofunit'))
 
 // pages
 const Starter = React.lazy(() => import('../pages/other/Starter'));
@@ -109,12 +123,6 @@ const equipmentsRoutes = {
     path: '/equipments',
     name: 'Equipments',
     icon: FeatherIcon.Anchor,
-    // header: 'Navigation',
-    // badge: {
-    //     variant: 'success',
-    //     text: '1',
-    // },
-    // component: Equipments,
     roles: ['Admin'],
     route: PrivateRoute,
     children: [
@@ -137,10 +145,9 @@ const equipmentsRoutes = {
 const PropertiesRoutes = {
     path: '/properties',
     name: 'Properties',
-    route: PrivateRoute,
-    component: Properties,
     icon: FeatherIcon.Anchor,
     roles: ['Admin'],
+    route: PrivateRoute,
 
     children: [
         {
@@ -163,6 +170,97 @@ const PropertiesRoutes = {
         }
     ],
 };
+
+const TimezoneRoutes = {
+    path: '/timezone',
+    name: 'Timezone',
+    route: PrivateRoute,
+    component: Timezone,
+    icon: FeatherIcon.Anchor,
+    roles: ['Admin'],
+
+    children: [
+        {
+            path: '/timezone',
+            name: 'List',
+            component: Timezone,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-timezone',
+            name: 'Add Timezone',
+            component: Addtimezone,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-timezone/:id',
+            name: 'Edit Timezone',
+            component: Edittimezone,
+            route: PrivateRoute,
+        }
+    ],
+};
+
+const TrafficmodeRoutes = {
+    path: '/trafficmode',
+    name: 'Traffixmode',
+    route: PrivateRoute,
+    component: Trafficmode,
+    icon: FeatherIcon.Anchor,
+    roles: ['Admin'],
+
+    children: [
+        {
+            path: '/trafficmode',
+            name: 'List',
+            component: Trafficmode,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-trafficmode',
+            name: 'Add Trafficmode',
+            component: AddTrafficmode,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-trafficmode/:id',
+            name: 'Edit Trafficmode',
+            component: Edittrafficmode,
+            route: PrivateRoute,
+        }
+    ],
+};
+
+const TypeofunitRoutes = {
+    path: '/typeofunit',
+    name: 'Typeofunit',
+    route: PrivateRoute,
+    component: Typeofunit,
+    icon: FeatherIcon.Anchor,
+    roles: ['Admin'],
+
+    children: [
+        {
+            path: '/typeofunit',
+            name: 'List',
+            component: Typeofunit,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-typeofunit',
+            name: 'Add Type of unit',
+            component: Addtypeofunit,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-typeofunit/:id',
+            name: 'Edit Typeofunit',
+            component: Edittypeofunit,
+            route: PrivateRoute,
+        }
+    ],
+};
+
 
 // apps
 
@@ -492,12 +590,19 @@ const allRoutes = [
     formsRoutes,
     tableRoutes,
     authRoutes,
-    PropertiesRoutes
+    PropertiesRoutes,
+    TimezoneRoutes,
+    TrafficmodeRoutes,
+    TypeofunitRoutes
 ];
 
 const authProtectedRoutes = [
     dashboardRoutes,
     equipmentsRoutes,
+    PropertiesRoutes,
+    TimezoneRoutes,
+    TrafficmodeRoutes,
+    TypeofunitRoutes
     // ...appRoutes,
     // pagesRoutes,
     // componentsRoutes,
