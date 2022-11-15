@@ -52,6 +52,39 @@ const FormWizard = React.lazy(() => import('../pages/forms/Wizard'));
 const FileUpload = React.lazy(() => import('../pages/forms/FileUpload'));
 const Editor = React.lazy(() => import('../pages/forms/Editor'));
 
+// countries
+const countriesList = React.lazy(() => import('../pages/countries/index'));
+const AddCountries = React.lazy(() => import('../pages/countries/addCountries'));
+const EditCountries = React.lazy(() => import('../pages/countries/editCountries'));
+// roles
+const RolesList = React.lazy(() => import('../pages/roles/index'));
+const AddRoles = React.lazy(() => import('../pages/roles/addRoles'));
+const EditRoles = React.lazy(() => import('../pages/roles/editRoles'));
+// currencies
+const CurrenciesList = React.lazy(() => import('../pages/currencies/index'));
+const AddCurrencies = React.lazy(() => import('../pages/currencies/addCurrencies'));
+const EditCurrencies = React.lazy(() => import('../pages/currencies/editCurrencies'));
+// access points
+const AccesspointsList = React.lazy(() => import('../pages/accesspoints/index'));
+const AddAccesspoints = React.lazy(() => import('../pages/accesspoints/addAccessPoints'));
+const EditAccesspoints = React.lazy(() => import('../pages/accesspoints/editAccessPoints'));
+// default values
+const DefaultvaluesList = React.lazy(() => import('../pages/defaultvalues/index'));
+const AddDefaultvalues = React.lazy(() => import('../pages/defaultvalues/addDefaultValues'));
+const EditDefaultvalues = React.lazy(() => import('../pages/defaultvalues/editDefaultValues'));
+// eqipment sales details
+const EquipmentSaleDetailsList = React.lazy(() => import('../pages/equipmentSaleDetails/index'));
+const AddEquipmentSaleDetails = React.lazy(() => import('../pages/equipmentSaleDetails/addEquipmentSaleDetails'));
+const EditEquipmentSaleDetails = React.lazy(() => import('../pages/equipmentSaleDetails/editEquipmentSaleDetails'));
+// swaps
+const SwapsList = React.lazy(() => import('../pages/swap/index'));
+const AddSwaps = React.lazy(() => import('../pages/swap/addSwap'));
+const EditSwaps = React.lazy(() => import('../pages/swap/editSwap'));
+// swaps Histories
+const SwaphistoriesList = React.lazy(() => import('../pages/swapHistories/index'));
+const AddSwaphistories = React.lazy(() => import('../pages/swapHistories/addSwaphistories'));
+const EditSwaphistories = React.lazy(() => import('../pages/swapHistories/editSwaphistories'));
+
 // tables
 const BasicTables = React.lazy(() => import('../pages/tables/Basic'));
 const AdvancedTables = React.lazy(() => import('../pages/tables/Advanced'));
@@ -446,6 +479,254 @@ const flattenRoutes = (routes) => {
     return flatRoutes;
 };
 
+//Countries
+const countriesRoutes = {
+    path: '/countries',
+    name: 'Countries',
+    icon: FeatherIcon.Globe,
+    route: PrivateRoute,
+    component: countriesList,
+    roles: ['Admin'],
+
+    children:[
+        {
+            path: '/countries',
+            name: 'List',
+            component: countriesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-countries',
+            name: 'Add Countries',
+            component: AddCountries,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-countries/:id',
+            name: 'Edit Countries',
+            component: EditCountries,
+            route: PrivateRoute,
+        },
+    ],
+};
+
+//Roles
+const rolesRoutes = {
+    path: '/roles',
+    name: 'Roles',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: RolesList,
+    roles: ['Admin'],
+
+    children:[
+        {
+            path: '/roles',
+            name: 'List',
+            component: RolesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-roles',
+            name: 'Add Roles',
+            component: AddRoles,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-roles/:id',
+            name: 'Edit Roles',
+            component: EditRoles,
+            route: PrivateRoute,
+        },
+    ],
+};
+
+//Currencies
+const currenciesRoutes = {
+    path: '/currencies',
+    name: 'Currencies',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: CurrenciesList,
+    currencies: ['Admin'],
+
+    children:[
+        {
+            path: '/currencies',
+            name: 'List',
+            component: CurrenciesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-currencies',
+            name: 'Add Currencies',
+            component: AddCurrencies,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-currencies/:id',
+            name: 'Edit Roles',
+            component: EditCurrencies,
+            route: PrivateRoute,
+        },
+    ],
+};
+
+//Accesspoints
+const accesspointsRoutes = {
+    path: '/accesspoints',
+    name: 'Accesspoints',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: AccesspointsList,
+    currencies: ['Admin'],
+
+    children:[
+        {
+            path: '/accesspoints',
+            name: 'List',
+            component: AccesspointsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-accesspoints',
+            name: 'Add Accesspoints',
+            component: AddAccesspoints,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-accesspoints/:id',
+            name: 'Edit Accesspoints',
+            component: EditAccesspoints,
+            route: PrivateRoute,
+        },
+    ],
+};
+
+//DefaulfValues
+const defaultvaluesRoutes = {
+    path: '/defaultvalues',
+    name: 'Defaultvalues',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: DefaultvaluesList,
+    currencies: ['Admin'],
+
+    children:[
+        {
+            path: '/defaultvalues',
+            name: 'List',
+            component: DefaultvaluesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-defaultvalues',
+            name: 'Add Defaultvalues',
+            component: AddDefaultvalues,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-defaultvalues/:id',
+            name: 'Edit Defaultvalues',
+            component: EditDefaultvalues,
+            route: PrivateRoute,
+        },
+    ],
+};
+
+//EquipmentSaleDetails
+const equipmentsaledetailsRoutes = {
+    path: '/equipmentsaledetails',
+    name: 'Equipment Sale Details',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: EquipmentSaleDetailsList,
+    currencies: ['Admin'],
+
+    children:[
+        {
+            path: '/equipmentsaledetails',
+            name: 'List',
+            component: EquipmentSaleDetailsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-equipmentsaledetails',
+            name: 'Add EquipmentSaleDetails',
+            component: AddEquipmentSaleDetails,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-equipmentsaledetails/:id',
+            name: 'Edit EquipmentSaleDetails',
+            component: EditEquipmentSaleDetails,
+            route: PrivateRoute,
+        },
+    ],
+};
+
+//Swaps
+const swapsRoutes = {
+    path: '/swaps',
+    name: 'Swaps Details',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: SwapsList,
+    currencies: ['Admin'],
+
+    children:[
+        {
+            path: '/swaps',
+            name: 'List',
+            component: SwapsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-swaps',
+            name: 'Add Swaps',
+            component: AddSwaps,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-swaps/:id',
+            name: 'Edit Swaps',
+            component: EditSwaps,
+            route: PrivateRoute,
+        },
+    ],
+};
+
+//Swaps Histories
+const swaphistoriesRoutes = {
+    path: '/swaphistories',
+    name: 'SwapHistories Details',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: SwaphistoriesList,
+    currencies: ['Admin'],
+
+    children:[
+        {
+            path: '/swaphistories',
+            name: 'List',
+            component: SwaphistoriesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-swaphistories',
+            name: 'Add SwapHistories',
+            component: AddSwaphistories,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-swaphistories/:id',
+            name: 'Edit SwapHistories',
+            component: EditSwaphistories,
+            route: PrivateRoute,
+        },
+    ],
+};
+
 // All routes
 const allRoutes = [
     rootRoute,
@@ -458,11 +739,27 @@ const allRoutes = [
     formsRoutes,
     tableRoutes,
     authRoutes,
+    countriesRoutes,
+    rolesRoutes,
+    currenciesRoutes,
+    accesspointsRoutes,
+    defaultvaluesRoutes,
+    equipmentsaledetailsRoutes,
+    swapsRoutes,
+    swaphistoriesRoutes
 ];
 
 const authProtectedRoutes = [
     dashboardRoutes,
     equipmentsRoutes,
+    countriesRoutes,
+    rolesRoutes,
+    currenciesRoutes,
+    accesspointsRoutes,
+    defaultvaluesRoutes,
+    equipmentsaledetailsRoutes,
+    swapsRoutes,
+    swaphistoriesRoutes,
     // ...appRoutes,
     // pagesRoutes,
     // componentsRoutes,
