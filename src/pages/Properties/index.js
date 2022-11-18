@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PageTitle from '../../components/PageTitle';
-import { Row, Col, Card, CardBody, Table } from 'reactstrap';
+import { Row, Col, Card, CardBody, Table, Button } from 'reactstrap';
 import axios from 'axios';
 import { Trash, Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
+import Addproperties from './Addproperties';
 
 
 const Propertiestable = (props) => {
@@ -72,6 +73,16 @@ const Propertiestable = (props) => {
 }
 
 const Propertieslist = (props) => {
+
+    const childref = useRef();
+    const handleAddUserForm = (event) => {
+        event.preventDefault();
+        console.log('check');
+        if (childref.current !== undefined) {
+            childref.current.handleOpen();
+        }
+    };
+
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -83,12 +94,16 @@ const Propertieslist = (props) => {
                     />
                 </Col>
             </Row>
-
+            <Col md={12}>
+                <Button onClick={(e) => handleAddUserForm(e)}>Add</Button>
+            </Col>
             <Row>
                 <Col xl={12}>
                     <Propertiestable />
                 </Col>
             </Row>
+
+            <Addproperties ref={childref} />
         </React.Fragment>
     );
 }
