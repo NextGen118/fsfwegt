@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Trash, Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import Addproperties from './Addproperties';
+import EditProperties from './EditProperties';
 
 
 const Propertiestable = (props) => {
@@ -27,6 +28,7 @@ const Propertiestable = (props) => {
             });
     }
 
+
     const deleteProperties = (id) => {
         axios.delete(`http://127.0.0.1:8000/properties/show/all?${id}`)
             .then(res => {
@@ -41,34 +43,48 @@ const Propertiestable = (props) => {
         history.push(`edit-properties/${id}`)
     }
 
-    return (
-        <Card>
-            <CardBody>
-                <Table className="mb-0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Property Name</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {properties.map((record) => {
-                            return (
-                                <tr key={record.id}>
-                                    <th scope="row">{record.id}</th>
-                                    <td>{record.property_name}</td>
-                                    <td>{record.description}</td>
-                                    <td><Trash color='red' onClick={() => deleteProperties(record.id)} /><Edit onClick={() => goEdit(record.id)} /></td>
+    const [id, seiId] = useState('')
+    const updateRef = useRef();
+    const handleUpdateForm = (event, id) => {
+        seiId(id)
+        event.preventDefault();
+        console.log('check');
+        if (updateRef.current !== undefined) {
+            updateRef.current.handleOpen();
+        }
+    };
 
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </Table>
-            </CardBody>
-        </Card>
+    return (
+        <>
+            <Card>
+                <CardBody>
+                    <Table className="mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Property Name</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {properties.map((record) => {
+                                return (
+                                    <tr key={record.id}>
+                                        <th scope="row">{record.id}</th>
+                                        <td>{record.property_name}</td>
+                                        <td>{record.description}</td>
+                                        <td>  {/*<Trash color='red' onClick={() => deleteProperties(record.id)} />*/}<Edit style={{ cursor: 'pointer' }} onClick={(e) => handleUpdateForm(e, record.id)} /></td>
+
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </Table>
+                </CardBody>
+            </Card>
+            <EditProperties ref={updateRef} id={id} refresh={getProperties} />
+        </>
     );
 }
 
