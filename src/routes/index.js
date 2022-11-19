@@ -58,8 +58,6 @@ const AddCountries = React.lazy(() => import('../pages/countries/addCountries'))
 const EditCountries = React.lazy(() => import('../pages/countries/editCountries'));
 // roles
 const RolesList = React.lazy(() => import('../pages/roles/index'));
-const AddRoles = React.lazy(() => import('../pages/roles/addRoles'));
-const EditRoles = React.lazy(() => import('../pages/roles/editRoles'));
 // currencies
 const CurrenciesList = React.lazy(() => import('../pages/currencies/index'));
 const AddCurrencies = React.lazy(() => import('../pages/currencies/addCurrencies'));
@@ -84,6 +82,8 @@ const EditSwaps = React.lazy(() => import('../pages/swap/editSwap'));
 const SwaphistoriesList = React.lazy(() => import('../pages/swapHistories/index'));
 const AddSwaphistories = React.lazy(() => import('../pages/swapHistories/addSwaphistories'));
 const EditSwaphistories = React.lazy(() => import('../pages/swapHistories/editSwaphistories'));
+
+const Propertieslist = React.lazy(() => import('../pages/properties/index'));
 
 // tables
 const BasicTables = React.lazy(() => import('../pages/tables/Basic'));
@@ -518,27 +518,6 @@ const rolesRoutes = {
     route: PrivateRoute,
     component: RolesList,
     roles: ['Admin'],
-
-    children:[
-        {
-            path: '/roles',
-            name: 'List',
-            component: RolesList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-roles',
-            name: 'Add Roles',
-            component: AddRoles,
-            route: PrivateRoute,
-        },
-        {
-            path: '/edit-roles/:id',
-            name: 'Edit Roles',
-            component: EditRoles,
-            route: PrivateRoute,
-        },
-    ],
 };
 
 //Currencies
@@ -727,6 +706,25 @@ const swaphistoriesRoutes = {
     ],
 };
 
+//Prperties
+const propertiesRoutes = {
+    path: '/properties',
+    name: 'SwapHistories Details',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: Propertieslist,
+    currencies: ['Admin'],
+
+    children:[
+        {
+            path: '/properties',
+            name: 'List',
+            component: Propertieslist,
+            route: PrivateRoute,
+        },
+    ],
+};
+
 // All routes
 const allRoutes = [
     rootRoute,
@@ -746,7 +744,8 @@ const allRoutes = [
     defaultvaluesRoutes,
     equipmentsaledetailsRoutes,
     swapsRoutes,
-    swaphistoriesRoutes
+    swaphistoriesRoutes,
+    propertiesRoutes
 ];
 
 const authProtectedRoutes = [
@@ -760,6 +759,7 @@ const authProtectedRoutes = [
     equipmentsaledetailsRoutes,
     swapsRoutes,
     swaphistoriesRoutes,
+    propertiesRoutes,
     // ...appRoutes,
     // pagesRoutes,
     // componentsRoutes,

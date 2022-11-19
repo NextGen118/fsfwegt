@@ -1,9 +1,11 @@
-import React,{useEffect,useState} from "react";
-import { Row,Col,Card,CardBody,Table } from "reactstrap";
+import React,{useEffect,useState,useRef} from "react";
+import { Row,Col,Card,CardBody,Table,Button } from "reactstrap";
 import axios from "axios";
 import {Edit} from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
+import AddRoles from "./addRoles";
+import EditRoles from "./editRoles";
 
 const RolesTable = (props)=>{
 
@@ -26,11 +28,18 @@ const RolesTable = (props)=>{
             })
     }
 
-    const editRoles = (id) =>{
-        history.push(`edit-roles/${id}`)
+    const [id, setId] = useState('');
+    const updateRef = useRef();
+    const editRoles = (event,id) =>{
+        setId(id);
+        event.preventDefault();
+        if (updateRef.current !== undefined) {
+            updateRef.current.handleOpen();
+        }
     }
 
     return (
+        <>
         <Card>
             <CardBody>
                 <Table className="mb-o">
@@ -49,7 +58,7 @@ const RolesTable = (props)=>{
                                     <th scope="row">{record.id}</th>
                                     <td>{record.role_name}</td>
                                     <td>{record.description}</td>
-                                    <td><Edit onClick={()=>editRoles(record.id)}/></td>
+                                    <td><Edit style={{ cursor:'pointer'}} onClick={(e)=>editRoles(e,record.id)}/></td>
                                 </tr>
                             )
                         })}
@@ -57,10 +66,23 @@ const RolesTable = (props)=>{
                 </Table>
             </CardBody>
         </Card>
+        <EditRoles ref={updateRef} id={id} refresh={getRoles}/>
+        </>
     );
 }
 
 const RolesList = (props) => {
+
+    const childref = useRef();
+    const handleAddUserForm = (event) => {
+        event.preventDefault();
+        console.log('check');
+        if (childref.current !== undefined) {
+            childref.current.handleOpen();
+        }
+    };
+
+
     return(
         <React.Fragment>
             <Row className="page-title">
@@ -71,11 +93,15 @@ const RolesList = (props) => {
                     />
                 </Col>
             </Row>
+            <Col md={12}>
+                <Button onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+            </Col>
             <Row>
                 <Col xl={12}>
                   <RolesTable/>
                 </Col>
             </Row>
+            <AddRoles ref={childref}/>
         </React.Fragment>
     )
 }
