@@ -43,6 +43,8 @@ const Typeofunit = React.lazy(() => import('../pages/typeofunit/index'));
 const Addtypeofunit = React.lazy(() => import('../pages/typeofunit/AddTypeofunit'))
 const Edittypeofunit = React.lazy(() => import('../pages/typeofunit/EditTypeofunit'))
 
+const Port = React.lazy(() => import('../pages/Port/index'))
+
 // pages
 const Starter = React.lazy(() => import('../pages/other/Starter'));
 const Profile = React.lazy(() => import('../pages/other/Profile/'));
@@ -261,7 +263,23 @@ const TypeofunitRoutes = {
     ],
 };
 
+const PortRoutes = {
+    path: '/port',
+    name: 'Port',
+    route: PrivateRoute,
+    component: Port,
+    icon: FeatherIcon.Anchor,
+    roles: ['Admin'],
 
+    children: [
+        {
+            path: '/port',
+            name: 'List',
+            component: Port,
+            route: PrivateRoute,
+        }
+    ],
+};
 // apps
 
 const calendarAppRoutes = {
@@ -593,7 +611,8 @@ const allRoutes = [
     PropertiesRoutes,
     TimezoneRoutes,
     TrafficmodeRoutes,
-    TypeofunitRoutes
+    TypeofunitRoutes,
+    PortRoutes
 ];
 
 const authProtectedRoutes = [
@@ -602,7 +621,8 @@ const authProtectedRoutes = [
     PropertiesRoutes,
     TimezoneRoutes,
     TrafficmodeRoutes,
-    TypeofunitRoutes
+    TypeofunitRoutes,
+    PortRoutes
     // ...appRoutes,
     // pagesRoutes,
     // componentsRoutes,
