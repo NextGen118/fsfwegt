@@ -101,7 +101,7 @@ const EditProperties = forwardRef((props, ref) => {
                                             <AvField name="description" label="Description" type="text" required onChange={handleChange} value={values.description} />
 
                                             <Button color="primary" type="submit" onClick={submitEdit} style={{ marginRight: '2%' }}>
-                                                Submit
+                                                Edit
                                             </Button>
                                             <Button color="danger" onClick={handleClose}>
                                                 Close

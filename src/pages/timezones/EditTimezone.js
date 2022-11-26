@@ -20,7 +20,7 @@ const EditTimezone = (props) => {
         axios.get(`http://127.0.0.1:8000/api/timezones/show/all`)
             .then(res => {
                 console.log(res.data)
-                const data = res.data.filter(ress => ress.id === parseInt(id))
+                const data = res.data.data.filter(ress => ress.id === parseInt(id))
                 setValues({
                     timezone_data_name: data[0].timezone_data_name,
                     timezone_data_value: data[0].timezone_data_value
@@ -60,7 +60,7 @@ const EditTimezone = (props) => {
                             { label: 'Timezone', path: '/timezone' },
                             { label: 'Edit Timezone', path: '/edit-timezone/:id', active: true },
                         ]}
-                        title={'Edit Properties'}
+                        title={'Edit Timezone'}
                     />
                 </Col>
             </Row>

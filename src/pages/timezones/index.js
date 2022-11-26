@@ -19,7 +19,7 @@ const TimezoneTable = (props) => {
         axios.get(`http://127.0.0.1:8000/api/timezones/show/all`)
             .then(res => {
                 console.log(res.data)
-                setTimezone(res.data)
+                setTimezone(res.data.data)
             })
             .catch((error) => {
                 console.log(error);

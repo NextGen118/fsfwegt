@@ -19,7 +19,7 @@ const TrafficmodeTable = (props) => {
         axios.get(`http://127.0.0.1:8000/api/trafficmodes/show/all`)
             .then(res => {
                 console.log(res.data)
-                setTrafficmode(res.data)
+                setTrafficmode(res.data.data)
             })
             .catch((error) => {
                 console.log(error);
