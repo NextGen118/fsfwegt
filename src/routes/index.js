@@ -488,7 +488,7 @@ const flattenRoutes = (routes) => {
 const countriesRoutes = {
     path: '/countries',
     name: 'Countries',
-    icon: FeatherIcon.Globe,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: countriesList,
     roles: ['Admin'],
@@ -519,7 +519,7 @@ const countriesRoutes = {
 const rolesRoutes = {
     path: '/roles',
     name: 'Roles',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: RolesList,
     roles: ['Admin'],
@@ -529,7 +529,7 @@ const rolesRoutes = {
 const currenciesRoutes = {
     path: '/currencies',
     name: 'Currencies',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: CurrenciesList,
     currencies: ['Admin'],
@@ -560,7 +560,7 @@ const currenciesRoutes = {
 const accesspointsRoutes = {
     path: '/accesspoints',
     name: 'Accesspoints',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: AccesspointsList,
     currencies: ['Admin'],
@@ -591,7 +591,7 @@ const accesspointsRoutes = {
 const defaultvaluesRoutes = {
     path: '/defaultvalues',
     name: 'Defaultvalues',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: DefaultvaluesList,
     currencies: ['Admin'],
@@ -622,7 +622,7 @@ const defaultvaluesRoutes = {
 const equipmentsaledetailsRoutes = {
     path: '/equipmentsaledetails',
     name: 'Equipment Sale Details',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: EquipmentSaleDetailsList,
     currencies: ['Admin'],
@@ -653,7 +653,7 @@ const equipmentsaledetailsRoutes = {
 const swapsRoutes = {
     path: '/swaps',
     name: 'Swaps Details',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: SwapsList,
     currencies: ['Admin'],
@@ -684,7 +684,7 @@ const swapsRoutes = {
 const swaphistoriesRoutes = {
     path: '/swaphistories',
     name: 'SwapHistories Details',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: SwaphistoriesList,
     currencies: ['Admin'],
@@ -715,7 +715,7 @@ const swaphistoriesRoutes = {
 const propertiesRoutes = {
     path: '/properties',
     name: 'SwapHistories Details',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: Propertieslist,
     currencies: ['Admin'],
@@ -734,7 +734,7 @@ const propertiesRoutes = {
 const clientsRoutes = {
     path: '/clients',
     name: 'Clients',
-    icon: FeatherIcon.Circle,
+    icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: ClientsList,
     currencies: ['Admin'],

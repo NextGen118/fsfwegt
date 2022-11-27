@@ -35,8 +35,7 @@ const ClientsTable = (props)=>{
     const getClients = () => {
         axios.get(`http://127.0.0.1:8000/api/clients/show/all`)
             .then(res=>{
-                console.log(res.data)
-                setClients(res.data)
+                setClients(res.data.data)
             })
             .catch((error)=>{
                 console.log(error);
@@ -73,7 +72,7 @@ const ClientsTable = (props)=>{
                         </tr>
                     </thead>
                     <tbody>
-                        {clients.map((record) => {
+                        {currentData.map((record) => {
                             return(
                                 <tr key={record.id}>
                                     {/* <th scope="row">{record.id}</th> */}
@@ -114,16 +113,19 @@ const ClientsList = (props) => {
     return(
         <React.Fragment>
             <Row className="page-title">
-                <Col md={12}>
+                <Col>
                     <PageTitle 
                         breadCrumbItems = {[{label:'clients', path: '/clients'}]}
                         title = {'Clients List'}
                     />
                 </Col>
             </Row>
-            <Col md={12}>
-                <Button onClick={()=>addClientForm()}>Add</Button>
+            <Row>
+            <Col>
+                <Button color="info" onClick={()=>addClientForm()}>Add</Button>
             </Col>
+            </Row>
+            &nbsp;
             <Row>
                 <Col xl={12}>
                   <ClientsTable/>

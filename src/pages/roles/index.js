@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
 import AddRoles from "./addRoles";
 import EditRoles from "./editRoles";
+import Pagination from '@mui/material/Pagination';
 
 const RolesTable = (props)=>{
 
@@ -13,9 +14,25 @@ const RolesTable = (props)=>{
 
     const [roles, setRoles] = useState([])
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postPerPage, setPostPerPage] = useState(8)
+
     useEffect(()=>{
         getRoles()
     },[])
+
+     //getCurrent data  //pagination part
+     const indexOfLastdata = currentPage * postPerPage
+     const indexOfFirstdata = indexOfLastdata - postPerPage
+     const currentData = roles.slice(indexOfFirstdata, indexOfLastdata)
+ 
+     //pagination part onchange
+     const handlePaginationChange = (
+         event,
+         value
+     ) => {
+         setCurrentPage(value);
+     };
 
     const getRoles = () => {
         axios.get(`http://127.0.0.1:8000/api/roles/show/all`)
@@ -52,7 +69,7 @@ const RolesTable = (props)=>{
                         </tr>
                     </thead>
                     <tbody>
-                        {roles.map((record) => {
+                        {currentData.map((record) => {
                             return(
                                 <tr key={record.id}>
                                     <th scope="row">{record.id}</th>
@@ -66,6 +83,7 @@ const RolesTable = (props)=>{
                 </Table>
             </CardBody>
         </Card>
+        <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
         <EditRoles ref={updateRef} id={id} refresh={getRoles}/>
         </>
     );

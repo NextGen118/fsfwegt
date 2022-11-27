@@ -20,7 +20,7 @@ const EditCountries = (props) => {
         axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
             .then(res => {
                 console.log(res.data)
-                const data = res.data.filter(ress => ress.id === parseInt(id))
+                const data = res.data.data.filter(ress => ress.id === parseInt(id))
                 console.log(data, 'edit data')
                 setValues({
                     countryname: data[0].country_name,

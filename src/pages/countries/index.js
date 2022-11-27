@@ -18,8 +18,8 @@ const CountriesTable = (props)=>{
     const getCountries = () => {
         axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
             .then(res=>{
-                console.log(res.data)
-                setCountries(res.data)
+                console.log(res.data.data)
+                setCountries(res.data.data)
             })
             .catch((error)=>{
                 console.log(error);
