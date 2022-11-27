@@ -85,6 +85,11 @@ const EditSwaphistories = React.lazy(() => import('../pages/swapHistories/editSw
 
 const Propertieslist = React.lazy(() => import('../pages/properties/index'));
 
+// clients
+const ClientsList = React.lazy(() => import('../pages/clients/index'));
+const AddClients = React.lazy(() => import('../pages/clients/addClients'));
+const EditClients = React.lazy(() => import('../pages/clients/editClients'));
+
 // tables
 const BasicTables = React.lazy(() => import('../pages/tables/Basic'));
 const AdvancedTables = React.lazy(() => import('../pages/tables/Advanced'));
@@ -725,6 +730,37 @@ const propertiesRoutes = {
     ],
 };
 
+//Clients
+const clientsRoutes = {
+    path: '/clients',
+    name: 'Clients',
+    icon: FeatherIcon.Circle,
+    route: PrivateRoute,
+    component: ClientsList,
+    currencies: ['Admin'],
+
+    children:[
+        {
+            path: '/clients',
+            name: 'List',
+            component: ClientsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/add-clients',
+            name: 'Add Client',
+            component: AddClients,
+            route: PrivateRoute,
+        },
+        {
+            path: '/edit-clients/:id',
+            name: 'Edit Client',
+            component: EditClients,
+            route: PrivateRoute,
+        },
+    ],
+};
+
 // All routes
 const allRoutes = [
     rootRoute,
@@ -737,6 +773,7 @@ const allRoutes = [
     formsRoutes,
     tableRoutes,
     authRoutes,
+    clientsRoutes,
     countriesRoutes,
     rolesRoutes,
     currenciesRoutes,
@@ -751,6 +788,7 @@ const allRoutes = [
 const authProtectedRoutes = [
     dashboardRoutes,
     equipmentsRoutes,
+    clientsRoutes,
     countriesRoutes,
     rolesRoutes,
     currenciesRoutes,
