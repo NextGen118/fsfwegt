@@ -1,48 +1,105 @@
-import React from 'react';
-import { Row, Col, Card, CardBody, Table } from 'reactstrap';
-
+import React, { useEffect, useState } from 'react';
 import PageTitle from '../../components/PageTitle';
+import axios from 'axios';
+import { Trash, Edit } from 'react-feather';
+import { useHistory } from 'react-router-dom';
+import Pagination from '@mui/material/Pagination';
+import { Row, Col, Card, CardBody, Table, Button } from 'reactstrap';
 
-const records = [
-    { id: 1, firstName: 'Anchor', lastName: '1000', username: '1' },
-    { id: 2, firstName: 'Marino Audio', lastName: '250', username: '56' },
-    { id: 3, firstName: 'Water pump', lastName: '22562', username: '12' },
-    { id: 4, firstName: 'Remote control', lastName: '1225', username: '8' },
-    { id: 5, firstName: 'Shower pump', lastName: '12586', username: '6' },
-];
+
 
 const EquipmentListTable = () => {
+    const history = useHistory()
+
+    const [equipments, setEquipments] = useState([])
+
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postPerPage, setPostPerPage] = useState(8)
+
+    useEffect(() => {
+        getEquipments()
+    }, [])
+
+    const getEquipments = () => {
+        axios.get(`http://127.0.0.1:8000/api/equipments/show/all`)
+            .then(res => {
+                console.log(res.data)
+                setEquipments(res.data.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    const indexOfLastdata = currentPage * postPerPage
+    const indexOfFirstdata = indexOfLastdata - postPerPage
+    const currentData = equipments.slice(indexOfFirstdata, indexOfLastdata)
+
+    //pagination part onchange
+    const handlePaginationChange = (
+        event,
+        value
+    ) => {
+        setCurrentPage(value);
+    };
+
     return (
-        <Card>
-            <CardBody>
-                <Table className="mb-0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Equipment Name</th>
-                            <th>Price</th>
-                            <th>Unit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {records.map((record, index) => {
-                            return (
-                                <tr key={index}>
-                                    <th scope="row">{record.id}</th>
-                                    <td>{record.firstName}</td>
-                                    <td>{record.lastName}</td>
-                                    <td>{record.username}</td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </Table>
-            </CardBody>
-        </Card>
+        <>
+            <Card>
+                <CardBody>
+                    <Table className="mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Equipment Number</th>
+                                <th>Grade</th>
+                                <th>Status</th>
+                                <th>Owner Code</th>
+                                <th>Owner Name</th>
+                                <th>Type of unit</th>
+                                <th>Vendor code</th>
+                                <th>Vendor Name</th>
+                                <th>Client Code</th>
+                                <th>Client Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentData.map((record, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <th scope="row">{record.id}</th>
+                                        <td>{record.equipment_number}</td>
+                                        <td>{record.grade}</td>
+                                        <td>{record.status}</td>
+                                        <td>{record.owner_code}</td>
+                                        <td>{record.owner_name}</td>
+                                        <td>{record.type_of_unit}</td>
+                                        <td>{record.vendor_code}</td>
+                                        <td>{record.vendor_name}</td>
+                                        <td>{record.client_code}</td>
+                                        <td>{record.client_name}</td>
+                                        <td><Edit color='blue' /></td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </Table>
+                </CardBody>
+
+            </Card>
+            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+        </>
     );
 };
 
 const EquipmentList = () => {
+    let history = useHistory()
+    const handleAddUserForm = () => {
+        history.push('/add-equipments')
+    }
+
     return (
         <React.Fragment>
             <Row className="page-title">
@@ -53,6 +110,9 @@ const EquipmentList = () => {
                     />
                 </Col>
             </Row>
+            <Col md={12}>
+                <Button onClick={(e) => handleAddUserForm(e)}>Add</Button>
+            </Col>
 
             <Row>
                 <Col xl={12}>

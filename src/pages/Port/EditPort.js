@@ -96,6 +96,7 @@ const EditPort = forwardRef((props, ref) => {
 
     return (
         <>
+
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -122,6 +123,7 @@ const EditPort = forwardRef((props, ref) => {
                         <Row>
                             <Col>
                                 <Card>
+                                    <h3 style={{ marginLeft: 15 }}>Edit Port</h3 >
                                     <CardBody>
 
                                         <AvForm>
