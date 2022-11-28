@@ -89,7 +89,7 @@ const EditCountries = forwardRef((props,ref) => {
                             <Card>
                                 <CardBody>
                                     <AvForm>
-                                        <AvField name="countryname" label="City Name" type="text" required onChange={handleChange} value={values.countryname} />
+                                        <AvField name="countryname" label="Country Name" type="text" required onChange={handleChange} value={values.countryname} />
                                         <AvField name="capitalcityname" label="Capital City Name" type="text" required onChange={handleChange} value={values.capitalcityname} />
 
                                         <Button color="primary" type="submit" onClick={submitEdit} style={{ marginRight: '2%' }}>Edit</Button>

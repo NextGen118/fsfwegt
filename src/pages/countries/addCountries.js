@@ -70,8 +70,8 @@ const AddCountries = forwardRef((props,ref) =>{
                                 <Card>
                                     <CardBody>
                                         <AvForm>
-                                            <AvField name="countriesname" label="Countries Name" type="text" required onChange={handleChange}/>
-                                            <AvField name="countrycapitalname" label="Countries Capital Name" type="text" required onChange={handleChange}/>
+                                            <AvField name="countriesname" label="Country Name" type="text" required onChange={handleChange}/>
+                                            <AvField name="countrycapitalname" label="Capital City Name" type="text" required onChange={handleChange}/>
 
                                             <Button color="primary" type="submit" onClick={onSubmit} style={{marginRight:'2%'}}>Submit</Button>
                                             <Button color="danger" onClick={handleClose}>Close</Button>

@@ -108,7 +108,7 @@ const CountriesList = (props) => {
                 </Col>
             </Row>
             <Row>
-                <Col md={12}>
+                <Col>
                     <Button color="info" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
                 </Col>
             </Row>
