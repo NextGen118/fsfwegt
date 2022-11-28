@@ -7,6 +7,11 @@ import { Modal,Backdrop,Fade,Box } from "@material-ui/core";
 
 const AddRoles = forwardRef((props,ref) =>{
 
+    const [open,setOpen] = React.useState(false);
+    const handleClose=()=>{
+        setOpen(false);
+    }
+
     useImperativeHandle(ref,()=>({
         handleOpen(){
             setOpen(true);
@@ -22,11 +27,6 @@ const AddRoles = forwardRef((props,ref) =>{
             ...values,
             [evt.target.name]: value
         });
-    }
-
-    const [open,setOpen] = React.useState(false);
-    const handleClose=()=>{
-        setOpen(false);
     }
 
     const onSubmit = () =>{

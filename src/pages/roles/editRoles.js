@@ -6,33 +6,30 @@ import { useHistory } from 'react-router-dom';
 import { Modal,Backdrop,Fade,Box } from "@material-ui/core";
 
 const EditRoles = forwardRef((props,ref)=> {
-    console.log("iddd");
-    useImperativeHandle(ref,()=>({
-        handleOpen(){
-            setOpen(true);
-        }
-    }));
-
 
     const [open,setOpen] = React.useState(false);
     const handleClose = () =>{
         setOpen(false);
     }
 
-    // const { id } = useParams()
+    useImperativeHandle(ref,()=>({
+        handleOpen(){
+            setOpen(true);
+        }
+    }));
+
     const [values, setValues] = useState({ rolename: '', description: '' });
     const history = useHistory()
 
     useEffect(() => {
         getRoleByid()
-        console.log("yyyyyyyy");
     }, [props.id])
 
     const getRoleByid = () => {
         axios.get(`http://127.0.0.1:8000/api/roles/show/all`)
             .then(res => {
-                console.log(res.data)
-                const data = res.data.filter(ress => ress.id === parseInt(props.id))
+                console.log(res.data.data)
+                const data = res.data.data.filter(ress => ress.id === parseInt(props.id))
                 console.log(data, 'edit data')
                 setValues({
                     rolename: data[0].role_name,
@@ -51,7 +48,6 @@ const EditRoles = forwardRef((props,ref)=> {
             [evt.target.name]: value
         });
     }
-
 
     const submitEdit = () => {
         axios.post(`http://127.0.0.1:8000/api/roles/store?role_name=${values.rolename} &description=${values.description}&id=${props.id}`)

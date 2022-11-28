@@ -15,7 +15,7 @@ const RolesTable = (props)=>{
     const [roles, setRoles] = useState([])
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postPerPage, setPostPerPage] = useState(8)
+    const [postPerPage, setPostPerPage] = useState(10)
 
     useEffect(()=>{
         getRoles()
@@ -37,8 +37,8 @@ const RolesTable = (props)=>{
     const getRoles = () => {
         axios.get(`http://127.0.0.1:8000/api/roles/show/all`)
             .then(res=>{
-                console.log(res.data)
-                setRoles(res.data)
+                console.log(res.data.data)
+                setRoles(res.data.data)
             })
             .catch((error)=>{
                 console.log(error);
@@ -62,7 +62,6 @@ const RolesTable = (props)=>{
                 <Table className="mb-o">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Roles Name</th>
                             <th>Description</th>
                             <th>Action</th>
@@ -72,7 +71,6 @@ const RolesTable = (props)=>{
                         {currentData.map((record) => {
                             return(
                                 <tr key={record.id}>
-                                    <th scope="row">{record.id}</th>
                                     <td>{record.role_name}</td>
                                     <td>{record.description}</td>
                                     <td><Edit style={{ cursor:'pointer'}} onClick={(e)=>editRoles(e,record.id)}/></td>
@@ -111,9 +109,12 @@ const RolesList = (props) => {
                     />
                 </Col>
             </Row>
-            <Col md={12}>
-                <Button onClick={(e)=>handleAddUserForm(e)}>Add</Button>
-            </Col>
+            <Row>
+                <Col md={12}>
+                    <Button color="info" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                </Col>
+            </Row>
+            &nbsp;
             <Row>
                 <Col xl={12}>
                   <RolesTable/>

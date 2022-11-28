@@ -492,27 +492,6 @@ const countriesRoutes = {
     route: PrivateRoute,
     component: countriesList,
     roles: ['Admin'],
-
-    children:[
-        {
-            path: '/countries',
-            name: 'List',
-            component: countriesList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-countries',
-            name: 'Add Countries',
-            component: AddCountries,
-            route: PrivateRoute,
-        },
-        {
-            path: '/edit-countries/:id',
-            name: 'Edit Countries',
-            component: EditCountries,
-            route: PrivateRoute,
-        },
-    ],
 };
 
 //Roles
@@ -532,28 +511,7 @@ const currenciesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: CurrenciesList,
-    currencies: ['Admin'],
-
-    children:[
-        {
-            path: '/currencies',
-            name: 'List',
-            component: CurrenciesList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-currencies',
-            name: 'Add Currencies',
-            component: AddCurrencies,
-            route: PrivateRoute,
-        },
-        {
-            path: '/edit-currencies/:id',
-            name: 'Edit Roles',
-            component: EditCurrencies,
-            route: PrivateRoute,
-        },
-    ],
+    roles: ['Admin']
 };
 
 //Accesspoints
@@ -563,7 +521,7 @@ const accesspointsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: AccesspointsList,
-    currencies: ['Admin'],
+    roles: ['Admin'],
 
     children:[
         {
@@ -594,7 +552,7 @@ const defaultvaluesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: DefaultvaluesList,
-    currencies: ['Admin'],
+    roles: ['Admin'],
 
     children:[
         {
@@ -625,7 +583,7 @@ const equipmentsaledetailsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: EquipmentSaleDetailsList,
-    currencies: ['Admin'],
+    roles: ['Admin'],
 
     children:[
         {
@@ -656,7 +614,7 @@ const swapsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: SwapsList,
-    currencies: ['Admin'],
+    roles: ['Admin'],
 
     children:[
         {
@@ -687,7 +645,7 @@ const swaphistoriesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: SwaphistoriesList,
-    currencies: ['Admin'],
+    roles: ['Admin'],
 
     children:[
         {
@@ -718,7 +676,7 @@ const propertiesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: Propertieslist,
-    currencies: ['Admin'],
+    roles: ['Admin'],
 
     children:[
         {
@@ -737,7 +695,7 @@ const clientsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: ClientsList,
-    currencies: ['Admin'],
+    roles: ['Admin'],
 
     children:[
         {
@@ -752,13 +710,23 @@ const clientsRoutes = {
             component: AddClients,
             route: PrivateRoute,
         },
-        {
-            path: '/edit-clients/:id',
-            name: 'Edit Client',
-            component: EditClients,
-            route: PrivateRoute,
-        },
+        // {
+        //     path: '/edit-clients/:id',
+        //     name: 'Edit Client',
+        //     component: EditClients,
+        //     route: PrivateRoute,
+        // },
     ],
+};
+
+//Edit Clients
+const editclientsRoutes = {
+    path: '/edit-clients/:id',
+    name: 'Edit Clients',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: EditClients,
+    roles: ['Admin'],
 };
 
 // All routes
@@ -774,6 +742,7 @@ const allRoutes = [
     tableRoutes,
     authRoutes,
     clientsRoutes,
+    editclientsRoutes,
     countriesRoutes,
     rolesRoutes,
     currenciesRoutes,
