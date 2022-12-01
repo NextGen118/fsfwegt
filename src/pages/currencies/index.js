@@ -111,7 +111,7 @@ const CurrenciesList = (props) => {
             </Row>
             <Row>
                 <Col md={12}>
-                    <Button color="info" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                    <Button color="info" className="float-right" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
                 </Col>
             </Row>
             &nbsp;

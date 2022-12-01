@@ -53,7 +53,7 @@ const FileUpload = React.lazy(() => import('../pages/forms/FileUpload'));
 const Editor = React.lazy(() => import('../pages/forms/Editor'));
 
 // countries
-const countriesList = React.lazy(() => import('../pages/countries/index'));
+const CountriesList = React.lazy(() => import('../pages/countries/index'));
 const AddCountries = React.lazy(() => import('../pages/countries/addCountries'));
 const EditCountries = React.lazy(() => import('../pages/countries/editCountries'));
 // roles
@@ -490,7 +490,7 @@ const countriesRoutes = {
     name: 'Countries',
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    component: countriesList,
+    component: CountriesList,
     roles: ['Admin'],
 };
 
@@ -695,39 +695,59 @@ const clientsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: ClientsList,
-    roles: ['Admin'],
+    roles: ['Admin']
+};
+const addclientsRoutes = {
+    path: '/add-clients',
+    name: 'Add Client',
+    component: AddClients,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editclientsRoutes = {
+    path: '/edit-clients/:id',
+    name: 'Edit Client',
+    component: EditClients,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
 
+//Master
+const masterRoutes = {
+    name: 'Master',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
     children:[
         {
-            path: '/clients',
-            name: 'List',
-            component: ClientsList,
+            path: '/countries',
+            name: 'Countries',
+            component: CountriesList,
             route: PrivateRoute,
         },
         {
-            path: '/add-clients',
-            name: 'Add Client',
-            component: AddClients,
+            path: '/currencies',
+            name: 'Currencies',
+            component: CurrenciesList,
             route: PrivateRoute,
         },
-        // {
-        //     path: '/edit-clients/:id',
-        //     name: 'Edit Client',
-        //     component: EditClients,
-        //     route: PrivateRoute,
-        // },
+        {
+            path: '/swaps',
+            name: 'Swaps',
+            component: SwapsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/swaphistories',
+            name: 'Swap Histories',
+            component: SwaphistoriesList,
+            route: PrivateRoute,
+        },
     ],
 };
 
-//Edit Clients
-const editclientsRoutes = {
-    path: '/edit-clients/:id',
-    name: 'Edit Clients',
-    icon: FeatherIcon.Anchor,
-    route: PrivateRoute,
-    component: EditClients,
-    roles: ['Admin'],
-};
 
 // All routes
 const allRoutes = [
@@ -742,22 +762,6 @@ const allRoutes = [
     tableRoutes,
     authRoutes,
     clientsRoutes,
-    editclientsRoutes,
-    countriesRoutes,
-    rolesRoutes,
-    currenciesRoutes,
-    accesspointsRoutes,
-    defaultvaluesRoutes,
-    equipmentsaledetailsRoutes,
-    swapsRoutes,
-    swaphistoriesRoutes,
-    propertiesRoutes
-];
-
-const authProtectedRoutes = [
-    dashboardRoutes,
-    equipmentsRoutes,
-    clientsRoutes,
     countriesRoutes,
     rolesRoutes,
     currenciesRoutes,
@@ -767,6 +771,24 @@ const authProtectedRoutes = [
     swapsRoutes,
     swaphistoriesRoutes,
     propertiesRoutes,
+    addclientsRoutes,
+    editclientsRoutes
+];
+
+const authProtectedRoutes = [
+    dashboardRoutes,
+    equipmentsRoutes,
+    clientsRoutes,
+    rolesRoutes,
+    masterRoutes,
+    // countriesRoutes,
+    // currenciesRoutes,
+    accesspointsRoutes,
+    defaultvaluesRoutes,
+    equipmentsaledetailsRoutes,
+    // swapsRoutes,
+    // swaphistoriesRoutes,
+    // propertiesRoutes,
     // ...appRoutes,
     // pagesRoutes,
     // componentsRoutes,

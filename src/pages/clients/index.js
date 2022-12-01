@@ -122,7 +122,7 @@ const ClientsList = (props) => {
             </Row>
             <Row>
             <Col>
-                <Button color="info" onClick={()=>addClientForm()}>Add</Button>
+                <Button color="info" className="float-right" onClick={()=>addClientForm()}>Add</Button>
             </Col>
             </Row>
             &nbsp;

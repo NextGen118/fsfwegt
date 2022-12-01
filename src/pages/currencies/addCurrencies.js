@@ -40,7 +40,6 @@ const AddCurrencies = forwardRef((props,ref) =>{
     const [countryselect, setCountryselect] = useState('')
 
     const getCountry = () => {
-        console.log("xxxxxxxx");
         axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
             .then(res=>{
                 setCountry(res.data.data)

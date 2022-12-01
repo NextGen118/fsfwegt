@@ -1,9 +1,13 @@
-import React,{useEffect,useState} from "react";
-import { Row,Col,Card,CardBody,Table } from "reactstrap";
+import React,{useEffect,useState,useRef} from "react";
+import { Row,Col,Card,CardBody,Table ,Button} from "reactstrap";
 import axios from "axios";
 import {Edit} from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
+import Pagination from '@mui/material/Pagination';
+import EditSwaps from "./editSwap";
+import AddSwaps from "./addSwap";
+
 
 const SwapsTable = (props)=>{
 
@@ -11,47 +15,69 @@ const SwapsTable = (props)=>{
 
     const [swaps, setSwaps] = useState([])
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postPerPage, setPostPerPage] = useState(10)
+
     useEffect(()=>{
         getSwaps()
     },[])
 
+    //getCurrent data  //pagination part
+    const indexOfLastdata = currentPage * postPerPage
+    const indexOfFirstdata = indexOfLastdata - postPerPage
+    const currentData = swaps.slice(indexOfFirstdata, indexOfLastdata)
+
+    //pagination part onchange
+    const handlePaginationChange = (
+        event,
+        value
+    ) => {
+        setCurrentPage(value);
+    };
+
     const getSwaps = () => {
         axios.get(`http://127.0.0.1:8000/api/swaps/show/all`)
             .then(res=>{
-                console.log(res.data)
-                setSwaps(res.data)
+                setSwaps(res.data.data)
             })
             .catch((error)=>{
                 console.log(error);
             })
     }
 
-    const editSwaps = (id) =>{
-        history.push(`edit-swaps/${id}`)
+    const [id, setId] = useState('');
+    const updateRef = useRef();
+    const editSwaps = (event,id) =>{
+        setId(id);
+        event.preventDefault();
+        if (updateRef.current !== undefined) {
+            updateRef.current.handleOpen();
+        }
     }
 
     return (
+        <>
         <Card>
             <CardBody>
                 <Table className="mb-o">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Date</th>
+                            <th>Client</th>
                             <th>Equipment Id</th>
+                            <th>Date</th>
                             <th>Description</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {swaps.map((record) => {
+                        {currentData.map((record) => {
                             return(
                                 <tr key={record.id}>
-                                    <th scope="row">{record.id}</th>
+                                    <td>{record.client_name}</td>
+                                    <td>{record.equipment_number}</td>
                                     <td>{record.date}</td>
-                                    <td>{record.equipment_id}</td>
                                     <td>{record.description}</td>
-                                    <td><Edit onClick={()=>editSwaps(record.id)}/></td>
+                                    <td><Edit onClick={(e)=>editSwaps(e,record.id)}/></td>
                                 </tr>
                             )
                         })}
@@ -59,10 +85,24 @@ const SwapsTable = (props)=>{
                 </Table>
             </CardBody>
         </Card>
+        <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+        <EditSwaps ref={updateRef} id={id} refresh={getSwaps}/>
+        
+        </>
     );
 }
 
 const SwapsList = (props) => {
+
+    const childref = useRef();
+    const handleAddUserForm = (event) => {
+        event.preventDefault();
+        console.log('check');
+        if (childref.current !== undefined) {
+            childref.current.handleOpen();
+        }
+    };
+
     return(
         <React.Fragment>
             <Row className="page-title">
@@ -74,10 +114,17 @@ const SwapsList = (props) => {
                 </Col>
             </Row>
             <Row>
+                <Col md={12}>
+                    <Button color="info" className="float-right" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                </Col>
+            </Row>
+            &nbsp;
+            <Row>
                 <Col xl={12}>
                   <SwapsTable/>
                 </Col>
             </Row>
+            <AddSwaps ref={childref}/>
         </React.Fragment>
     )
 }

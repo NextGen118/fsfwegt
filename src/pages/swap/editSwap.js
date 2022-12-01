@@ -1,11 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import PageTitle from '../../components/PageTitle';
+import React, { useEffect, useState,forwardRef,useImperativeHandle } from 'react';
 import { Row, Col, Card, CardBody, Button} from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
+import { Modal,Backdrop,Fade,Box } from "@material-ui/core";
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 
-const EditSwaps = (props) => {
+const EditSwaps = forwardRef((props,ref) => {
+
+    const [open,setOpen] = React.useState(false);
+    const handleClose = () =>{
+        setOpen(false);
+    }
+
+    useImperativeHandle(ref,()=>({
+        handleOpen(){
+            setOpen(true);
+        }
+    }));
 
     const { id } = useParams()
     const [values, setValues] = useState({ date: '', equipment_id: '', description: '', client_id_agent: '' });
@@ -14,13 +28,41 @@ const EditSwaps = (props) => {
 
     useEffect(() => {
         getSwapByid()
-    }, [])
+        getClient()
+        getEquipment()
+    }, [props.id])
+
+
+    const [client,setClient] = useState([])
+    const [clientselect, setClientselect] = useState('')
+
+    const [equipment,setEquipment] = useState([])
+    const [equipmentselect, setEquipmentselect] = useState('')
+
+    const getClient = () => {
+        axios.get(`http://127.0.0.1:8000/api/clients/show/all`)
+            .then(res=>{
+                setClient(res.data.data)
+            })
+            .catch((error)=>{
+                console.log(error);
+            });
+    }
+
+    const getEquipment = () => {
+        axios.get(`http://127.0.0.1:8000/api/equipments/show/all`)
+            .then(res=>{
+                setEquipment(res.data.data)
+            })
+            .catch((error)=>{
+                console.log(error);
+            });
+    }
 
     const getSwapByid = () => {
         axios.get(`http://127.0.0.1:8000/api/swaps/show/all`)
             .then(res => {
-                console.log(res.data)
-                const data = res.data.filter(ress => ress.id === parseInt(id))
+                const data = res.data.data.filter(ress => ress.id === parseInt(props.id))
                 console.log(data, 'edit data')
                 setValues({
                     date: data[0].date,
@@ -28,14 +70,23 @@ const EditSwaps = (props) => {
                     description: data[0].description,
                     client_id_agent: data[0].client_id_agent,
                 })
+                setClientselect(data[0].client_id_agent)
+                setEquipmentselect(data[0].equipment_id)
             })
             .catch((error) => {
                 console.log(error);
             });
     }
 
-    const handleChange = (evt) => {
+    const changeEquipment = (event) => {
+        setEquipmentselect(event.target.value);
+    }
 
+    const changeClient = (event) => {
+        setClientselect(event.target.value);
+    }
+
+    const handleChange = (evt) => {
         const value = evt.target.value;
         setValues({
             ...values,
@@ -44,10 +95,10 @@ const EditSwaps = (props) => {
     }
 
     const submitEdit = () => {
-        axios.post(`http://127.0.0.1:8000/api/swaps/store?date=${values.date}&equipment_id=${values.equipment_id}&description=${values.description}&client_id_agent=${values.client_id_agent}&id=${id}`)
+        axios.post(`http://127.0.0.1:8000/api/swaps/store?date=${values.date}&equipment_id=${equipmentselect}&description=${values.description}&client_id_agent=${clientselect}&id=${props.id}`)
             .then(res => {
-                history.push('/swaps')
-                console.log("success to edit")
+                props.refresh();
+                handleClose();
             })
             .catch((error) => {
                 console.log(error);
@@ -55,39 +106,50 @@ const EditSwaps = (props) => {
     }
 
     return (
-        <React.Fragment>
-            <Row className="page-title">
-                <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Swaps', path: '/swaps' },
-                            { label: 'Edit Swap', path: '/edit-swaps/:id', active: true },
-                        ]}
-                        title={'Edit Swap'}
-                    />
-                </Col>
-            </Row>
+        <>
+        <Modal
+            aria-labelledby="transition-modal-title"
+            aria-describedby="transition-modal-description"
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{timeout:500}}
+        >
+            <Fade in={open}>
+                <Box sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 600,
+                    bgcolor: 'background.paper',
+                    boxShadow: 10,
+                    pt: 3,
+                }}>
+                    <Row>
+                        <Col>
+                            <Card>
+                                <CardBody>
+                                    <AvForm>
+                                        <InputLabel id="demo-simple-select-label">Client</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={clientselect} onChange={changeClient} sx={{ width: 540, height:36 , mb: 2}}>{client.map((con) => (<MenuItem value={con.id} key={con.id}>{con.client_name}</MenuItem>))}</Select>  
+                                        <InputLabel id="demo-simple-select-label">Equipment</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={equipmentselect} onChange={changeEquipment} sx={{ width: 540, height:36 , mb: 2}}>{equipment.map((equ) => (<MenuItem value={equ.id} key={equ.id}>{equ.equipment_number}</MenuItem>))}</Select>  
+                                        <AvField name="date" label="Date" type="date" required onChange={handleChange} value={values.date} />
+                                        <AvField name="description" label="Description" type="text" required onChange={handleChange} value={values.description} />
+                                        
+                                        <Button color="primary" type="submit" onClick={submitEdit} style={{ marginRight: '2%' }}>Edit</Button>
+                                        <Button color="danger" onClick={handleClose}>Close</Button>
+                                    </AvForm>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                </Box>
+            </Fade>
+        </Modal>
+        </>
 
-            <Row>
-                <Col lg={6}>
-                    <Card>
-                        <CardBody>
-                            <AvForm>
-                                <AvField name="date" label="Date" type="date" required onChange={handleChange} value={values.date} />
-                                <AvField name="equipment_id" label="Equipment Id" type="text" required onChange={handleChange} value={values.equipment_id} />
-                                <AvField name="description" label="Description" type="text" required onChange={handleChange} value={values.description} />
-                                <AvField name="client_id_agent" label="Client Id Agent" type="text" required onChange={handleChange} value={values.client_id_agent} />
-
-                                <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                                    Edit
-                                </Button>
-                            </AvForm>
-                        </CardBody>
-                    </Card>
-                </Col>
-            </Row>
-        </React.Fragment >
     );
-}
+})
 
 export default EditSwaps;
