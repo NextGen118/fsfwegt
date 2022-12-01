@@ -54,14 +54,10 @@ const Editor = React.lazy(() => import('../pages/forms/Editor'));
 
 // countries
 const CountriesList = React.lazy(() => import('../pages/countries/index'));
-const AddCountries = React.lazy(() => import('../pages/countries/addCountries'));
-const EditCountries = React.lazy(() => import('../pages/countries/editCountries'));
 // roles
 const RolesList = React.lazy(() => import('../pages/roles/index'));
 // currencies
 const CurrenciesList = React.lazy(() => import('../pages/currencies/index'));
-const AddCurrencies = React.lazy(() => import('../pages/currencies/addCurrencies'));
-const EditCurrencies = React.lazy(() => import('../pages/currencies/editCurrencies'));
 // access points
 const AccesspointsList = React.lazy(() => import('../pages/accesspoints/index'));
 const AddAccesspoints = React.lazy(() => import('../pages/accesspoints/addAccessPoints'));
@@ -76,8 +72,6 @@ const AddEquipmentSaleDetails = React.lazy(() => import('../pages/equipmentSaleD
 const EditEquipmentSaleDetails = React.lazy(() => import('../pages/equipmentSaleDetails/editEquipmentSaleDetails'));
 // swaps
 const SwapsList = React.lazy(() => import('../pages/swap/index'));
-const AddSwaps = React.lazy(() => import('../pages/swap/addSwap'));
-const EditSwaps = React.lazy(() => import('../pages/swap/editSwap'));
 // swaps Histories
 const SwaphistoriesList = React.lazy(() => import('../pages/swapHistories/index'));
 const AddSwaphistories = React.lazy(() => import('../pages/swapHistories/addSwaphistories'));
@@ -615,27 +609,6 @@ const swapsRoutes = {
     route: PrivateRoute,
     component: SwapsList,
     roles: ['Admin'],
-
-    children:[
-        {
-            path: '/swaps',
-            name: 'List',
-            component: SwapsList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-swaps',
-            name: 'Add Swaps',
-            component: AddSwaps,
-            route: PrivateRoute,
-        },
-        {
-            path: '/edit-swaps/:id',
-            name: 'Edit Swaps',
-            component: EditSwaps,
-            route: PrivateRoute,
-        },
-    ],
 };
 
 //Swaps Histories
