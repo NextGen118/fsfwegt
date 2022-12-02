@@ -1,9 +1,12 @@
-import React,{useEffect,useState} from "react";
-import { Row,Col,Card,CardBody,Table } from "reactstrap";
+import React,{useEffect,useState,useRef} from "react";
+import { Row,Col,Card,CardBody,Table,Button } from "reactstrap";
 import axios from "axios";
 import {Edit} from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
+import Pagination from '@mui/material/Pagination';
+import AddAccesspoints from "./addAccessPoints";
+import EditAccesspoints from "./editAccessPoints";
 
 const AccesspointsTable = (props)=>{
 
@@ -11,45 +14,67 @@ const AccesspointsTable = (props)=>{
 
     const [accesspoints, setAccesspoints] = useState([])
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postPerPage, setPostPerPage] = useState(10)
+
     useEffect(()=>{
         getAccesspoints()
     },[])
 
+    //getCurrent data  //pagination part
+    const indexOfLastdata = currentPage * postPerPage
+    const indexOfFirstdata = indexOfLastdata - postPerPage
+    const currentData = accesspoints.slice(indexOfFirstdata, indexOfLastdata)
+
+    //pagination part onchange
+    const handlePaginationChange = (
+        event,
+        value
+    ) => {
+        setCurrentPage(value);
+    };
+
     const getAccesspoints = () => {
         axios.get(`http://127.0.0.1:8000/api/accesspoints/show/all`)
             .then(res=>{
-                console.log(res.data)
-                setAccesspoints(res.data)
+                setAccesspoints(res.data.data)
             })
             .catch((error)=>{
                 console.log(error);
             })
     }
 
-    const editAccesspoints = (id) =>{
-        history.push(`edit-accesspoints/${id}`)
+    const [id, setId] = useState('');
+    const updateRef = useRef();
+    const editAccesspoints = (event,id) =>{
+        setId(id);
+        event.preventDefault();
+        if (updateRef.current !== undefined) {
+            updateRef.current.handleOpen();
+        }
     }
 
     return (
+        <>
         <Card>
             <CardBody>
                 <Table className="mb-o">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>Accessmodel Name</th>
                             <th>Display Name</th>
                             <th>Value</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {accesspoints.map((record) => {
+                        {currentData.map((record) => {
                             return(
                                 <tr key={record.id}>
-                                    <th scope="row">{record.id}</th>
+                                    <td>{record.name}</td>
                                     <td>{record.display_name}</td>
                                     <td>{record.value}</td>
-                                    <td><Edit onClick={()=>editAccesspoints(record.id)}/></td>
+                                    <td><Edit onClick={(e)=>editAccesspoints(e,record.id)}/></td>
                                 </tr>
                             )
                         })}
@@ -57,10 +82,23 @@ const AccesspointsTable = (props)=>{
                 </Table>
             </CardBody>
         </Card>
+        <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+        <EditAccesspoints ref={updateRef} id={id} refresh={getAccesspoints}/>
+        </>
     );
 }
 
 const AccesspointsList = (props) => {
+
+    const childref = useRef();
+    const handleAddUserForm = (event) => {
+        event.preventDefault();
+        console.log('check');
+        if (childref.current !== undefined) {
+            childref.current.handleOpen();
+        }
+    };
+
     return(
         <React.Fragment>
             <Row className="page-title">
@@ -72,10 +110,17 @@ const AccesspointsList = (props) => {
                 </Col>
             </Row>
             <Row>
+                <Col md={12}>
+                    <Button color="info" className="float-right" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                </Col>
+            </Row>
+            &nbsp;
+            <Row>
                 <Col xl={12}>
                   <AccesspointsTable/>
                 </Col>
             </Row>
+            <AddAccesspoints ref={childref}/>
         </React.Fragment>
     )
 }

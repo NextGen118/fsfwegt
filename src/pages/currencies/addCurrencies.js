@@ -115,10 +115,8 @@ const AddCurrencies = forwardRef((props,ref) =>{
                                 </Card>
                             </Col>
                         </Row>
-
                     </Box>
                 </Fade>
-
             </Modal>
         </>
     );

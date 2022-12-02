@@ -78,10 +78,8 @@ const AddRoles = forwardRef((props,ref) =>{
                                 </Card>
                             </Col>
                         </Row>
-
                     </Box>
                 </Fade>
-
             </Modal>
         </>
     );

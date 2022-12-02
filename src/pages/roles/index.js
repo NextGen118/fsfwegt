@@ -98,7 +98,6 @@ const RolesList = (props) => {
         }
     };
 
-
     return(
         <React.Fragment>
             <Row className="page-title">

@@ -113,9 +113,11 @@ const AddClients = (props) =>{
                 </Col>
             </Row>
             <Row>
-                <Col lg={6}>
+                <Col lg={12}>
                     <Card>
                         <CardBody>
+                            <Row>
+                                <Col lg={6}>
                             <AvForm>
                                 <AvField name="client_code" label="Client Code" type="text" required onChange={handleChange}/>
                                 <AvField name="client_name" label="Client Name" type="text" required onChange={handleChange}/>
@@ -125,12 +127,8 @@ const AddClients = (props) =>{
                                 <AvField name="telephone_number" label="Telephone Number" type="text" required onChange={handleChange}/>
                                 <AvField name="mobile_number" label="Mobile Number" type="text" required onChange={handleChange}/>
                             </AvForm>
-                        </CardBody>
-                    </Card>
-                </Col>
-                <Col lg={6}>
-                    <Card>
-                        <CardBody>
+                            </Col>
+                            <Col lg={6}>
                             <AvForm>
                                 <AvField name="fax" label="Fax" type="text" required onChange={handleChange}/>
                                 <AvField name="address" label="Address" type="text" required onChange={handleChange}/>
@@ -140,6 +138,8 @@ const AddClients = (props) =>{
                                 <AvField name="remarks" label="Remarks" type="text" required onChange={handleChange}/>
                                 <InputLabel id="demo-simple-select-label">Active</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={activeselect} onChange={changeActive} sx={{ width: 540, height:36 , mb: 2 }}><MenuItem value={1}>Active</MenuItem><MenuItem value={0}>Inactive</MenuItem></Select>
                             </AvForm>
+                            </Col>
+                            </Row>
                         </CardBody>
                     </Card>
                 </Col>

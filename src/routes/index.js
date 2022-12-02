@@ -60,22 +60,14 @@ const RolesList = React.lazy(() => import('../pages/roles/index'));
 const CurrenciesList = React.lazy(() => import('../pages/currencies/index'));
 // access points
 const AccesspointsList = React.lazy(() => import('../pages/accesspoints/index'));
-const AddAccesspoints = React.lazy(() => import('../pages/accesspoints/addAccessPoints'));
-const EditAccesspoints = React.lazy(() => import('../pages/accesspoints/editAccessPoints'));
 // default values
 const DefaultvaluesList = React.lazy(() => import('../pages/defaultvalues/index'));
-const AddDefaultvalues = React.lazy(() => import('../pages/defaultvalues/addDefaultValues'));
-const EditDefaultvalues = React.lazy(() => import('../pages/defaultvalues/editDefaultValues'));
 // eqipment sales details
 const EquipmentSaleDetailsList = React.lazy(() => import('../pages/equipmentSaleDetails/index'));
-const AddEquipmentSaleDetails = React.lazy(() => import('../pages/equipmentSaleDetails/addEquipmentSaleDetails'));
-const EditEquipmentSaleDetails = React.lazy(() => import('../pages/equipmentSaleDetails/editEquipmentSaleDetails'));
-// swaps
+
 const SwapsList = React.lazy(() => import('../pages/swap/index'));
 // swaps Histories
 const SwaphistoriesList = React.lazy(() => import('../pages/swapHistories/index'));
-const AddSwaphistories = React.lazy(() => import('../pages/swapHistories/addSwaphistories'));
-const EditSwaphistories = React.lazy(() => import('../pages/swapHistories/editSwaphistories'));
 
 const Propertieslist = React.lazy(() => import('../pages/properties/index'));
 
@@ -83,6 +75,11 @@ const Propertieslist = React.lazy(() => import('../pages/properties/index'));
 const ClientsList = React.lazy(() => import('../pages/clients/index'));
 const AddClients = React.lazy(() => import('../pages/clients/addClients'));
 const EditClients = React.lazy(() => import('../pages/clients/editClients'));
+
+//Vendors
+const VendorsList = React.lazy(() => import('../pages/vendor/index'));
+const AddVendors = React.lazy(() => import('../pages/vendor/addVendor'));
+const EditVendors = React.lazy(() => import('../pages/vendor/editVendor'));
 
 // tables
 const BasicTables = React.lazy(() => import('../pages/tables/Basic'));
@@ -516,27 +513,6 @@ const accesspointsRoutes = {
     route: PrivateRoute,
     component: AccesspointsList,
     roles: ['Admin'],
-
-    children:[
-        {
-            path: '/accesspoints',
-            name: 'List',
-            component: AccesspointsList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-accesspoints',
-            name: 'Add Accesspoints',
-            component: AddAccesspoints,
-            route: PrivateRoute,
-        },
-        {
-            path: '/edit-accesspoints/:id',
-            name: 'Edit Accesspoints',
-            component: EditAccesspoints,
-            route: PrivateRoute,
-        },
-    ],
 };
 
 //DefaulfValues
@@ -547,27 +523,6 @@ const defaultvaluesRoutes = {
     route: PrivateRoute,
     component: DefaultvaluesList,
     roles: ['Admin'],
-
-    children:[
-        {
-            path: '/defaultvalues',
-            name: 'List',
-            component: DefaultvaluesList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-defaultvalues',
-            name: 'Add Defaultvalues',
-            component: AddDefaultvalues,
-            route: PrivateRoute,
-        },
-        {
-            path: '/edit-defaultvalues/:id',
-            name: 'Edit Defaultvalues',
-            component: EditDefaultvalues,
-            route: PrivateRoute,
-        },
-    ],
 };
 
 //EquipmentSaleDetails
@@ -577,28 +532,7 @@ const equipmentsaledetailsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: EquipmentSaleDetailsList,
-    roles: ['Admin'],
-
-    children:[
-        {
-            path: '/equipmentsaledetails',
-            name: 'List',
-            component: EquipmentSaleDetailsList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-equipmentsaledetails',
-            name: 'Add EquipmentSaleDetails',
-            component: AddEquipmentSaleDetails,
-            route: PrivateRoute,
-        },
-        {
-            path: '/edit-equipmentsaledetails/:id',
-            name: 'Edit EquipmentSaleDetails',
-            component: EditEquipmentSaleDetails,
-            route: PrivateRoute,
-        },
-    ],
+    roles: ['Admin']
 };
 
 //Swaps
@@ -619,27 +553,6 @@ const swaphistoriesRoutes = {
     route: PrivateRoute,
     component: SwaphistoriesList,
     roles: ['Admin'],
-
-    children:[
-        {
-            path: '/swaphistories',
-            name: 'List',
-            component: SwaphistoriesList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-swaphistories',
-            name: 'Add SwapHistories',
-            component: AddSwaphistories,
-            route: PrivateRoute,
-        },
-        {
-            path: '/edit-swaphistories/:id',
-            name: 'Edit SwapHistories',
-            component: EditSwaphistories,
-            route: PrivateRoute,
-        },
-    ],
 };
 
 //Prperties
@@ -682,6 +595,32 @@ const editclientsRoutes = {
     path: '/edit-clients/:id',
     name: 'Edit Client',
     component: EditClients,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Vendors
+const vendorsRoutes = {
+    path: '/vendors',
+    name: 'Vendors',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: VendorsList,
+    roles: ['Admin']
+};
+const addvendorsRoutes = {
+    path: '/add-vendors',
+    name: 'Add Vendors',
+    component: AddVendors,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editvendorsRoutes = {
+    path: '/edit-vendors/:id',
+    name: 'Edit Vendor',
+    component: EditVendors,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     roles: ['Admin']
@@ -735,6 +674,8 @@ const allRoutes = [
     tableRoutes,
     authRoutes,
     clientsRoutes,
+    addclientsRoutes,
+    editclientsRoutes,
     countriesRoutes,
     rolesRoutes,
     currenciesRoutes,
@@ -744,21 +685,23 @@ const allRoutes = [
     swapsRoutes,
     swaphistoriesRoutes,
     propertiesRoutes,
-    addclientsRoutes,
-    editclientsRoutes
+    vendorsRoutes,
+    addvendorsRoutes,
+    editvendorsRoutes
 ];
 
 const authProtectedRoutes = [
     dashboardRoutes,
-    equipmentsRoutes,
+    // equipmentsRoutes,
     clientsRoutes,
+    vendorsRoutes,
     rolesRoutes,
-    masterRoutes,
     // countriesRoutes,
     // currenciesRoutes,
     accesspointsRoutes,
     defaultvaluesRoutes,
     equipmentsaledetailsRoutes,
+    masterRoutes,
     // swapsRoutes,
     // swaphistoriesRoutes,
     // propertiesRoutes,

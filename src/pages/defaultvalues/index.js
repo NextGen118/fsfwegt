@@ -1,13 +1,19 @@
-import React,{useEffect,useState} from "react";
-import { Row,Col,Card,CardBody,Table } from "reactstrap";
+import React,{useEffect,useState,useRef} from "react";
+import { Row,Col,Card,CardBody,Table ,Button} from "reactstrap";
 import axios from "axios";
 import {Edit} from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
+import Pagination from '@mui/material/Pagination';
+import AddDefaultvalues from "./addDefaultValues";
+import EditDefaultvalues from "./editDefaultValues";
 
 const DefaultvaluesTable = (props)=>{
 
     const history = useHistory()
+
+    const [currentPage, setCurrentPage] = useState(1)
+    const [postPerPage, setPostPerPage] = useState(10)
 
     const [defaultvalues, setDefaultvalues] = useState([])
 
@@ -15,41 +21,58 @@ const DefaultvaluesTable = (props)=>{
         getDefaultvalues()
     },[])
 
+    //getCurrent data  //pagination part
+    const indexOfLastdata = currentPage * postPerPage
+    const indexOfFirstdata = indexOfLastdata - postPerPage
+    const currentData = defaultvalues.slice(indexOfFirstdata, indexOfLastdata)
+
+    //pagination part onchange
+    const handlePaginationChange = (
+        event,
+        value
+    ) => {
+        setCurrentPage(value);
+    };
+    
     const getDefaultvalues = () => {
         axios.get(`http://127.0.0.1:8000/api/defaultvalues/show/all`)
             .then(res=>{
-                console.log(res.data)
-                setDefaultvalues(res.data)
+                setDefaultvalues(res.data.data)
             })
             .catch((error)=>{
                 console.log(error);
             })
     }
 
-    const editDefaultvalues = (id) =>{
-        history.push(`edit-defaultvalues/${id}`)
+    const [id, setId] = useState('');
+    const updateRef = useRef();
+    const editDefaultvalues = (event,id) =>{
+        setId(id);
+        event.preventDefault();
+        if (updateRef.current !== undefined) {
+            updateRef.current.handleOpen();
+        }
     }
 
     return (
+        <>
         <Card>
             <CardBody>
                 <Table className="mb-o">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Category</th>
                             <th>C Value</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {defaultvalues.map((record) => {
+                        {currentData.map((record) => {
                             return(
                                 <tr key={record.id}>
-                                    <th scope="row">{record.id}</th>
                                     <td>{record.category}</td>
                                     <td>{record.c_value}</td>
-                                    <td><Edit onClick={()=>editDefaultvalues(record.id)}/></td>
+                                    <td><Edit onClick={(e)=>editDefaultvalues(e,record.id)}/></td>
                                 </tr>
                             )
                         })}
@@ -57,10 +80,23 @@ const DefaultvaluesTable = (props)=>{
                 </Table>
             </CardBody>
         </Card>
+        <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+        <EditDefaultvalues ref={updateRef} id={id} refresh={getDefaultvalues}/>
+        </>
     );
 }
 
 const DefaultvaluesList = (props) => {
+
+    const childref = useRef();
+    const handleAddUserForm = (event) => {
+        event.preventDefault();
+        console.log('check');
+        if (childref.current !== undefined) {
+            childref.current.handleOpen();
+        }
+    };
+
     return(
         <React.Fragment>
             <Row className="page-title">
@@ -72,10 +108,17 @@ const DefaultvaluesList = (props) => {
                 </Col>
             </Row>
             <Row>
+                <Col md={12}>
+                    <Button color="info" className="float-right" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                </Col>
+            </Row>
+            &nbsp;
+            <Row>
                 <Col xl={12}>
                   <DefaultvaluesTable/>
                 </Col>
             </Row>
+            <AddDefaultvalues ref={childref}/>
         </React.Fragment>
     )
 }
