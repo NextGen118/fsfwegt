@@ -139,7 +139,7 @@ const EditVendors = (props) => {
                                         <AvField name="vendor_name" label="Vendor Name" type="text" required onChange={handleChange} value={values.vendor_name}/>
                                         <AvField name="contact_name" label="Contact Name" type="text" required onChange={handleChange} value={values.contact_name}/>
                                         <AvField name="sub_code" label="Sub Code" type="text" required onChange={handleChange} value={values.sub_code}/>
-                                        <AvField name="email" label="Email" type="text" required onChange={handleChange} value={values.email}/>
+                                        <AvField name="email" label="Email" type="email" required onChange={handleChange} value={values.email}/>
                                         <AvField name="telephone_number" label="Telephone Number" type="text" required onChange={handleChange} value={values.telephone_number}/>
                                         <AvField name="mobile_number" label="Mobile Number" type="text" required onChange={handleChange} value={values.mobile_number}/>               
                                     </AvForm>

@@ -106,7 +106,7 @@ const AddVendors = (props) =>{
                                         <AvField name="vendor_name" label="Vendor Name" type="text" required onChange={handleChange}/>
                                         <AvField name="contact_name" label="Contact Name" type="text" required onChange={handleChange}/>
                                         <AvField name="sub_code" label="Sub Code" type="text" required onChange={handleChange}/>
-                                        <AvField name="email" label="Email" type="text" required onChange={handleChange}/>
+                                        <AvField name="email" label="Email" type="email" required onChange={handleChange}/>
                                         <AvField name="telephone_number" label="Telephone Number" type="text" required onChange={handleChange}/>
                                         <AvField name="mobile_number" label="Mobile Number" type="text" required onChange={handleChange}/>
                                     </AvForm>

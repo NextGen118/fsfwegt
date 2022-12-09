@@ -76,6 +76,16 @@ const ClientsList = React.lazy(() => import('../pages/clients/index'));
 const AddClients = React.lazy(() => import('../pages/clients/addClients'));
 const EditClients = React.lazy(() => import('../pages/clients/editClients'));
 
+//bill of landing
+const BilloflandingsList = React.lazy(() => import('../pages/bill_of_landing/index'));
+const AddBilloflandings = React.lazy(() => import('../pages/bill_of_landing/addBillOfLanding'));
+const EditdBilloflandings = React.lazy(() => import('../pages/bill_of_landing/editBillOfLanding'));
+
+//bill of landing non inventories
+const Billoflandings_non_inventoriesList = React.lazy(() => import('../pages/bill_of_landing_non_inventories/index'));
+const AddBilloflandings_non_inventories = React.lazy(() => import('../pages/bill_of_landing_non_inventories/addBillOfLanding_non_inventories'));
+const EditdBilloflandings_non_inventories = React.lazy(() => import('../pages/bill_of_landing_non_inventories/editBillOfLanding_non_inventories'));
+
 //Vendors
 const VendorsList = React.lazy(() => import('../pages/vendor/index'));
 const AddVendors = React.lazy(() => import('../pages/vendor/addVendor'));
@@ -660,6 +670,80 @@ const masterRoutes = {
     ],
 };
 
+//Master
+const billRoutes = {
+    name: 'Bill',   
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+    children:[
+        {
+            path: '/billoflandings',
+            name: 'Bill of landing',
+            component: BilloflandingsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/billoflandingnoninventories',
+            name: 'Bill of landing non inventories',
+            component: Billoflandings_non_inventoriesList,
+            route: PrivateRoute,
+        },
+    ],
+};
+
+//Bill of landing
+const bill_of_landingRoutes = {
+    path: '/billoflandings',
+    name: 'Bill of landing',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: BilloflandingsList,
+    roles: ['Admin']
+};
+const add_bill_of_landingRoutes = {
+    path: '/add-billoflandings',
+    name: 'Add Bill of landing',
+    component: AddBilloflandings,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landingRoutes = {
+    path: '/edit-billoflandings/:id',
+    name: 'Edit Bill of landing',
+    component: EditdBilloflandings,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill of landing non inventories
+const bill_of_landing_non_inventoriesRoutes = {
+    path: '/billoflandingnoninventories',
+    name: 'Bill of landing non inventories',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: Billoflandings_non_inventoriesList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_non_inventoriesRoutes = {
+    path: '/add-billoflandingnoninventories',
+    name: 'Add Bill of landing non inventory',
+    component: AddBilloflandings_non_inventories,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_non_inventoriesRoutes = {
+    path: '/edit-billoflandingnoninventories/:id',
+    name: 'Edit Bill of landing non inventory',
+    component: EditdBilloflandings_non_inventories,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
 
 // All routes
 const allRoutes = [
@@ -687,13 +771,20 @@ const allRoutes = [
     propertiesRoutes,
     vendorsRoutes,
     addvendorsRoutes,
-    editvendorsRoutes
+    editvendorsRoutes,
+    bill_of_landingRoutes,
+    add_bill_of_landingRoutes,
+    edit_bill_of_landingRoutes,
+    bill_of_landing_non_inventoriesRoutes,
+    add_bill_of_landing_non_inventoriesRoutes,
+    edit_bill_of_landing_non_inventoriesRoutes
 ];
 
 const authProtectedRoutes = [
     dashboardRoutes,
     // equipmentsRoutes,
     clientsRoutes,
+    billRoutes,
     vendorsRoutes,
     rolesRoutes,
     // countriesRoutes,

@@ -88,7 +88,8 @@ const ClientsTable = (props)=>{
                                     <td>{record.country_name}</td>
                                     <td>{record.port_name}</td>
                                     <td>{record.remarks}</td>
-                                    <td>{record.is_active}</td>
+                                    {/* <td>{record.is_active}</td> */}
+                                    <td>{record.is_active == '0'? <h>Inctive</h>: <h>Active</h> }</td>
                                     <td><Edit onClick={()=>editClients(record.id)}/></td>
                                 </tr>
                             )
