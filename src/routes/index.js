@@ -81,11 +81,25 @@ const BilloflandingsList = React.lazy(() => import('../pages/bill_of_landing/ind
 const AddBilloflandings = React.lazy(() => import('../pages/bill_of_landing/addBillOfLanding'));
 const EditdBilloflandings = React.lazy(() => import('../pages/bill_of_landing/editBillOfLanding'));
 
+//bill of landing switches
+const Billoflandings_switchesList = React.lazy(() => import('../pages/bill_of_landing_switches/index'));
+const AddBilloflandings_switches = React.lazy(() => import('../pages/bill_of_landing_switches/addBillOfLanding_switches'));
+const EditdBilloflandings_switches = React.lazy(() => import('../pages/bill_of_landing_switches/editBillOfLanding_switches'));
+
 //bill of landing non inventories
 const Billoflandings_non_inventoriesList = React.lazy(() => import('../pages/bill_of_landing_non_inventories/index'));
 const AddBilloflandings_non_inventories = React.lazy(() => import('../pages/bill_of_landing_non_inventories/addBillOfLanding_non_inventories'));
 const EditdBilloflandings_non_inventories = React.lazy(() => import('../pages/bill_of_landing_non_inventories/editBillOfLanding_non_inventories'));
 
+//bill of landing subs
+const BilloflandingsubsList = React.lazy(() => import('../pages/bill_of_landing_subs/index'));
+const AddBilloflandingsubs = React.lazy(() => import('../pages/bill_of_landing_subs/addBillOfLandingSubs'));
+const EditdBilloflandingsubs = React.lazy(() => import('../pages/bill_of_landing_subs/editBillOfLandingSubs'));
+
+//bill of landing subs non invenrtories
+const Billoflandingsubs_non_inventoriesList = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/index'));
+const AddBilloflandingsubs_non_inventories = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/addBillOfLandingSubs_non_inventories'));
+const EditdBilloflandingsubs_non_inventories = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/editBillOfLandingSubs_non_inventories'));
 //Vendors
 const VendorsList = React.lazy(() => import('../pages/vendor/index'));
 const AddVendors = React.lazy(() => import('../pages/vendor/addVendor'));
@@ -670,27 +684,7 @@ const masterRoutes = {
     ],
 };
 
-//Master
-const billRoutes = {
-    name: 'Bill',   
-    icon: FeatherIcon.Anchor,
-    route: PrivateRoute,
-    roles: ['Admin'],
-    children:[
-        {
-            path: '/billoflandings',
-            name: 'Bill of landing',
-            component: BilloflandingsList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/billoflandingnoninventories',
-            name: 'Bill of landing non inventories',
-            component: Billoflandings_non_inventoriesList,
-            route: PrivateRoute,
-        },
-    ],
-};
+
 
 //Bill of landing
 const bill_of_landingRoutes = {
@@ -713,6 +707,32 @@ const edit_bill_of_landingRoutes = {
     path: '/edit-billoflandings/:id',
     name: 'Edit Bill of landing',
     component: EditdBilloflandings,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill of landing switches
+const bill_of_landing_switchesRoutes = {
+    path: '/billoflandingswitches',
+    name: 'Bill of landing switches',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: Billoflandings_switchesList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_switchesRoutes = {
+    path: '/add-billoflandingswitches',
+    name: 'Add Bill of landing switch',
+    component: AddBilloflandings_switches,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_switchesRoutes = {
+    path: '/edit-billoflandingswitches/:id',
+    name: 'Edit Bill of landing switch',
+    component: EditdBilloflandings_switches,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     roles: ['Admin']
@@ -745,6 +765,98 @@ const edit_bill_of_landing_non_inventoriesRoutes = {
 };
 
 
+//Bill of landing subs
+const bill_of_landing_subsRoutes = {
+    path: '/billoflandingsubs',
+    name: 'Bill of landing subs',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: BilloflandingsubsList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_subsRoutes = {
+    path: '/add-billoflandingsubs',
+    name: 'Add Bill of landing sub',
+    component: AddBilloflandingsubs,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_subsRoutes = {
+    path: '/edit-billoflandingsubs/:id',
+    name: 'Edit Bill of landing sub',
+    component: EditdBilloflandingsubs,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill of landing subs non inventories
+const bill_of_landing_subs_non_inventoriesRoutes = {
+    path: '/billoflandingsubnoninventories',
+    name: 'Bill of landing sub non inventories',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: Billoflandingsubs_non_inventoriesList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_subs_non_inventoriesRoutes = {
+    path: '/add-billoflandingsubnoninventories',
+    name: 'Add Bill of landing sub non inventory',
+    component: AddBilloflandingsubs_non_inventories,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_subs_non_inventoriesRoutes = {
+    path: '/edit-billoflandingsubnoninventories/:id',
+    name: 'Edit Bill of landing sub non inventory',
+    component: EditdBilloflandingsubs_non_inventories,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill
+const billRoutes = {
+    name: 'Bill',   
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+    children:[
+        {
+            path: '/billoflandings',
+            name: 'Bill of landing',
+            component: BilloflandingsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/billoflandingswitches',
+            name: 'Bill of landing switches',
+            component: Billoflandings_switchesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/billoflandingnoninventories',
+            name: 'Bill of landing non inventories',
+            component: Billoflandings_non_inventoriesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/billoflandingsubs',
+            name: 'Bill of landing subs',
+            component: BilloflandingsubsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/billoflandingsubnoninventories',
+            name: 'Bill of landing sub non inventories',
+            route: PrivateRoute,
+            component: Billoflandingsubs_non_inventoriesList,
+        }
+    ],
+};
+
 // All routes
 const allRoutes = [
     rootRoute,
@@ -775,9 +887,18 @@ const allRoutes = [
     bill_of_landingRoutes,
     add_bill_of_landingRoutes,
     edit_bill_of_landingRoutes,
+    bill_of_landing_switchesRoutes,
+    add_bill_of_landing_switchesRoutes,
+    edit_bill_of_landing_switchesRoutes,
     bill_of_landing_non_inventoriesRoutes,
     add_bill_of_landing_non_inventoriesRoutes,
-    edit_bill_of_landing_non_inventoriesRoutes
+    edit_bill_of_landing_non_inventoriesRoutes,
+    bill_of_landing_subsRoutes,
+    add_bill_of_landing_subsRoutes,
+    edit_bill_of_landing_subsRoutes,
+    bill_of_landing_subs_non_inventoriesRoutes,
+    add_bill_of_landing_subs_non_inventoriesRoutes,
+    edit_bill_of_landing_subs_non_inventoriesRoutes
 ];
 
 const authProtectedRoutes = [
