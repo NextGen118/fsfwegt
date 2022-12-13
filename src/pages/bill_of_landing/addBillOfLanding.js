@@ -224,10 +224,10 @@ const AddBilloflandings = (props) =>{
             <Row className="page-title">
                 <Col md={12}>
                     <PageTitle breadCrumbItems={[
-                        {label: 'Bill of landing',path:'/billoflandings'},
-                        {label: 'Add Bill of landing',path:'/add-billoflandings',active:true}
+                        {label: 'Bill of lading',path:'/billoflandings'},
+                        {label: 'Add Bill of lading',path:'/add-billoflandings',active:true}
                     ]}
-                    title={'Add Bill of landing'}
+                    title={'Add Bill of lading'}
                     />
                 </Col>
             </Row>
@@ -264,7 +264,7 @@ const AddBilloflandings = (props) =>{
                             </Col>
                             <Col lg={6}>
                                 <AvForm>
-                                    <AvField name="bill_of_landing_number" label="Bill of landing number" type="text" required onChange={handleChange}/>
+                                    <AvField name="bill_of_landing_number" label="Bill of lading number" type="text" required onChange={handleChange}/>
                                     <AvField name="export_references" label="Export references" type="text" required onChange={handleChange}/>
                                     <AvField name="detention_free_days" label="Detention free days" type="number" required onChange={handleChange}/>
                                     <AvField name="detention_description" label="detention description" type="text" required onChange={handleChange}/>

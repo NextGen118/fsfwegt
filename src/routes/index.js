@@ -655,42 +655,6 @@ const editvendorsRoutes = {
     roles: ['Admin']
 };
 
-//Master
-const masterRoutes = {
-    name: 'Master',
-    icon: FeatherIcon.Anchor,
-    route: PrivateRoute,
-    roles: ['Admin'],
-    children:[
-        {
-            path: '/countries',
-            name: 'Countries',
-            component: CountriesList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/currencies',
-            name: 'Currencies',
-            component: CurrenciesList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/swaps',
-            name: 'Swaps',
-            component: SwapsList,
-            route: PrivateRoute,
-        },
-        {
-            path: '/swaphistories',
-            name: 'Swap Histories',
-            component: SwaphistoriesList,
-            route: PrivateRoute,
-        },
-    ],
-};
-
-
-
 //Bill of landing
 const bill_of_landingRoutes = {
     path: '/billoflandings',
@@ -849,49 +813,119 @@ const edit_bill_of_landing_subs_non_inventoriesRoutes = {
 };
 
 //Bill
-const billRoutes = {
-    name: 'Bill',   
+const exportRoutes = {
+    name: 'Export',   
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     roles: ['Admin'],
     children:[
         {
             path: '/billoflandings',
-            name: 'Bill of landing',
+            name: 'Bill of Lading',
             component: BilloflandingsList,
             route: PrivateRoute,
         },
 
         {
             path: '/billoflandingsubs',
-            name: 'Bill of landing subs',
+            name: 'Sub BL',
             component: BilloflandingsubsList,
             route: PrivateRoute,
         },
         {
             path: '/billoflandingswitches',
-            name: 'Bill of landing switches',
+            name: 'Switch BL',
             component: Billoflandings_switchesList,
             route: PrivateRoute,
         },
 
         {
             path: '/billoflandingsubswitches',
-            name: 'Bill of landing sub switches',
+            name: 'Sub Switch BL',
             route: PrivateRoute,
             component: Billoflandingsubs_non_inventoriesList,
         },
         {
             path: '/billoflandingnoninventories',
-            name: 'Bill of landing non inventories',
+            name: 'Non-Inventory BL',
             component: Billoflandings_non_inventoriesList,
             route: PrivateRoute,
         },
         {
             path: '/billoflandingsubnoninventories',
-            name: 'Bill of landing sub non inventories',
+            name: 'Sub Non-Inventory BL',
             route: PrivateRoute,
             component: Billoflandingsubs_non_inventoriesList,
+        }
+    ],
+};
+
+//Master
+const masterRoutes = {
+    name: 'Master',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+    children:[
+        {
+            path: '/countries',
+            name: 'Countries',
+            component: CountriesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/currencies',
+            name: 'Currencies',
+            component: CurrenciesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/swaps',
+            name: 'Swaps',
+            component: SwapsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/swaphistories',
+            name: 'Swap Histories',
+            component: SwaphistoriesList,
+            route: PrivateRoute,
+        },
+
+        {
+            path: '/accesspoints',
+            name: 'Accesspoints',
+            component: AccesspointsList,
+            route: PrivateRoute,
+        },
+
+        {
+            path: '/defaultvalues',
+            name: 'Default value',
+            component: DefaultvaluesList,
+            route: PrivateRoute,
+        }
+    ],
+};
+
+//Client master router
+const clientmasterRoutes = {
+    name: 'Clients',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+    children:[
+        {
+            path: '/clients',
+            name: 'Clients Master',
+            component: ClientsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/vendors',
+            name: 'Vendors Master',
+            component: VendorsList,
+            route: PrivateRoute,
         }
     ],
 };
@@ -940,31 +974,17 @@ const allRoutes = [
     edit_bill_of_landing_subs_non_inventoriesRoutes,
     bill_of_landing_subswitchesRoutes,
     add_bill_of_landing_subswitchesRoutes,
-    edit_bill_of_landing_subswitchesRoutes
+    edit_bill_of_landing_subswitchesRoutes,
+    clientmasterRoutes
 ];
 
 const authProtectedRoutes = [
     dashboardRoutes,
-    // equipmentsRoutes,
-    clientsRoutes,
-    billRoutes,
-    vendorsRoutes,
-    rolesRoutes,
-    // countriesRoutes,
-    // currenciesRoutes,
-    accesspointsRoutes,
-    defaultvaluesRoutes,
     equipmentsaledetailsRoutes,
+    clientmasterRoutes,
+    exportRoutes,
+    rolesRoutes,
     masterRoutes,
-    // swapsRoutes,
-    // swaphistoriesRoutes,
-    // propertiesRoutes,
-    // ...appRoutes,
-    // pagesRoutes,
-    // componentsRoutes,
-    // chartRoutes,
-    // formsRoutes,
-    // tableRoutes,
 ];
 const allFlattenRoutes = flattenRoutes(allRoutes);
 export { allRoutes, authProtectedRoutes, allFlattenRoutes };

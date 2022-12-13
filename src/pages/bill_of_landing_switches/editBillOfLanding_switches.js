@@ -254,10 +254,10 @@ const EditdBilloflandings_switches = (props) => {
                 <Col md={12}>
                     <PageTitle
                         breadCrumbItems={[
-                            { label: 'Bill of landing switch', path: '/billoflandingswitches' },
-                            { label: 'Edit bill of landing switch', path: '/edit-billoflandingswitches/:id', active: true },
+                            { label: 'Bill of lading switch', path: '/billoflandingswitches' },
+                            { label: 'Edit bill of lading switch', path: '/edit-billoflandingswitches/:id', active: true },
                         ]}
-                        title={'Edit Bill of landing switch'}
+                        title={'Edit Bill of lading switch'}
                     />
                 </Col>
             </Row>
@@ -293,7 +293,7 @@ const EditdBilloflandings_switches = (props) => {
                             </Col>
                             <Col lg={6}>
                                 <AvForm>
-                                    <AvField name="bill_of_landing_number" label="Bill of landing number" type="text" required onChange={handleChange} value={values.bill_of_landing_number}/>
+                                    <AvField name="bill_of_landing_number" label="Bill of lading number" type="text" required onChange={handleChange} value={values.bill_of_landing_number}/>
                                     <AvField name="export_references" label="Export references" type="text" required onChange={handleChange} value={values.export_references}/>
                                     <AvField name="detention_free_days" label="Detention free days" type="number" required onChange={handleChange} value={values.detention_free_days}/>
                                     <AvField name="detention_description" label="detention description" type="text" required onChange={handleChange} value={values.detention_description}/>

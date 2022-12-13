@@ -129,10 +129,10 @@ const AddBilloflandingsubs_non_inventories = (props) =>{
             <Row className="page-title">
                 <Col md={12}>
                     <PageTitle breadCrumbItems={[
-                        {label: 'Bill of landing sub non inventories',path:'/billoflandingsubnoninventories'},
-                        {label: 'Add Bill of landing sub non inventory',path:'/add-billoflandingsubnoninventories',active:true}
+                        {label: 'Bill of lading sub non inventories',path:'/billoflandingsubnoninventories'},
+                        {label: 'Add Bill of lading sub non inventory',path:'/add-billoflandingsubnoninventories',active:true}
                     ]}
-                    title={'Add Bill of landing sub non inventory'}
+                    title={'Add Bill of lading sub non inventory'}
                     />
                 </Col>
             </Row>
@@ -144,7 +144,7 @@ const AddBilloflandingsubs_non_inventories = (props) =>{
                             <Col lg={6}>
                                 <AvForm>                  
                                     <InputLabel id="demo-simple-select-label">Client Agent</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={clientagentselect} onChange={changeClientagent} sx={{ width: 540, height:36 , mb: 2 }}>{clientagent.map((cag) => (<MenuItem value={cag.id} key={cag.id}>{cag.client_name}</MenuItem>))}</Select>
-                                    <InputLabel id="demo-simple-select-label">Bill of landing</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={billoflandingselect} onChange={changeBilloflanding} sx={{ width: 540, height:36 , mb: 2 }}>{billoflanding.map((bill) => (<MenuItem value={bill.id} key={bill.id}>{bill.bill_of_landing_number}</MenuItem>))}</Select>
+                                    <InputLabel id="demo-simple-select-label">Bill of lading</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={billoflandingselect} onChange={changeBilloflanding} sx={{ width: 540, height:36 , mb: 2 }}>{billoflanding.map((bill) => (<MenuItem value={bill.id} key={bill.id}>{bill.bill_of_landing_number}</MenuItem>))}</Select>
                                     <InputLabel id="demo-simple-select-label">Vendor</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={vendorselect} onChange={changeVendor} sx={{ width: 540, height:36 , mb: 2 }}>{vendor.map((ven) => (<MenuItem value={ven.id} key={ven.id}>{ven.vendor_name}</MenuItem>))}</Select>
                                     <AvField name="seal_no" label="Seal number" type="text" required onChange={handleChange}/>
                                     <AvField name="marks" label="Marks" type="text" required onChange={handleChange}/>

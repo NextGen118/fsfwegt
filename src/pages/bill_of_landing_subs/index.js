@@ -53,7 +53,7 @@ const BilloflandingsubsTable = (props)=>{
                 <Table>
                     <thead>
                         <tr>
-                            <th>Bill of landing Number</th>
+                            <th>Bill of lading Number</th>
                             <th>Equipment</th>
                             <th>Package Quantity</th>
                             <th>Bill Confirmation ID</th>
@@ -100,8 +100,8 @@ const BilloflandingsubsList = (props) => {
             <Row className="page-title">
                 <Col>
                     <PageTitle 
-                        breadCrumbItems = {[{label:'Bill of landing subs', path: '/billoflandingsubs'}]}
-                        title = {'Bill of landing subs List'}
+                        breadCrumbItems = {[{label:'Bill of lading subs', path: '/billoflandingsubs'}]}
+                        title = {'Bill of lading subs List'}
                     />
                 </Col>
             </Row>
