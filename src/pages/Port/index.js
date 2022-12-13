@@ -135,9 +135,11 @@ const Portlist = (props) => {
                     />
                 </Col>
             </Row>
-            <Col md={12}>
-                <Button onClick={(e) => handleAddUserForm(e)}>Add</Button>
-            </Col>
+            <Row>
+                <Col md={12}>
+                    <Button color='info' onClick={(e) => handleAddUserForm(e)} style={{ float: 'right', marginBottom: 10 }}>Add</Button>
+                </Col>
+            </Row>
             <Row>
                 <Col xl={12}>
                     <Porttable />

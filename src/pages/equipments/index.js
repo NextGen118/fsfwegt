@@ -16,6 +16,8 @@ const EquipmentListTable = () => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(8)
+    const [postCount, setPostCount] = useState(1)
+
 
     useEffect(() => {
         getEquipments()
@@ -26,15 +28,26 @@ const EquipmentListTable = () => {
             .then(res => {
                 console.log(res.data)
                 setEquipments(res.data.data)
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
             });
     }
 
+
     const indexOfLastdata = currentPage * postPerPage
     const indexOfFirstdata = indexOfLastdata - postPerPage
     const currentData = equipments.slice(indexOfFirstdata, indexOfLastdata)
+    //console.log(equipments.length, 'lengh')
+
+
 
     //pagination part onchange
     const handlePaginationChange = (
@@ -43,6 +56,9 @@ const EquipmentListTable = () => {
     ) => {
         setCurrentPage(value);
     };
+    const handleUpdateForm = (id) => {
+        history.push(`/edit-equipments/${id}`)
+    }
 
     return (
         <>
@@ -80,7 +96,7 @@ const EquipmentListTable = () => {
                                         <td>{record.vendor_name}</td>
                                         <td>{record.client_code}</td>
                                         <td>{record.client_name}</td>
-                                        <td><Edit color='blue' /></td>
+                                        <td><Edit style={{ cursor: 'pointer' }} onClick={(e) => handleUpdateForm(record.id)} /></td>
                                     </tr>
                                 );
                             })}
@@ -89,7 +105,7 @@ const EquipmentListTable = () => {
                 </CardBody>
 
             </Card>
-            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
         </>
     );
 };
@@ -110,9 +126,11 @@ const EquipmentList = () => {
                     />
                 </Col>
             </Row>
-            <Col md={12}>
-                <Button onClick={(e) => handleAddUserForm(e)}>Add</Button>
-            </Col>
+            <Row>
+                <Col md={12}>
+                    <Button color='info' onClick={(e) => handleAddUserForm(e)} style={{ float: 'right', marginBottom: 10 }}>Add</Button>
+                </Col>
+            </Row>
 
             <Row>
                 <Col xl={12}>

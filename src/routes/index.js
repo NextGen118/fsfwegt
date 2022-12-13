@@ -17,6 +17,7 @@ const Dashboard = React.lazy(() => import('../pages/dashboard'));
 
 const Equipments = React.lazy(() => import('../pages/equipments'));
 const AddEquipment = React.lazy(() => import('../pages/equipments/AddEquipment'));
+const EditEquipment = React.lazy(() => import('../pages/equipments/EditEqupements'))
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -44,6 +45,9 @@ const Addtypeofunit = React.lazy(() => import('../pages/typeofunit/AddTypeofunit
 const Edittypeofunit = React.lazy(() => import('../pages/typeofunit/EditTypeofunit'))
 
 const Port = React.lazy(() => import('../pages/Port/index'))
+
+const Owner = React.lazy(() => import('../pages/owner/index'))
+const OwnerAdd = React.lazy(() => import('../pages/owner/AddOwner'))
 
 // pages
 const Starter = React.lazy(() => import('../pages/other/Starter'));
@@ -106,6 +110,26 @@ const rootRoute = {
     route: PrivateRoute,
 };
 
+const ownerRoutes = {
+    path: '/owner',
+    name: 'Owner',
+    icon: FeatherIcon.Anchor,
+    roles: ['Admin'],
+    route: PrivateRoute,
+    component: Owner,
+
+}
+
+const ownerAddRotes = {
+    path: '/owner-add',
+    name: 'Owner Ad',
+    icon: FeatherIcon.Anchor,
+    roles: ['Admin'],
+    route: PrivateRoute,
+    component: OwnerAdd,
+
+}
+
 // dashboards
 const dashboardRoutes = {
     path: '/dashboard',
@@ -139,10 +163,20 @@ const equipmentsRoutes = {
             name: 'Add Equipment',
             component: AddEquipment,
             route: PrivateRoute,
-        },
+        }
 
     ],
 };
+
+const editeuipment = {
+
+    path: '/edit-equipments/:id',
+    name: 'Edit Equipments',
+    component: EditEquipment,
+    route: PrivateRoute,
+    roles: ['Admin'],
+
+}
 
 const PropertiesRoutes = {
     path: '/properties',
@@ -278,6 +312,47 @@ const PortRoutes = {
             component: Port,
             route: PrivateRoute,
         }
+
+    ],
+};
+
+const Master = {
+    route: PrivateRoute,
+    icon: FeatherIcon.Anchor,
+    name: 'Master',
+    roles: ['Admin'],
+
+    children: [
+        {
+            path: '/port',
+            name: 'Port',
+            component: Port,
+            route: PrivateRoute,
+        },
+        {
+            path: '/typeofunit',
+            name: 'Type of unit',
+            component: Typeofunit,
+            route: PrivateRoute,
+        },
+        {
+            path: '/timezone',
+            name: 'Time zone',
+            component: Timezone,
+            route: PrivateRoute,
+        },
+        {
+            path: '/trafficmode',
+            name: 'Traffic mode',
+            component: Trafficmode,
+            route: PrivateRoute,
+        },
+        {
+            path: '/properties',
+            name: 'Properties',
+            component: Properties,
+            route: PrivateRoute,
+        },
     ],
 };
 // apps
@@ -364,6 +439,9 @@ const taskAppRoutes = {
         },
     ],
 };
+
+
+
 
 const appRoutes = [calendarAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
 
@@ -612,17 +690,17 @@ const allRoutes = [
     TimezoneRoutes,
     TrafficmodeRoutes,
     TypeofunitRoutes,
-    PortRoutes
+    PortRoutes,
+    ownerRoutes,
+    ownerAddRotes,
+    editeuipment
 ];
 
 const authProtectedRoutes = [
     dashboardRoutes,
     equipmentsRoutes,
-    PropertiesRoutes,
-    TimezoneRoutes,
-    TrafficmodeRoutes,
-    TypeofunitRoutes,
-    PortRoutes
+    Master,
+    ownerRoutes
     // ...appRoutes,
     // pagesRoutes,
     // componentsRoutes,
