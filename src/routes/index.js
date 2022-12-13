@@ -44,6 +44,64 @@ const Typeofunit = React.lazy(() => import('../pages/typeofunit/index'));
 const Addtypeofunit = React.lazy(() => import('../pages/typeofunit/AddTypeofunit'))
 const Edittypeofunit = React.lazy(() => import('../pages/typeofunit/EditTypeofunit'))
 
+// countries
+const CountriesList = React.lazy(() => import('../pages/countries/index'));
+// roles
+const RolesList = React.lazy(() => import('../pages/roles/index'));
+// currencies
+const CurrenciesList = React.lazy(() => import('../pages/currencies/index'));
+// access points
+const AccesspointsList = React.lazy(() => import('../pages/accesspoints/index'));
+// default values
+const DefaultvaluesList = React.lazy(() => import('../pages/defaultvalues/index'));
+// eqipment sales details
+const EquipmentSaleDetailsList = React.lazy(() => import('../pages/equipmentSaleDetails/index'));
+
+const SwapsList = React.lazy(() => import('../pages/swap/index'));
+// swaps Histories
+const SwaphistoriesList = React.lazy(() => import('../pages/swapHistories/index'));
+
+//const Propertieslist = React.lazy(() => import('../pages/properties/index'));
+
+// clients
+const ClientsList = React.lazy(() => import('../pages/clients/index'));
+const AddClients = React.lazy(() => import('../pages/clients/addClients'));
+const EditClients = React.lazy(() => import('../pages/clients/editClients'));
+
+//bill of landing
+const BilloflandingsList = React.lazy(() => import('../pages/bill_of_landing/index'));
+const AddBilloflandings = React.lazy(() => import('../pages/bill_of_landing/addBillOfLanding'));
+const EditdBilloflandings = React.lazy(() => import('../pages/bill_of_landing/editBillOfLanding'));
+
+//bill of landing switches
+const Billoflandings_switchesList = React.lazy(() => import('../pages/bill_of_landing_switches/index'));
+const AddBilloflandings_switches = React.lazy(() => import('../pages/bill_of_landing_switches/addBillOfLanding_switches'));
+const EditdBilloflandings_switches = React.lazy(() => import('../pages/bill_of_landing_switches/editBillOfLanding_switches'));
+
+//bill of landing non inventories
+const Billoflandings_non_inventoriesList = React.lazy(() => import('../pages/bill_of_landing_non_inventories/index'));
+const AddBilloflandings_non_inventories = React.lazy(() => import('../pages/bill_of_landing_non_inventories/addBillOfLanding_non_inventories'));
+const EditdBilloflandings_non_inventories = React.lazy(() => import('../pages/bill_of_landing_non_inventories/editBillOfLanding_non_inventories'));
+
+//bill of landing subs
+const BilloflandingsubsList = React.lazy(() => import('../pages/bill_of_landing_subs/index'));
+const AddBilloflandingsubs = React.lazy(() => import('../pages/bill_of_landing_subs/addBillOfLandingSubs'));
+const EditdBilloflandingsubs = React.lazy(() => import('../pages/bill_of_landing_subs/editBillOfLandingSubs'));
+
+//bill of landing sub switches
+const BilloflandingsubswitchesList = React.lazy(() => import('../pages/bill_of_landing_subs_switches/index'));
+const AddBilloflandingsubswitches = React.lazy(() => import('../pages/bill_of_landing_subs_switches/addBillOfLandingSubswitches'));
+const EditdBilloflandingsubswitches = React.lazy(() => import('../pages/bill_of_landing_subs_switches/editBillOfLandingSubswitces'));
+
+//bill of landing subs non invenrtories
+const Billoflandingsubs_non_inventoriesList = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/index'));
+const AddBilloflandingsubs_non_inventories = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/addBillOfLandingSubs_non_inventories'));
+const EditdBilloflandingsubs_non_inventories = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/editBillOfLandingSubs_non_inventories'));
+//Vendors
+const VendorsList = React.lazy(() => import('../pages/vendor/index'));
+const AddVendors = React.lazy(() => import('../pages/vendor/addVendor'));
+const EditVendors = React.lazy(() => import('../pages/vendor/editVendor'));
+
 const Port = React.lazy(() => import('../pages/Port/index'))
 
 const Owner = React.lazy(() => import('../pages/owner/index'))
@@ -165,6 +223,342 @@ const equipmentsRoutes = {
             route: PrivateRoute,
         }
 
+    ],
+};
+//Countries
+const countriesRoutes = {
+    path: '/countries',
+    name: 'Countries',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: CountriesList,
+    roles: ['Admin'],
+};
+
+//Roles
+const rolesRoutes = {
+    path: '/roles',
+    name: 'Roles',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: RolesList,
+    roles: ['Admin'],
+};
+
+//Currencies
+const currenciesRoutes = {
+    path: '/currencies',
+    name: 'Currencies',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: CurrenciesList,
+    roles: ['Admin']
+};
+
+//Accesspoints
+const accesspointsRoutes = {
+    path: '/accesspoints',
+    name: 'Accesspoints',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: AccesspointsList,
+    roles: ['Admin'],
+};
+
+//DefaulfValues
+const defaultvaluesRoutes = {
+    path: '/defaultvalues',
+    name: 'Defaultvalues',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: DefaultvaluesList,
+    roles: ['Admin'],
+};
+
+//EquipmentSaleDetails
+const equipmentsaledetailsRoutes = {
+    path: '/equipmentsaledetails',
+    name: 'Equipment Sale Details',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: EquipmentSaleDetailsList,
+    roles: ['Admin']
+};
+
+//Swaps
+const swapsRoutes = {
+    path: '/swaps',
+    name: 'Swaps Details',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: SwapsList,
+    roles: ['Admin'],
+};
+
+//Swaps Histories
+const swaphistoriesRoutes = {
+    path: '/swaphistories',
+    name: 'SwapHistories Details',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: SwaphistoriesList,
+    roles: ['Admin'],
+};
+
+//Clients
+const clientsRoutes = {
+    path: '/clients',
+    name: 'Clients',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: ClientsList,
+    roles: ['Admin']
+};
+const addclientsRoutes = {
+    path: '/add-clients',
+    name: 'Add Client',
+    component: AddClients,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editclientsRoutes = {
+    path: '/edit-clients/:id',
+    name: 'Edit Client',
+    component: EditClients,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Vendors
+const vendorsRoutes = {
+    path: '/vendors',
+    name: 'Vendors',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: VendorsList,
+    roles: ['Admin']
+};
+const addvendorsRoutes = {
+    path: '/add-vendors',
+    name: 'Add Vendors',
+    component: AddVendors,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editvendorsRoutes = {
+    path: '/edit-vendors/:id',
+    name: 'Edit Vendor',
+    component: EditVendors,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill of landing
+const bill_of_landingRoutes = {
+    path: '/billoflandings',
+    name: 'Bill of landing',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: BilloflandingsList,
+    roles: ['Admin']
+};
+const add_bill_of_landingRoutes = {
+    path: '/add-billoflandings',
+    name: 'Add Bill of landing',
+    component: AddBilloflandings,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landingRoutes = {
+    path: '/edit-billoflandings/:id',
+    name: 'Edit Bill of landing',
+    component: EditdBilloflandings,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill of landing switches
+const bill_of_landing_switchesRoutes = {
+    path: '/billoflandingswitches',
+    name: 'Bill of landing switches',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: Billoflandings_switchesList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_switchesRoutes = {
+    path: '/add-billoflandingswitches',
+    name: 'Add Bill of landing switch',
+    component: AddBilloflandings_switches,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_switchesRoutes = {
+    path: '/edit-billoflandingswitches/:id',
+    name: 'Edit Bill of landing switch',
+    component: EditdBilloflandings_switches,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill of landing non inventories
+const bill_of_landing_non_inventoriesRoutes = {
+    path: '/billoflandingnoninventories',
+    name: 'Bill of landing non inventories',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: Billoflandings_non_inventoriesList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_non_inventoriesRoutes = {
+    path: '/add-billoflandingnoninventories',
+    name: 'Add Bill of landing non inventory',
+    component: AddBilloflandings_non_inventories,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_non_inventoriesRoutes = {
+    path: '/edit-billoflandingnoninventories/:id',
+    name: 'Edit Bill of landing non inventory',
+    component: EditdBilloflandings_non_inventories,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+
+//Bill of landing subs
+const bill_of_landing_subsRoutes = {
+    path: '/billoflandingsubs',
+    name: 'Bill of landing subs',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: BilloflandingsubsList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_subsRoutes = {
+    path: '/add-billoflandingsubs',
+    name: 'Add Bill of landing sub',
+    component: AddBilloflandingsubs,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_subsRoutes = {
+    path: '/edit-billoflandingsubs/:id',
+    name: 'Edit Bill of landing sub',
+    component: EditdBilloflandingsubs,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill of landing sub switches
+const bill_of_landing_subswitchesRoutes = {
+    path: '/billoflandingsubswitches',
+    name: 'Bill of landing sub switches',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: BilloflandingsubswitchesList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_subswitchesRoutes = {
+    path: '/add-billoflandingsubswitches',
+    name: 'Add Bill of landing sub switch',
+    component: AddBilloflandingsubswitches,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_subswitchesRoutes = {
+    path: '/edit-billoflandingsubswitches/:id',
+    name: 'Edit Bill of landing sub switch',
+    component: EditdBilloflandingsubswitches,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill of landing subs non inventories
+const bill_of_landing_subs_non_inventoriesRoutes = {
+    path: '/billoflandingsubnoninventories',
+    name: 'Bill of landing sub non inventories',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: Billoflandingsubs_non_inventoriesList,
+    roles: ['Admin']
+};
+const add_bill_of_landing_subs_non_inventoriesRoutes = {
+    path: '/add-billoflandingsubnoninventories',
+    name: 'Add Bill of landing sub non inventory',
+    component: AddBilloflandingsubs_non_inventories,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const edit_bill_of_landing_subs_non_inventoriesRoutes = {
+    path: '/edit-billoflandingsubnoninventories/:id',
+    name: 'Edit Bill of landing sub non inventory',
+    component: EditdBilloflandingsubs_non_inventories,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Bill
+const exportRoutes = {
+    name: 'Export',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+    children: [
+        {
+            path: '/billoflandings',
+            name: 'Bill of Lading',
+            component: BilloflandingsList,
+            route: PrivateRoute,
+        },
+
+        {
+            path: '/billoflandingsubs',
+            name: 'Sub BL',
+            component: BilloflandingsubsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/billoflandingswitches',
+            name: 'Switch BL',
+            component: Billoflandings_switchesList,
+            route: PrivateRoute,
+        },
+
+        {
+            path: '/billoflandingsubswitches',
+            name: 'Sub Switch BL',
+            route: PrivateRoute,
+            component: Billoflandingsubs_non_inventoriesList,
+        },
+        {
+            path: '/billoflandingnoninventories',
+            name: 'Non-Inventory BL',
+            component: Billoflandings_non_inventoriesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/billoflandingsubnoninventories',
+            name: 'Sub Non-Inventory BL',
+            route: PrivateRoute,
+            component: Billoflandingsubs_non_inventoriesList,
+        }
     ],
 };
 
@@ -353,6 +747,44 @@ const Master = {
             component: Properties,
             route: PrivateRoute,
         },
+        {
+            path: '/countries',
+            name: 'Countries',
+            component: CountriesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/currencies',
+            name: 'Currencies',
+            component: CurrenciesList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/swaps',
+            name: 'Swaps',
+            component: SwapsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/swaphistories',
+            name: 'Swap Histories',
+            component: SwaphistoriesList,
+            route: PrivateRoute,
+        },
+
+        {
+            path: '/accesspoints',
+            name: 'Accesspoints',
+            component: AccesspointsList,
+            route: PrivateRoute,
+        },
+
+        {
+            path: '/defaultvalues',
+            name: 'Default value',
+            component: DefaultvaluesList,
+            route: PrivateRoute,
+        }
     ],
 };
 // apps
@@ -393,6 +825,28 @@ const emailAppRoutes = {
             route: PrivateRoute,
             roles: ['Admin'],
         },
+    ],
+};
+
+//Client master router
+const clientmasterRoutes = {
+    name: 'Clients',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+    children: [
+        {
+            path: '/clients',
+            name: 'Clients Master',
+            component: ClientsList,
+            route: PrivateRoute,
+        },
+        {
+            path: '/vendors',
+            name: 'Vendors Master',
+            component: VendorsList,
+            route: PrivateRoute,
+        }
     ],
 };
 
@@ -693,14 +1147,50 @@ const allRoutes = [
     PortRoutes,
     ownerRoutes,
     ownerAddRotes,
-    editeuipment
+    editeuipment,
+    clientsRoutes,
+    addclientsRoutes,
+    editclientsRoutes,
+    countriesRoutes,
+    rolesRoutes,
+    currenciesRoutes,
+    accesspointsRoutes,
+    defaultvaluesRoutes,
+    equipmentsaledetailsRoutes,
+    swapsRoutes,
+    swaphistoriesRoutes,
+    vendorsRoutes,
+    addvendorsRoutes,
+    editvendorsRoutes,
+    bill_of_landingRoutes,
+    add_bill_of_landingRoutes,
+    edit_bill_of_landingRoutes,
+    bill_of_landing_switchesRoutes,
+    add_bill_of_landing_switchesRoutes,
+    edit_bill_of_landing_switchesRoutes,
+    bill_of_landing_non_inventoriesRoutes,
+    add_bill_of_landing_non_inventoriesRoutes,
+    edit_bill_of_landing_non_inventoriesRoutes,
+    bill_of_landing_subsRoutes,
+    add_bill_of_landing_subsRoutes,
+    edit_bill_of_landing_subsRoutes,
+    bill_of_landing_subs_non_inventoriesRoutes,
+    add_bill_of_landing_subs_non_inventoriesRoutes,
+    edit_bill_of_landing_subs_non_inventoriesRoutes,
+    bill_of_landing_subswitchesRoutes,
+    add_bill_of_landing_subswitchesRoutes,
+    edit_bill_of_landing_subswitchesRoutes,
 ];
 
 const authProtectedRoutes = [
     dashboardRoutes,
     equipmentsRoutes,
     Master,
-    ownerRoutes
+    ownerRoutes,
+    equipmentsaledetailsRoutes,
+    clientmasterRoutes,
+    exportRoutes,
+    rolesRoutes,
     // ...appRoutes,
     // pagesRoutes,
     // componentsRoutes,
