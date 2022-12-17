@@ -68,7 +68,7 @@ const InvoiceChargesTable = (props) => {
                                         <td>{record.amount}</td>
                                         <td>{record.amount_in}</td>
                                         <td>
-                                            <Edit onClick={() => editInvoiceCharges(record.id)} />
+                                            <Edit color="blue" size={20} onClick={() => editInvoiceCharges(record.id)} />
                                         </td>
                                     </tr>
                                 );

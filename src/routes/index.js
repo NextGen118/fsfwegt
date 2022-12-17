@@ -17,7 +17,7 @@ const Dashboard = React.lazy(() => import('../pages/dashboard'));
 
 const Equipments = React.lazy(() => import('../pages/equipments'));
 const AddEquipment = React.lazy(() => import('../pages/equipments/AddEquipment'));
-const EditEquipment = React.lazy(() => import('../pages/equipments/EditEqupements'))
+const EditEquipment = React.lazy(() => import('../pages/equipments/EditEqupements'));
 // apps
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar'));
 const EmailInbox = React.lazy(() => import('../pages/apps/Email/Inbox'));
@@ -28,21 +28,20 @@ const ProjectDetail = React.lazy(() => import('../pages/apps/Project/Detail/'));
 const TaskList = React.lazy(() => import('../pages/apps/Tasks/List'));
 const TaskBoard = React.lazy(() => import('../pages/apps/Tasks/Board'));
 const Properties = React.lazy(() => import('../pages/Properties/index'));
-const Addproperties = React.lazy(() => import('../pages/Properties/Addproperties'))
-const Editproperties = React.lazy(() => import('../pages/Properties/EditProperties'))
+const Addproperties = React.lazy(() => import('../pages/Properties/Addproperties'));
+const Editproperties = React.lazy(() => import('../pages/Properties/EditProperties'));
 
 const Timezone = React.lazy(() => import('../pages/timezones/index'));
-const Addtimezone = React.lazy(() => import('../pages/timezones/AddTimezone'))
-const Edittimezone = React.lazy(() => import('../pages/timezones/EditTimezone'))
-
+const Addtimezone = React.lazy(() => import('../pages/timezones/AddTimezone'));
+const Edittimezone = React.lazy(() => import('../pages/timezones/EditTimezone'));
 
 const Trafficmode = React.lazy(() => import('../pages/trafficmode/index'));
-const Addtrafficmode = React.lazy(() => import('../pages/trafficmode/AddTrafficmode'))
-const Edittrafficmode = React.lazy(() => import('../pages/trafficmode/EditTrafficmode'))
+const Addtrafficmode = React.lazy(() => import('../pages/trafficmode/AddTrafficmode'));
+const Edittrafficmode = React.lazy(() => import('../pages/trafficmode/EditTrafficmode'));
 
 const Typeofunit = React.lazy(() => import('../pages/typeofunit/index'));
-const Addtypeofunit = React.lazy(() => import('../pages/typeofunit/AddTypeofunit'))
-const Edittypeofunit = React.lazy(() => import('../pages/typeofunit/EditTypeofunit'))
+const Addtypeofunit = React.lazy(() => import('../pages/typeofunit/AddTypeofunit'));
+const Edittypeofunit = React.lazy(() => import('../pages/typeofunit/EditTypeofunit'));
 
 // countries
 const CountriesList = React.lazy(() => import('../pages/countries/index'));
@@ -75,13 +74,21 @@ const EditdBilloflandings = React.lazy(() => import('../pages/bill_of_landing/ed
 
 //bill of landing switches
 const Billoflandings_switchesList = React.lazy(() => import('../pages/bill_of_landing_switches/index'));
-const AddBilloflandings_switches = React.lazy(() => import('../pages/bill_of_landing_switches/addBillOfLanding_switches'));
-const EditdBilloflandings_switches = React.lazy(() => import('../pages/bill_of_landing_switches/editBillOfLanding_switches'));
+const AddBilloflandings_switches = React.lazy(() =>
+    import('../pages/bill_of_landing_switches/addBillOfLanding_switches')
+);
+const EditdBilloflandings_switches = React.lazy(() =>
+    import('../pages/bill_of_landing_switches/editBillOfLanding_switches')
+);
 
 //bill of landing non inventories
 const Billoflandings_non_inventoriesList = React.lazy(() => import('../pages/bill_of_landing_non_inventories/index'));
-const AddBilloflandings_non_inventories = React.lazy(() => import('../pages/bill_of_landing_non_inventories/addBillOfLanding_non_inventories'));
-const EditdBilloflandings_non_inventories = React.lazy(() => import('../pages/bill_of_landing_non_inventories/editBillOfLanding_non_inventories'));
+const AddBilloflandings_non_inventories = React.lazy(() =>
+    import('../pages/bill_of_landing_non_inventories/addBillOfLanding_non_inventories')
+);
+const EditdBilloflandings_non_inventories = React.lazy(() =>
+    import('../pages/bill_of_landing_non_inventories/editBillOfLanding_non_inventories')
+);
 
 //bill of landing subs
 const BilloflandingsubsList = React.lazy(() => import('../pages/bill_of_landing_subs/index'));
@@ -90,13 +97,23 @@ const EditdBilloflandingsubs = React.lazy(() => import('../pages/bill_of_landing
 
 //bill of landing sub switches
 const BilloflandingsubswitchesList = React.lazy(() => import('../pages/bill_of_landing_subs_switches/index'));
-const AddBilloflandingsubswitches = React.lazy(() => import('../pages/bill_of_landing_subs_switches/addBillOfLandingSubswitches'));
-const EditdBilloflandingsubswitches = React.lazy(() => import('../pages/bill_of_landing_subs_switches/editBillOfLandingSubswitces'));
+const AddBilloflandingsubswitches = React.lazy(() =>
+    import('../pages/bill_of_landing_subs_switches/addBillOfLandingSubswitches')
+);
+const EditdBilloflandingsubswitches = React.lazy(() =>
+    import('../pages/bill_of_landing_subs_switches/editBillOfLandingSubswitces')
+);
 
 //bill of landing subs non invenrtories
-const Billoflandingsubs_non_inventoriesList = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/index'));
-const AddBilloflandingsubs_non_inventories = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/addBillOfLandingSubs_non_inventories'));
-const EditdBilloflandingsubs_non_inventories = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/editBillOfLandingSubs_non_inventories'));
+const Billoflandingsubs_non_inventoriesList = React.lazy(() =>
+    import('../pages/bill_of_landing_subs_non_inventories/index')
+);
+const AddBilloflandingsubs_non_inventories = React.lazy(() =>
+    import('../pages/bill_of_landing_subs_non_inventories/addBillOfLandingSubs_non_inventories')
+);
+const EditdBilloflandingsubs_non_inventories = React.lazy(() =>
+    import('../pages/bill_of_landing_subs_non_inventories/editBillOfLandingSubs_non_inventories')
+);
 
 //Receipts
 const ReceiptsList = React.lazy(() => import('../pages/receipts/index'));
@@ -115,17 +132,17 @@ const EditVouchers = React.lazy(() => import('../pages/vouchers/editVouchers'));
 
 //Voucher Payments
 const VoucherPaymentsList = React.lazy(() => import('../pages/voucherPayments/index'));
-const AddVoucherPayments= React.lazy(() => import('../pages/voucherPayments/addVoucherPayments'));
+const AddVoucherPayments = React.lazy(() => import('../pages/voucherPayments/addVoucherPayments'));
 const EditVoucherPayments = React.lazy(() => import('../pages/voucherPayments/editVoucherPayments'));
 
 //Invoices
 const InvoicesList = React.lazy(() => import('../pages/invoices/index'));
-const AddInvoices= React.lazy(() => import('../pages/invoices/AddInvoices'));
+const AddInvoices = React.lazy(() => import('../pages/invoices/AddInvoices'));
 const EditInvoices = React.lazy(() => import('../pages/invoices/editInvoices'));
 
 //Invoices Charges
 const InvoiceChargesList = React.lazy(() => import('../pages/invoiceCharges/index'));
-const AddInvoiceCharges= React.lazy(() => import('../pages/invoiceCharges/addInvoiceCharges'));
+const AddInvoiceCharges = React.lazy(() => import('../pages/invoiceCharges/addInvoiceCharges'));
 const EditInvoiceCharges = React.lazy(() => import('../pages/invoiceCharges/editInvoiceCharges'));
 
 //Vendors
@@ -133,10 +150,10 @@ const VendorsList = React.lazy(() => import('../pages/vendor/index'));
 const AddVendors = React.lazy(() => import('../pages/vendor/addVendor'));
 const EditVendors = React.lazy(() => import('../pages/vendor/editVendor'));
 
-const Port = React.lazy(() => import('../pages/Port/index'))
+const Port = React.lazy(() => import('../pages/Port/index'));
 
-const Owner = React.lazy(() => import('../pages/owner/index'))
-const OwnerAdd = React.lazy(() => import('../pages/owner/AddOwner'))
+const Owner = React.lazy(() => import('../pages/owner/index'));
+const OwnerAdd = React.lazy(() => import('../pages/owner/AddOwner'));
 
 // pages
 const Starter = React.lazy(() => import('../pages/other/Starter'));
@@ -206,8 +223,7 @@ const ownerRoutes = {
     roles: ['Admin'],
     route: PrivateRoute,
     component: Owner,
-
-}
+};
 
 const ownerAddRotes = {
     path: '/owner-add',
@@ -216,17 +232,30 @@ const ownerAddRotes = {
     roles: ['Admin'],
     route: PrivateRoute,
     component: OwnerAdd,
-
-}
+};
 
 //Receipts
 const receiptsRoutes = {
     path: '/receipts',
     name: 'Receipts',
-    icon: FeatherIcon.Anchor,
+    icon: FeatherIcon.FileText,
     route: PrivateRoute,
     component: ReceiptsList,
-    roles: ['Admin']
+    roles: ['Admin'],
+    children: [
+        {
+            path: '/receipts',
+            name: 'Receipts',
+            route: PrivateRoute,
+            component: ReceiptsList,
+        },
+        {
+            path: '/receiptPayments',
+            name: 'Receipt Payments',
+            route: PrivateRoute,
+            component: ReceiptPaymentsList,
+        },
+    ],
 };
 const addreceiptsRoutes = {
     path: '/add-receipts',
@@ -234,7 +263,7 @@ const addreceiptsRoutes = {
     component: AddReceipts,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const editreceiptsRoutes = {
     path: '/edit-receipts/:id',
@@ -242,17 +271,17 @@ const editreceiptsRoutes = {
     component: EditReceipts,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Receipt Payments
 const receiptPaymentsRoutes = {
     path: '/receiptPayments',
     name: 'Receipt Payments',
-    icon: FeatherIcon.Anchor,
+    icon: FeatherIcon.FileText,
     route: PrivateRoute,
     component: ReceiptPaymentsList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const addreceiptPaymentsRoutes = {
     path: '/add-receiptPayments',
@@ -260,7 +289,7 @@ const addreceiptPaymentsRoutes = {
     component: AddReceiptPayments,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const editreceiptPaymentsRoutes = {
     path: '/edit-receiptPayments/:id',
@@ -268,17 +297,31 @@ const editreceiptPaymentsRoutes = {
     component: EditReceiptPayments,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
-//Vouchers 
+//Vouchers
 const vouchersRoutes = {
     path: '/vouchers',
     name: 'Vouchers',
-    icon: FeatherIcon.Anchor,
+    icon: FeatherIcon.CreditCard,
     route: PrivateRoute,
     component: VouchersList,
-    roles: ['Admin']
+    roles: ['Admin'],
+    children: [
+        {
+            path: '/vouchers',
+            name: 'Vouchers',
+            route: PrivateRoute,
+            component: VouchersList,
+        },
+        {
+            path: '/voucherPayments',
+            name: 'Voucher Payments',
+            route: PrivateRoute,
+            component: VoucherPaymentsList,
+        },
+    ],
 };
 const addvouchersRoutes = {
     path: '/add-vouchers',
@@ -286,7 +329,7 @@ const addvouchersRoutes = {
     component: AddVouchers,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const editvouchersRoutes = {
     path: '/edit-vouchers/:id',
@@ -294,17 +337,17 @@ const editvouchersRoutes = {
     component: EditVouchers,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Voucher Payments
 const voucherPaymentsRoutes = {
     path: '/voucherPayments',
     name: 'Voucher Payments',
-    icon: FeatherIcon.Anchor,
+    icon: FeatherIcon.CreditCard,
     route: PrivateRoute,
     component: VoucherPaymentsList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const addvoucherPaymentsRoutes = {
     path: '/add-voucherPayments',
@@ -312,7 +355,7 @@ const addvoucherPaymentsRoutes = {
     component: AddVoucherPayments,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const editvoucherPaymentsRoutes = {
     path: '/edit-voucherpayments/:id',
@@ -320,17 +363,31 @@ const editvoucherPaymentsRoutes = {
     component: EditVoucherPayments,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
-//Invoices 
+//Invoices
 const invoicesRoutes = {
     path: '/invoices',
     name: 'Invoices',
-    icon: FeatherIcon.Anchor,
+    icon: FeatherIcon.File,
     route: PrivateRoute,
     component: InvoicesList,
-    roles: ['Admin']
+    roles: ['Admin'],
+    children: [
+        {
+            path: '/invoices',
+            name: 'Invoices',
+            route: PrivateRoute,
+            component: InvoicesList,
+        },
+        {
+            path: '/invoiceCharges',
+            name: 'Invoice Charges',
+            route: PrivateRoute,
+            component: InvoiceChargesList,
+        },
+    ],
 };
 const addinvoicesRoutes = {
     path: '/add-invoices',
@@ -338,7 +395,7 @@ const addinvoicesRoutes = {
     component: AddInvoices,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const editinvoicesRoutes = {
     path: '/edit-invoices/:id',
@@ -346,17 +403,17 @@ const editinvoicesRoutes = {
     component: EditInvoices,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Invoices Charges
 const invoiceChargesRoutes = {
     path: '/invoiceCharges',
     name: 'Invoice Charges',
-    icon: FeatherIcon.Anchor,
+    icon: FeatherIcon.File,
     route: PrivateRoute,
     component: InvoiceChargesList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const addinvoiceChargesRoutes = {
     path: '/add-invoiceCharges',
@@ -364,7 +421,7 @@ const addinvoiceChargesRoutes = {
     component: AddInvoiceCharges,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const editinvoiceChargesRoutes = {
     path: '/edit-invoiceCharges/:id',
@@ -372,7 +429,7 @@ const editinvoiceChargesRoutes = {
     component: EditInvoiceCharges,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 // dashboards
@@ -408,8 +465,7 @@ const equipmentsRoutes = {
             name: 'Add Equipment',
             component: AddEquipment,
             route: PrivateRoute,
-        }
-
+        },
     ],
 };
 //Countries
@@ -439,7 +495,7 @@ const currenciesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: CurrenciesList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Accesspoints
@@ -469,7 +525,7 @@ const equipmentsaledetailsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: EquipmentSaleDetailsList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Swaps
@@ -499,7 +555,7 @@ const clientsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: ClientsList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const addclientsRoutes = {
     path: '/add-clients',
@@ -507,7 +563,7 @@ const addclientsRoutes = {
     component: AddClients,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const editclientsRoutes = {
     path: '/edit-clients/:id',
@@ -515,7 +571,7 @@ const editclientsRoutes = {
     component: EditClients,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Vendors
@@ -525,7 +581,7 @@ const vendorsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: VendorsList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const addvendorsRoutes = {
     path: '/add-vendors',
@@ -533,7 +589,7 @@ const addvendorsRoutes = {
     component: AddVendors,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const editvendorsRoutes = {
     path: '/edit-vendors/:id',
@@ -541,7 +597,7 @@ const editvendorsRoutes = {
     component: EditVendors,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Bill of landing
@@ -551,7 +607,7 @@ const bill_of_landingRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: BilloflandingsList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const add_bill_of_landingRoutes = {
     path: '/add-billoflandings',
@@ -559,7 +615,7 @@ const add_bill_of_landingRoutes = {
     component: AddBilloflandings,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const edit_bill_of_landingRoutes = {
     path: '/edit-billoflandings/:id',
@@ -567,7 +623,7 @@ const edit_bill_of_landingRoutes = {
     component: EditdBilloflandings,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Bill of landing switches
@@ -577,7 +633,7 @@ const bill_of_landing_switchesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: Billoflandings_switchesList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const add_bill_of_landing_switchesRoutes = {
     path: '/add-billoflandingswitches',
@@ -585,7 +641,7 @@ const add_bill_of_landing_switchesRoutes = {
     component: AddBilloflandings_switches,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const edit_bill_of_landing_switchesRoutes = {
     path: '/edit-billoflandingswitches/:id',
@@ -593,7 +649,7 @@ const edit_bill_of_landing_switchesRoutes = {
     component: EditdBilloflandings_switches,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Bill of landing non inventories
@@ -603,7 +659,7 @@ const bill_of_landing_non_inventoriesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: Billoflandings_non_inventoriesList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const add_bill_of_landing_non_inventoriesRoutes = {
     path: '/add-billoflandingnoninventories',
@@ -611,7 +667,7 @@ const add_bill_of_landing_non_inventoriesRoutes = {
     component: AddBilloflandings_non_inventories,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const edit_bill_of_landing_non_inventoriesRoutes = {
     path: '/edit-billoflandingnoninventories/:id',
@@ -619,9 +675,8 @@ const edit_bill_of_landing_non_inventoriesRoutes = {
     component: EditdBilloflandings_non_inventories,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
-
 
 //Bill of landing subs
 const bill_of_landing_subsRoutes = {
@@ -630,7 +685,7 @@ const bill_of_landing_subsRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: BilloflandingsubsList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const add_bill_of_landing_subsRoutes = {
     path: '/add-billoflandingsubs',
@@ -638,7 +693,7 @@ const add_bill_of_landing_subsRoutes = {
     component: AddBilloflandingsubs,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const edit_bill_of_landing_subsRoutes = {
     path: '/edit-billoflandingsubs/:id',
@@ -646,7 +701,7 @@ const edit_bill_of_landing_subsRoutes = {
     component: EditdBilloflandingsubs,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Bill of landing sub switches
@@ -656,7 +711,7 @@ const bill_of_landing_subswitchesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: BilloflandingsubswitchesList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const add_bill_of_landing_subswitchesRoutes = {
     path: '/add-billoflandingsubswitches',
@@ -664,7 +719,7 @@ const add_bill_of_landing_subswitchesRoutes = {
     component: AddBilloflandingsubswitches,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const edit_bill_of_landing_subswitchesRoutes = {
     path: '/edit-billoflandingsubswitches/:id',
@@ -672,7 +727,7 @@ const edit_bill_of_landing_subswitchesRoutes = {
     component: EditdBilloflandingsubswitches,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Bill of landing subs non inventories
@@ -682,7 +737,7 @@ const bill_of_landing_subs_non_inventoriesRoutes = {
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     component: Billoflandingsubs_non_inventoriesList,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const add_bill_of_landing_subs_non_inventoriesRoutes = {
     path: '/add-billoflandingsubnoninventories',
@@ -690,7 +745,7 @@ const add_bill_of_landing_subs_non_inventoriesRoutes = {
     component: AddBilloflandingsubs_non_inventories,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 const edit_bill_of_landing_subs_non_inventoriesRoutes = {
     path: '/edit-billoflandingsubnoninventories/:id',
@@ -698,7 +753,7 @@ const edit_bill_of_landing_subs_non_inventoriesRoutes = {
     component: EditdBilloflandingsubs_non_inventories,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
-    roles: ['Admin']
+    roles: ['Admin'],
 };
 
 //Bill
@@ -745,19 +800,17 @@ const exportRoutes = {
             name: 'Sub Non-Inventory BL',
             route: PrivateRoute,
             component: Billoflandingsubs_non_inventoriesList,
-        }
+        },
     ],
 };
 
 const editeuipment = {
-
     path: '/edit-equipments/:id',
     name: 'Edit Equipments',
     component: EditEquipment,
     route: PrivateRoute,
     roles: ['Admin'],
-
-}
+};
 
 const PropertiesRoutes = {
     path: '/properties',
@@ -784,7 +837,7 @@ const PropertiesRoutes = {
             name: 'Edit Properties',
             component: Editproperties,
             route: PrivateRoute,
-        }
+        },
     ],
 };
 
@@ -814,7 +867,7 @@ const TimezoneRoutes = {
             name: 'Edit Timezone',
             component: Edittimezone,
             route: PrivateRoute,
-        }
+        },
     ],
 };
 
@@ -844,7 +897,7 @@ const TrafficmodeRoutes = {
             name: 'Edit Trafficmode',
             component: Edittrafficmode,
             route: PrivateRoute,
-        }
+        },
     ],
 };
 
@@ -874,7 +927,7 @@ const TypeofunitRoutes = {
             name: 'Edit Typeofunit',
             component: Edittypeofunit,
             route: PrivateRoute,
-        }
+        },
     ],
 };
 
@@ -892,8 +945,7 @@ const PortRoutes = {
             name: 'List',
             component: Port,
             route: PrivateRoute,
-        }
-
+        },
     ],
 };
 
@@ -971,7 +1023,7 @@ const Master = {
             name: 'Default value',
             component: DefaultvaluesList,
             route: PrivateRoute,
-        }
+        },
     ],
 };
 // apps
@@ -1033,7 +1085,7 @@ const clientmasterRoutes = {
             name: 'Vendors Master',
             component: VendorsList,
             route: PrivateRoute,
-        }
+        },
     ],
 };
 
@@ -1080,9 +1132,6 @@ const taskAppRoutes = {
         },
     ],
 };
-
-
-
 
 const appRoutes = [calendarAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes];
 
@@ -1393,11 +1442,8 @@ const authProtectedRoutes = [
     Master,
     ownerRoutes,
     receiptsRoutes,
-    receiptPaymentsRoutes,
     vouchersRoutes,
-    voucherPaymentsRoutes,
     invoicesRoutes,
-    invoiceChargesRoutes,
     equipmentsaledetailsRoutes,
     clientmasterRoutes,
     exportRoutes,

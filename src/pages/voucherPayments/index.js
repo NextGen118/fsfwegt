@@ -71,7 +71,7 @@ const VoucherPaymentsTable = (props) => {
                                         <td>{record.paying_local}</td>
 
                                         <td>
-                                            <Edit onClick={() => editVoucherPayments(record.id)} />
+                                            <Edit color="blue" size={20} onClick={() => editVoucherPayments(record.id)} />
                                         </td>
                                     </tr>
                                 );

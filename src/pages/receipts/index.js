@@ -66,7 +66,7 @@ const ReceiptsTable = (props) => {
                                         <td>{record.receipt_no}</td>
                                         <td>{record.description}</td>
                                         <td>
-                                            <Edit onClick={() => editReceipts(record.id)} />
+                                            <Edit color="blue" size={20} onClick={() => editReceipts(record.id)} />
                                         </td>
                                     </tr>
                                 );

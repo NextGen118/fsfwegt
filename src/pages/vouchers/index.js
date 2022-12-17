@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, CardBody, Table, Button } from 'reactstrap';
 import axios from 'axios';
-import { Edit } from 'react-feather';
+import { Delete, Edit, Trash2 } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
@@ -54,6 +54,7 @@ const VouchersTable = (props) => {
                                 <th>Date</th>
                                 <th>Voucher No</th>
                                 <th>Description</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -67,7 +68,7 @@ const VouchersTable = (props) => {
                                         <td>{record.description}</td>
                                         <td>{record.status}</td>
                                         <td>
-                                            <Edit onClick={() => editVouchers(record.id)} />
+                                            <Edit color="blue" size={20} onClick={() => editVouchers(record.id)} />
                                         </td>
                                     </tr>
                                 );
@@ -98,7 +99,7 @@ const VouchersList = (props) => {
             <Row>
                 <Col>
                     <Button color="info" className="float-right" onClick={() => addVouchersForm()}>
-                        Add
+                        + Add Vouchers
                     </Button>
                 </Col>
             </Row>
