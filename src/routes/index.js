@@ -97,6 +97,37 @@ const EditdBilloflandingsubswitches = React.lazy(() => import('../pages/bill_of_
 const Billoflandingsubs_non_inventoriesList = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/index'));
 const AddBilloflandingsubs_non_inventories = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/addBillOfLandingSubs_non_inventories'));
 const EditdBilloflandingsubs_non_inventories = React.lazy(() => import('../pages/bill_of_landing_subs_non_inventories/editBillOfLandingSubs_non_inventories'));
+
+//Receipts
+const ReceiptsList = React.lazy(() => import('../pages/receipts/index'));
+const AddReceipts = React.lazy(() => import('../pages/receipts/addReceipts'));
+const EditReceipts = React.lazy(() => import('../pages/receipts/editReceipts'));
+
+//Receipt Payments
+const ReceiptPaymentsList = React.lazy(() => import('../pages/receiptPayments/index'));
+const AddReceiptPayments = React.lazy(() => import('../pages/receiptPayments/addReceiptPayments'));
+const EditReceiptPayments = React.lazy(() => import('../pages/receiptPayments/editReceiptPayments'));
+
+//Vouchers
+const VouchersList = React.lazy(() => import('../pages/vouchers/index'));
+const AddVouchers = React.lazy(() => import('../pages/vouchers/addVouchers'));
+const EditVouchers = React.lazy(() => import('../pages/vouchers/editVouchers'));
+
+//Voucher Payments
+const VoucherPaymentsList = React.lazy(() => import('../pages/voucherPayments/index'));
+const AddVoucherPayments= React.lazy(() => import('../pages/voucherPayments/addVoucherPayments'));
+const EditVoucherPayments = React.lazy(() => import('../pages/voucherPayments/editVoucherPayments'));
+
+//Invoices
+const InvoicesList = React.lazy(() => import('../pages/invoices/index'));
+const AddInvoices= React.lazy(() => import('../pages/invoices/AddInvoices'));
+const EditInvoices = React.lazy(() => import('../pages/invoices/editInvoices'));
+
+//Invoices Charges
+const InvoiceChargesList = React.lazy(() => import('../pages/invoiceCharges/index'));
+const AddInvoiceCharges= React.lazy(() => import('../pages/invoiceCharges/addInvoiceCharges'));
+const EditInvoiceCharges = React.lazy(() => import('../pages/invoiceCharges/editInvoiceCharges'));
+
 //Vendors
 const VendorsList = React.lazy(() => import('../pages/vendor/index'));
 const AddVendors = React.lazy(() => import('../pages/vendor/addVendor'));
@@ -187,6 +218,162 @@ const ownerAddRotes = {
     component: OwnerAdd,
 
 }
+
+//Receipts
+const receiptsRoutes = {
+    path: '/receipts',
+    name: 'Receipts',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: ReceiptsList,
+    roles: ['Admin']
+};
+const addreceiptsRoutes = {
+    path: '/add-receipts',
+    name: 'Add Receipts',
+    component: AddReceipts,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editreceiptsRoutes = {
+    path: '/edit-receipts/:id',
+    name: 'Edit Receipts',
+    component: EditReceipts,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Receipt Payments
+const receiptPaymentsRoutes = {
+    path: '/receiptPayments',
+    name: 'Receipt Payments',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: ReceiptPaymentsList,
+    roles: ['Admin']
+};
+const addreceiptPaymentsRoutes = {
+    path: '/add-receiptPayments',
+    name: 'Add Receipt Payments',
+    component: AddReceiptPayments,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editreceiptPaymentsRoutes = {
+    path: '/edit-receiptPayments/:id',
+    name: 'Edit Receipt Payments',
+    component: EditReceiptPayments,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Vouchers 
+const vouchersRoutes = {
+    path: '/vouchers',
+    name: 'Vouchers',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: VouchersList,
+    roles: ['Admin']
+};
+const addvouchersRoutes = {
+    path: '/add-vouchers',
+    name: 'Add Vouchers',
+    component: AddVouchers,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editvouchersRoutes = {
+    path: '/edit-vouchers/:id',
+    name: 'Edit Vouchers',
+    component: EditVouchers,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Voucher Payments
+const voucherPaymentsRoutes = {
+    path: '/voucherPayments',
+    name: 'Voucher Payments',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: VoucherPaymentsList,
+    roles: ['Admin']
+};
+const addvoucherPaymentsRoutes = {
+    path: '/add-voucherPayments',
+    name: 'Add Voucher Payments',
+    component: AddVoucherPayments,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editvoucherPaymentsRoutes = {
+    path: '/edit-voucherpayments/:id',
+    name: 'Edit Voucher Payments',
+    component: EditVoucherPayments,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Invoices 
+const invoicesRoutes = {
+    path: '/invoices',
+    name: 'Invoices',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: InvoicesList,
+    roles: ['Admin']
+};
+const addinvoicesRoutes = {
+    path: '/add-invoices',
+    name: 'Add Invoices',
+    component: AddInvoices,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editinvoicesRoutes = {
+    path: '/edit-invoices/:id',
+    name: 'Edit Invoices',
+    component: EditInvoices,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+
+//Invoices Charges
+const invoiceChargesRoutes = {
+    path: '/invoiceCharges',
+    name: 'Invoice Charges',
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    component: InvoiceChargesList,
+    roles: ['Admin']
+};
+const addinvoiceChargesRoutes = {
+    path: '/add-invoiceCharges',
+    name: 'Add Invoice Charges',
+    component: AddInvoiceCharges,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
+const editinvoiceChargesRoutes = {
+    path: '/edit-invoiceCharges/:id',
+    name: 'Edit Invoice Charges',
+    component: EditInvoiceCharges,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin']
+};
 
 // dashboards
 const dashboardRoutes = {
@@ -1147,6 +1334,24 @@ const allRoutes = [
     PortRoutes,
     ownerRoutes,
     ownerAddRotes,
+    editreceiptsRoutes,
+    addreceiptsRoutes,
+    receiptsRoutes,
+    receiptPaymentsRoutes,
+    addreceiptPaymentsRoutes,
+    editreceiptPaymentsRoutes,
+    vouchersRoutes,
+    addvouchersRoutes,
+    editvouchersRoutes,
+    voucherPaymentsRoutes,
+    addvoucherPaymentsRoutes,
+    editvoucherPaymentsRoutes,
+    invoicesRoutes,
+    addinvoicesRoutes,
+    editinvoicesRoutes,
+    invoiceChargesRoutes,
+    addinvoiceChargesRoutes,
+    editinvoiceChargesRoutes,
     editeuipment,
     clientsRoutes,
     addclientsRoutes,
@@ -1187,6 +1392,12 @@ const authProtectedRoutes = [
     equipmentsRoutes,
     Master,
     ownerRoutes,
+    receiptsRoutes,
+    receiptPaymentsRoutes,
+    vouchersRoutes,
+    voucherPaymentsRoutes,
+    invoicesRoutes,
+    invoiceChargesRoutes,
     equipmentsaledetailsRoutes,
     clientmasterRoutes,
     exportRoutes,

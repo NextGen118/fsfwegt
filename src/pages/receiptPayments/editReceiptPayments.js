@@ -1,0 +1,214 @@
+import React, { useEffect, useState } from 'react';
+import PageTitle from '../../components/PageTitle';
+import { Row, Col, Card, CardBody, Button } from 'reactstrap';
+import { AvForm, AvField } from 'availity-reactstrap-validation';
+import axios from 'axios';
+import { useParams, useHistory } from 'react-router-dom';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+
+const EditReceiptPayments = (props) => {
+    const { id } = useParams();
+    const [values, setValues] = useState({
+        receipt_id: '',
+        pay_type: '',
+        cheque_no: '',
+        cheque_date: '',
+        current_bal: '',
+        paying_amount: '',
+        paying_local: '',
+        status: '',
+    });
+
+    const history = useHistory();
+
+    useEffect(() => {
+        getReceipts();
+        getReceiptPaymentsByid();
+    }, [props.id]);
+
+    const [receipts, setReceipts] = useState([]);
+    const [receiptsselect, setReceiptsselect] = useState('');
+
+    const getReceipts = () => {
+        axios
+            .get(`http://127.0.0.1:8000/api/receipts/show/all`)
+            .then((res) => {
+                setReceipts(res.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const changeReceipts = (event) => {
+        setReceiptsselect(event.target.value);
+        console.log(event.target.value, ' select');
+    };
+
+    const getReceiptPaymentsByid = () => {
+        axios
+            .get(`http://127.0.0.1:8000/api/receiptpayments/show/all`)
+            .then((res) => {
+                const data = res.data.data.filter((ress) => ress.id === parseInt(id));
+                setValues({
+                    pay_type: data[0].pay_type,
+                    receipt_no: data[0].receipt_no,
+                    cheque_date: data[0].cheque_date,
+                    current_bal: data[0].current_bal,
+                    paying_amount: data[0].paying_amount,
+                    paying_local: data[0].paying_local,
+                    status: data[0].status,
+                });
+                setReceiptsselect(data[0].receipt_id);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const handleChange = (evt) => {
+        const value = evt.target.value;
+        setValues({
+            ...values,
+            [evt.target.name]: value,
+        });
+    };
+
+    const submitEdit = () => {
+        axios
+            .post(
+                `http://127.0.0.1:8000/api/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${values.status}&id=${id}`
+            )
+            .then((res) => {
+                history.push('/receiptPayments');
+                console.log('successfully1');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const onBack = () => {
+        history.push('/receiptPayments');
+    };
+
+    return (
+        <React.Fragment>
+            <Row className="page-title">
+                <Col md={12}>
+                    <PageTitle
+                        breadCrumbItems={[
+                            { label: 'Receipt Payments', path: '/receipts' },
+                            { label: 'Edit Receipt Payments', path: '/receipts-add', active: true },
+                        ]}
+                        title={'Edit Receipt Payments'}
+                    />
+                </Col>
+            </Row>
+            <Card>
+                <CardBody>
+                    <AvForm>
+                        <Row>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Receipt</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={receiptsselect}
+                                    onChange={changeReceipts}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    {receipts.map((rec) => (
+                                        <MenuItem value={rec.id} key={rec.id}>
+                                            {rec.receipt_no}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="pay_type"
+                                    label="Pay Type"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.pay_type}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="cheque_no"
+                                    label="Cheque No"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.cheque_no}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="cheque_date"
+                                    label="Cheque Date"
+                                    type="date"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.cheque_date}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="current_bal"
+                                    label="Current Balance"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.current_bal}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="paying_amount"
+                                    label="Paying Ammount"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.paying_amount}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="paying_local"
+                                    label="Paying Local"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.paying_local}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="status"
+                                    label="Status"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.status}
+                                />
+                            </Col>
+                        </Row>
+                    </AvForm>
+                    <Button color="primary" type="submit" onClick={() => submitEdit()}>
+                        Edit
+                    </Button>
+                    &nbsp;
+                    <Button color="danger" type="submit" onClick={onBack}>
+                        Back
+                    </Button>
+                </CardBody>
+            </Card>
+        </React.Fragment>
+    );
+};
+
+export default EditReceiptPayments;
