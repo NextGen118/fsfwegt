@@ -94,13 +94,17 @@ const EditVoucherPayments = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Voucher Payment', path: '/receiptPayments' },
-                            { label: 'Edit Voucher Payment', path: '/receiptPayments-add', active: true },
-                        ]}
-                        title={'Edit Voucher Payments'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Edit Voucher Payments</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Voucher Payments', path: '/voucherPayments' },
+                                { label: 'Edit Voucher Payments', path: '/voucherPayments-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
             <Card>

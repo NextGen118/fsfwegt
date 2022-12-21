@@ -51,6 +51,10 @@ const AddInvoices = forwardRef((props, ref) => {
     const [port_dischargeselect, setPort_dischargeselect] = useState('');
     const [igm, setIgm] = useState([]);
     const [igmselect, setIgmselect] = useState('');
+    const [activeselect, setActiveselect] = useState('');
+    const changeActive = (event) => {
+        setActiveselect(event.target.value);
+    };
 
     const getBilloflanding = () => {
         axios
@@ -121,7 +125,7 @@ const AddInvoices = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/invoices/store?date=${values.date}&invoice_no=${values.invoice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&cbm=${values.cbm}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${values.status}&tax_invoice=${values.tax_invoice}`
+                `http://127.0.0.1:8000/api/invoices/store?date=${values.date}&invoice_no=${values.invoice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&cbm=${values.cbm}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}&tax_invoice=${values.tax_invoice}`
             )
 
             .then((res) => {
@@ -142,13 +146,17 @@ const AddInvoices = forwardRef((props, ref) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Invoices', path: '/invoices' },
-                            { label: 'Add Invoices', path: '/invoices-add', active: true },
-                        ]}
-                        title={'Add Invoices'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Add Invoices</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Invoices', path: '/invoices' },
+                                { label: 'Add Invoices', path: '/invoices-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
 
@@ -365,9 +373,7 @@ const AddInvoices = forwardRef((props, ref) => {
                                     onChange={handleChange}
                                 />
                             </Col>
-                            <Col lg={4}>
-                                <AvField name="status" label="Status" type="text" required onChange={handleChange} />
-                            </Col>
+
                             <Col lg={4}>
                                 <AvField
                                     name="tax_invoice"
@@ -376,6 +382,18 @@ const AddInvoices = forwardRef((props, ref) => {
                                     required
                                     onChange={handleChange}
                                 />
+                            </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={activeselect}
+                                    onChange={changeActive}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    <MenuItem value={1}>Active</MenuItem>
+                                    <MenuItem value={0}>Inactive</MenuItem>
+                                </Select>
                             </Col>
                         </Row>
                     </AvForm>

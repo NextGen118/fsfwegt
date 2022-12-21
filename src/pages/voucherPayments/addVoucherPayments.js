@@ -76,13 +76,17 @@ const AddVoucherPayments = forwardRef((props, ref) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Voucher Payments', path: '/voucherPayments' },
-                            { label: 'Add Vouchers', path: '/voucherPayments-add', active: true },
-                        ]}
-                        title={'Add Voucher Payments'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Add Voucher Payments</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Voucher Payments', path: '/voucherPayments' },
+                                { label: 'Add Voucher Payments', path: '/voucherPayments-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
 

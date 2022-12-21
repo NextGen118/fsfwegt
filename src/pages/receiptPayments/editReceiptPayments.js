@@ -30,7 +30,10 @@ const EditReceiptPayments = (props) => {
 
     const [receipts, setReceipts] = useState([]);
     const [receiptsselect, setReceiptsselect] = useState('');
-
+    const [activeselect, setActiveselect] = useState('');
+    const changeActive = (event) => {
+        setActiveselect(event.target.value);
+    };
     const getReceipts = () => {
         axios
             .get(`http://127.0.0.1:8000/api/receipts/show/all`)
@@ -54,14 +57,14 @@ const EditReceiptPayments = (props) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
                     pay_type: data[0].pay_type,
-                    receipt_no: data[0].receipt_no,
+                    cheque_no: data[0].cheque_no,
                     cheque_date: data[0].cheque_date,
                     current_bal: data[0].current_bal,
                     paying_amount: data[0].paying_amount,
                     paying_local: data[0].paying_local,
-                    status: data[0].status,
                 });
                 setReceiptsselect(data[0].receipt_id);
+                setActiveselect(data[0].status);
             })
             .catch((error) => {
                 console.log(error);
@@ -79,7 +82,7 @@ const EditReceiptPayments = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${values.status}&id=${id}`
+                `http://127.0.0.1:8000/api/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${activeselect}&id=${id}`
             )
             .then((res) => {
                 history.push('/receiptPayments');
@@ -98,13 +101,17 @@ const EditReceiptPayments = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Receipt Payments', path: '/receipts' },
-                            { label: 'Edit Receipt Payments', path: '/receipts-add', active: true },
-                        ]}
-                        title={'Edit Receipt Payments'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Edit Receipts Payments</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Receipt Payments', path: '/receiptPayments' },
+                                { label: 'Edit Receipts Payments', path: '/receiptPayments-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
             <Card>
@@ -121,7 +128,7 @@ const EditReceiptPayments = (props) => {
                                     sx={{ width: 360, height: 36, mb: 2 }}>
                                     {receipts.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.receipt_no}
+                                            {rec.cheque_no}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -187,14 +194,16 @@ const EditReceiptPayments = (props) => {
                                 />
                             </Col>
                             <Col lg={4}>
-                                <AvField
-                                    name="status"
-                                    label="Status"
-                                    type="text"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.status}
-                                />
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={activeselect}
+                                    onChange={changeActive}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    <MenuItem value={1}>Active</MenuItem>
+                                    <MenuItem value={0}>Inactive</MenuItem>
+                                </Select>
                             </Col>
                         </Row>
                     </AvForm>

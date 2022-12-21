@@ -5,6 +5,7 @@ import { Delete, Edit, Trash2 } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
+import Badge from '@mui/material/Badge';
 
 const VouchersTable = (props) => {
     const history = useHistory();
@@ -47,13 +48,15 @@ const VouchersTable = (props) => {
         <>
             <Card>
                 <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
-                    <Table>
+                    <Table striped>
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Date</th>
                                 <th>Voucher No</th>
                                 <th>Description</th>
+                                <th>Currency</th>
+                                <th>Bill of Landing</th>
+                                <th>Vendor</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -62,11 +65,24 @@ const VouchersTable = (props) => {
                             {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
-                                        <th scope="row">{record.id}</th>
                                         <td>{record.date}</td>
                                         <td>{record.voucher_no}</td>
                                         <td>{record.description}</td>
-                                        <td>{record.status}</td>
+                                        <td>{record.currency_name}</td>
+                                        <td>{record.bill_of_landing_number}</td>
+                                        <td>{record.vendor_name}</td>
+                                        <th>
+                                            {record.status == 1 ? (
+                                                <>
+                                                    <Badge
+                                                        badgeContent={'Active'}
+                                                        color="success"
+                                                        sx={{ ml: 3 }}></Badge>
+                                                </>
+                                            ) : (
+                                                <Badge color="error" badgeContent={'Inactive'} sx={{ ml: 3 }}></Badge>
+                                            )}
+                                        </th>{' '}
                                         <td>
                                             <Edit color="blue" size={20} onClick={() => editVouchers(record.id)} />
                                         </td>
@@ -93,13 +109,17 @@ const VouchersList = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col>
-                    <PageTitle breadCrumbItems={[{ label: 'Vouchers', path: '/vouchers' }]} title={'Vouchers'} />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Vouchers</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'Vouchers', path: '/vouchers' }]} />
+                    </Row>
                 </Col>
-            </Row>
-            <Row>
+
                 <Col>
                     <Button color="info" className="float-right" onClick={() => addVouchersForm()}>
-                        + Add Vouchers
+                        + Create Vouchers
                     </Button>
                 </Col>
             </Row>

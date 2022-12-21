@@ -47,10 +47,9 @@ const VoucherPaymentsTable = (props) => {
         <>
             <Card>
                 <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
-                    <Table>
+                    <Table striped>
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Pay Type</th>
                                 <th>Cheque No</th>
                                 <th>Current Balance</th>
@@ -63,7 +62,6 @@ const VoucherPaymentsTable = (props) => {
                             {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
-                                        <th scope="row">{record.id}</th>
                                         <td>{record.pay_type}</td>
                                         <td>{record.cheque_no}</td>
                                         <td>{record.current_bal}</td>
@@ -71,7 +69,11 @@ const VoucherPaymentsTable = (props) => {
                                         <td>{record.paying_local}</td>
 
                                         <td>
-                                            <Edit color="blue" size={20} onClick={() => editVoucherPayments(record.id)} />
+                                            <Edit
+                                                color="blue"
+                                                size={20}
+                                                onClick={() => editVoucherPayments(record.id)}
+                                            />
                                         </td>
                                     </tr>
                                 );
@@ -96,16 +98,17 @@ const VoucherPaymentsList = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'Voucher Payments', path: '/voucherPayments' }]}
-                        title={'Voucher Payments'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Vouchers Payments</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'Vouchers Payments', path: '/voucherPayments' }]} />
+                    </Row>
                 </Col>
-            </Row>
-            <Row>
+
                 <Col>
                     <Button color="info" className="float-right" onClick={() => addVoucherPaymentsForm()}>
-                        + Add Voucher Payments
+                        + Create Voucher Payments
                     </Button>
                 </Col>
             </Row>

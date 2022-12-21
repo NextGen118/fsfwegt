@@ -5,6 +5,7 @@ import { Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
+import Badge from '@mui/material/Badge';
 
 const ReceiptPaymentsTable = (props) => {
     const history = useHistory();
@@ -47,16 +48,15 @@ const ReceiptPaymentsTable = (props) => {
         <>
             <Card>
                 <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
-                    <Table>
+                    <Table striped>
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Pay Type</th>
                                 <th>Cheque No</th>
                                 <th>Cheque Date</th>
                                 <th>Current Balance</th>
                                 <th>Paying Amount</th>
-
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -64,15 +64,29 @@ const ReceiptPaymentsTable = (props) => {
                             {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
-                                        <th scope="row">{record.id}</th>
                                         <td>{record.pay_type}</td>
                                         <td>{record.cheque_no}</td>
                                         <td>{record.cheque_date}</td>
                                         <td>{record.current_bal}</td>
                                         <td>{record.paying_amount}</td>
-
+                                        <th>
+                                            {record.status == 1 ? (
+                                                <>
+                                                    <Badge
+                                                        badgeContent={'Active'}
+                                                        color="success"
+                                                        sx={{ ml: 3 }}></Badge>
+                                                </>
+                                            ) : (
+                                                <Badge color="error" badgeContent={'Inactive'} sx={{ ml: 3 }}></Badge>
+                                            )}
+                                        </th>
                                         <td>
-                                            <Edit color="blue" size={20} onClick={() => editReceiptPayments(record.id)} />
+                                            <Edit
+                                                color="blue"
+                                                size={20}
+                                                onClick={() => editReceiptPayments(record.id)}
+                                            />
                                         </td>
                                     </tr>
                                 );
@@ -97,16 +111,17 @@ const ReceiptPaymentsList = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'Receipt Payments', path: '/receiptPayments' }]}
-                        title={'Receipt Payments'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Receipt Payments</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'Receipt Payments', path: '/receiptPayments' }]} />
+                    </Row>
                 </Col>
-            </Row>
-            <Row>
+
                 <Col>
                     <Button color="info" className="float-right" onClick={() => addReceiptPaymentsForm()}>
-                        + Add Receipt Payments
+                        + Create Receipt Payments
                     </Button>
                 </Col>
             </Row>

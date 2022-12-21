@@ -150,6 +150,26 @@ const VendorsList = React.lazy(() => import('../pages/vendor/index'));
 const AddVendors = React.lazy(() => import('../pages/vendor/addVendor'));
 const EditVendors = React.lazy(() => import('../pages/vendor/editVendor'));
 
+//ArrivalNoticies
+const ArrivalNoticiesList = React.lazy(() => import('../pages/arrivalNoticies/index'));
+const AddArrivalNoticies = React.lazy(() => import('../pages/arrivalNoticies/addArrivalNoticies'));
+const EditArrivalNoticies = React.lazy(() => import('../pages/arrivalNoticies/editArrivalNoticies'));
+
+//ArrivalNoticeCharges
+const ArrivalNoticeChargesList = React.lazy(() => import('../pages/arrivalNoticiesCharges/index'));
+const AddArrivalNoticeCharges = React.lazy(() => import('../pages/arrivalNoticiesCharges/addArrivalNoticeCharges'));
+const EditArrivalNoticeCharges = React.lazy(() => import('../pages/arrivalNoticiesCharges/editArrivalNoticeCharges'));
+
+//ArrivalNoticeContainers
+const ArrivalNoticeContainersList = React.lazy(() => import('../pages/arrivalNoticeContainers/index'));
+const AddArrivalNoticeContainers = React.lazy(() => import('../pages/arrivalNoticeContainers/AddArrivalNoticeContainers'));
+const EditArrivalNoticeContainers = React.lazy(() => import('../pages/arrivalNoticeContainers/editArrivalNoticeContainers'));
+
+//BookingConfirmations
+const BookingConfirmationsList = React.lazy(() => import('../pages/bookingConfirmations/index'));
+const AddBookingConfirmations = React.lazy(() => import('../pages/bookingConfirmations/addBookingConfirmations'));
+const EditBookingConfirmations = React.lazy(() => import('../pages/bookingConfirmations/editBookingConfirmations'));
+
 const Port = React.lazy(() => import('../pages/Port/index'));
 
 const Owner = React.lazy(() => import('../pages/owner/index'));
@@ -407,14 +427,14 @@ const editinvoicesRoutes = {
 };
 
 //Invoices Charges
-const invoiceChargesRoutes = {
-    path: '/invoiceCharges',
-    name: 'Invoice Charges',
-    icon: FeatherIcon.File,
-    route: PrivateRoute,
-    component: InvoiceChargesList,
-    roles: ['Admin'],
-};
+// const invoiceChargesRoutes = {
+//     path: '/invoiceCharges',
+//     name: 'Invoice Charges',
+//     icon: FeatherIcon.File,
+//     route: PrivateRoute,
+//     component: InvoiceChargesList,
+//     roles: ['Admin'],
+// };
 const addinvoiceChargesRoutes = {
     path: '/add-invoiceCharges',
     name: 'Add Invoice Charges',
@@ -427,6 +447,113 @@ const editinvoiceChargesRoutes = {
     path: '/edit-invoiceCharges/:id',
     name: 'Edit Invoice Charges',
     component: EditInvoiceCharges,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
+//ArrivalNoticies
+const arrivalNoticiesRoutes = {
+    path: '/arrivalNoticies',
+    name: 'Arrival Noticies',
+    icon: FeatherIcon.File,
+    route: PrivateRoute,
+    component: ArrivalNoticiesList,
+    roles: ['Admin'],
+    children: [
+        {
+            path: '/arrivalNoticies',
+            name: 'Arrival Noticies',
+            route: PrivateRoute,
+            component: ArrivalNoticiesList,
+        },
+        {
+            path: '/arrivalNoticeCharges',
+            name: 'Arrival Notice Charges',
+            route: PrivateRoute,
+            component: ArrivalNoticeChargesList,
+        },
+        {
+            path: '/arrivalNoticeContainers',
+            name: 'Arrival Notice Containers',
+            route: PrivateRoute,
+            component: ArrivalNoticeContainersList,
+        },
+        
+    ],
+};
+const addarrivalNoticiesRoutes = {
+    path: '/add-arrivalNoticies',
+    name: 'Add Arrival Noticies',
+    component: AddArrivalNoticies,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
+const editarrivalNoticiesRoutes = {
+    path: '/edit-arrivalNoticies/:id',
+    name: 'Edit Arrival Noticies',
+    component: EditArrivalNoticies,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
+
+const addarrivalNoticeChargesRoutes = {
+    path: '/add-arrivalNoticeCharges',
+    name: 'Add Arrival Notice Charges',
+    component: AddArrivalNoticeCharges,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
+const editarrivalNoticeChargesRoutes = {
+    path: '/edit-arrivalNoticeCharges/:id',
+    name: 'Edit Arrival Notice Charges',
+    component: EditArrivalNoticeCharges,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
+
+const addarrivalNoticeContainersRoutes = {
+    path: '/add-arrivalNoticeContainers',
+    name: 'Add Arrival Notice Containers',
+    component: AddArrivalNoticeContainers,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
+const editarrivalNoticeContainersRoutes = {
+    path: '/edit-arrivalNoticeContainers/:id',
+    name: 'Edit Arrival Notice Containers',
+    component: EditArrivalNoticeContainers,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
+
+//Invoices Charges
+const bookingConfirmationsRoutes = {
+    path: '/bookingConfirmations',
+    name: 'Booking Confirmations',
+    icon: FeatherIcon.File,
+    route: PrivateRoute,
+    component: BookingConfirmationsList,
+    roles: ['Admin'],
+};
+
+const addBookingConfirmationsRoutes = {
+    path: '/add-bookingConfirmations',
+    name: 'Add Booking Confirmations',
+    component: AddBookingConfirmations,
+    icon: FeatherIcon.Anchor,
+    route: PrivateRoute,
+    roles: ['Admin'],
+};
+const editBookingConfirmationsRoutes = {
+    path: '/edit-bookingConfirmations/:id',
+    name: 'Edit Booking Confirmations',
+    component: EditBookingConfirmations,
     icon: FeatherIcon.Anchor,
     route: PrivateRoute,
     roles: ['Admin'],
@@ -1398,9 +1525,19 @@ const allRoutes = [
     invoicesRoutes,
     addinvoicesRoutes,
     editinvoicesRoutes,
-    invoiceChargesRoutes,
+    // invoiceChargesRoutes,
     addinvoiceChargesRoutes,
     editinvoiceChargesRoutes,
+    bookingConfirmationsRoutes,
+    addBookingConfirmationsRoutes,
+    editBookingConfirmationsRoutes,
+    arrivalNoticiesRoutes,
+    addarrivalNoticiesRoutes,
+    editarrivalNoticiesRoutes,
+    addarrivalNoticeChargesRoutes,
+    editarrivalNoticeChargesRoutes,
+    addarrivalNoticeContainersRoutes,
+    editarrivalNoticeContainersRoutes,
     editeuipment,
     clientsRoutes,
     addclientsRoutes,
@@ -1444,6 +1581,8 @@ const authProtectedRoutes = [
     receiptsRoutes,
     vouchersRoutes,
     invoicesRoutes,
+    bookingConfirmationsRoutes,
+    arrivalNoticiesRoutes,
     equipmentsaledetailsRoutes,
     clientmasterRoutes,
     exportRoutes,

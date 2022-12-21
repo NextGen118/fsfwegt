@@ -8,11 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
-const EditInvoices = (props) => {
+const EditArrivalNoticies = (props) => {
     const { id } = useParams();
     const [values, setValues] = useState({
         date: '',
-        invoice_no: '',
+        arrival_notice_no: '',
         etd_pol: '',
         eta_pod: '',
         st_expire: '',
@@ -38,7 +38,8 @@ const EditInvoices = (props) => {
         getIgm();
         getClient();
         getPort();
-        getInvoicesByid();
+        getArrivalNoticiesByid();
+        getVendor();
     }, [props.id]);
 
     const [billoflanding, setBilloflanding] = useState([]);
@@ -55,6 +56,8 @@ const EditInvoices = (props) => {
     const [port_dischargeselect, setPort_dischargeselect] = useState('');
     const [igm, setIgm] = useState([]);
     const [igmselect, setIgmselect] = useState('');
+    const [vendor, setVendor] = useState([]);
+    const [vendorselect, setVendorselect] = useState('');
     const [activeselect, setActiveselect] = useState('');
     const changeActive = (event) => {
         setActiveselect(event.target.value);
@@ -102,6 +105,16 @@ const EditInvoices = (props) => {
                 console.log(error);
             });
     };
+    const getVendor = () => {
+        axios
+            .get(`http://127.0.0.1:8000/api/vendors/show/all`)
+            .then((res) => {
+                setVendor(res.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     const changeBilloflanding = (event) => {
         setBilloflandingselect(event.target.value);
@@ -124,15 +137,18 @@ const EditInvoices = (props) => {
     const changeIgm = (event) => {
         setIgmselect(event.target.value);
     };
+    const changeVendor = (event) => {
+        setVendorselect(event.target.value);
+    };
 
-    const getInvoicesByid = () => {
+    const getArrivalNoticiesByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/invoices/show/all`)
+            .get(`http://127.0.0.1:8000/api/arivalnotices/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
                     date: data[0].date,
-                    invoice_no: data[0].invoice_no,
+                    arrival_notice_no: data[0].arrival_notice_no,
                     etd_pol: data[0].etd_pol,
                     eta_pod: data[0].eta_pod,
                     st_expire: data[0].st_expire,
@@ -157,6 +173,7 @@ const EditInvoices = (props) => {
                 setPort_loadingselect(data[0].port_id_loading);
                 setPort_dischargeselect(data[0].port_id_discharge);
                 setIgmselect(data[0].igm_india_voyage_id);
+                setVendorselect(data[0].vendor_id_yard);
                 setActiveselect(data[0].status);
             })
             .catch((error) => {
@@ -175,10 +192,10 @@ const EditInvoices = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/invoices/store?date=${values.date}&invoice_no=${values.invoice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&cbm=${values.cbm}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}&tax_invoice=${values.tax_invoice}&id=${id}`
+                `http://127.0.0.1:8000/api/arivalnotices/store?date=${values.date}&arrival_notice_no=${values.arrival_notice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&vendor_id_yard=${vendorselect}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}&id=${id}`
             )
             .then((res) => {
-                history.push('/invoices');
+                history.push('/arrivalNoticies');
                 console.log('successfully1');
             })
             .catch((error) => {
@@ -187,7 +204,7 @@ const EditInvoices = (props) => {
     };
 
     const onBack = () => {
-        history.push('/invoices');
+        history.push('/arrivalNoticies');
     };
 
     return (
@@ -195,13 +212,13 @@ const EditInvoices = (props) => {
             <Row className="page-title">
                 <Col md={12}>
                     <Row>
-                        <h3 className="mb-1 mt-0">Edit Invoices</h3>
+                        <h3 className="mb-1 mt-0">Edit Arrival Noticies</h3>
                     </Row>
                     <Row>
                         <PageTitle
                             breadCrumbItems={[
-                                { label: 'Invoices', path: '/invoices' },
-                                { label: 'Edit Invoices', path: '/invoices-add', active: true },
+                                { label: 'Arrival Noticies', path: '/arrivalNoticies' },
+                                { label: 'Edit Arrival Noticies', path: '/arrivalNoticies-add', active: true },
                             ]}
                         />
                     </Row>
@@ -223,12 +240,12 @@ const EditInvoices = (props) => {
                             </Col>
                             <Col lg={4}>
                                 <AvField
-                                    name="invoice_no"
-                                    label="Invoice No"
+                                    name="arrival_notice_no"
+                                    label="Arrival Notice No"
                                     type="text"
                                     required
                                     onChange={handleChange}
-                                    value={values.invoice_no}
+                                    value={values.arrival_notice_no}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -336,6 +353,21 @@ const EditInvoices = (props) => {
                                     ))}
                                 </Select>
                             </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Vendor Yard</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={vendorselect}
+                                    onChange={changeVendor}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    {vendor.map((rec) => (
+                                        <MenuItem value={rec.id} key={rec.id}>
+                                            {rec.vendor_name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
 
                             <Col lg={4}>
                                 <AvField
@@ -437,16 +469,7 @@ const EditInvoices = (props) => {
                                     value={values.weight}
                                 />
                             </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="cbm"
-                                    label="CBM"
-                                    type="text"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.cbm}
-                                />
-                            </Col>
+
                             <Col lg={4}>
                                 <AvField
                                     name="remarks"
@@ -489,16 +512,6 @@ const EditInvoices = (props) => {
                                     <MenuItem value={0}>Inactive</MenuItem>
                                 </Select>
                             </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="tax_invoice"
-                                    label="Tax Invoice"
-                                    type="number"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.tax_invoice}
-                                />
-                            </Col>
                         </Row>
                     </AvForm>
                     <Button color="primary" type="submit" onClick={() => submitEdit()}>
@@ -514,4 +527,4 @@ const EditInvoices = (props) => {
     );
 };
 
-export default EditInvoices;
+export default EditArrivalNoticies;

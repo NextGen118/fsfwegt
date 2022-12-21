@@ -7,41 +7,41 @@ import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
 import Badge from '@mui/material/Badge';
 
-const InvoicesTable = (props) => {
+const BookingConfirmationsTable = (props) => {
     const history = useHistory();
 
-    const [invoices, setInvoices] = useState([]);
+    const [bookingConfirmations, setBookingConfirmations] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
 
     useEffect(() => {
-        getInvoices();
+        getBookingConfirmations();
     }, []);
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage;
     const indexOfFirstdata = indexOfLastdata - postPerPage;
-    const currentData = invoices.slice(indexOfFirstdata, indexOfLastdata);
+    const currentData = bookingConfirmations.slice(indexOfFirstdata, indexOfLastdata);
 
     //pagination part onchange
     const handlePaginationChange = (event, value) => {
         setCurrentPage(value);
     };
 
-    const getInvoices = () => {
+    const getBookingConfirmations = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/invoices/show/all`)
+            .get(`http://127.0.0.1:8000/api/bookingconfirmations/show/all`)
             .then((res) => {
-                setInvoices(res.data.data);
+                setBookingConfirmations(res.data.data);
             })
             .catch((error) => {
                 console.log(error);
             });
     };
 
-    const editInvoices = (id) => {
-        history.push(`edit-invoices/${id}`);
+    const editBookingConfirmations = (id) => {
+        history.push(`edit-bookingConfirmations/${id}`);
     };
 
     return (
@@ -52,11 +52,11 @@ const InvoicesTable = (props) => {
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Invoice No</th>
+                                <th>Arrival Notice No</th>
                                 <th>OBL No</th>
-                                <th>Shipment Type</th>
-                                <th>weight</th>
-                                <th>nos_units</th>
+                                <th>Carrier</th>
+                                <th>Client</th>
+                                <th>Shipmint Type</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -66,13 +66,14 @@ const InvoicesTable = (props) => {
                                 return (
                                     <tr key={record.id}>
                                         <td>{record.date}</td>
-                                        <td>{record.invoice_no}</td>
-                                        <td>{record.obl_no}</td>
-                                        <td>{record.shipment_type}</td>
-                                        <td>{record.weight}</td>
-                                        <td>{record.nos_units}</td>
+                                        <td>{record.booking_confirmation_number}</td>
+                                        <td>{record.place_of_delivery}</td>
+                                        <td>{record.place_of_receipt}</td>
+                                        <td>{record.client_name}</td>
+                                        <td>{record.type_of_shipment}</td>
+
                                         <th>
-                                            {record.status == 1 ? (
+                                            {record.status_2 == 1 ? (
                                                 <>
                                                     <Badge
                                                         badgeContent={'Active'}
@@ -84,7 +85,11 @@ const InvoicesTable = (props) => {
                                             )}
                                         </th>
                                         <td>
-                                            <Edit color="blue" size={20} onClick={() => editInvoices(record.id)} />
+                                            <Edit
+                                                color="blue"
+                                                size={20}
+                                                onClick={() => editBookingConfirmations(record.id)}
+                                            />
                                         </td>
                                     </tr>
                                 );
@@ -98,11 +103,11 @@ const InvoicesTable = (props) => {
     );
 };
 
-const InvoicesList = (props) => {
+const BookingConfirmationsList = (props) => {
     const history = useHistory();
 
-    const addInvoicesForm = () => {
-        history.push('/add-invoices');
+    const addBookingConfirmationsForm = () => {
+        history.push('/add-bookingConfirmations');
     };
 
     return (
@@ -110,26 +115,28 @@ const InvoicesList = (props) => {
             <Row className="page-title">
                 <Col>
                     <Row>
-                        <h3 className="mb-1 mt-0">Invoices</h3>
+                        <h3 className="mb-1 mt-0">Booking Confirmations</h3>
                     </Row>
                     <Row>
-                        <PageTitle breadCrumbItems={[{ label: 'Invoices', path: '/invoices' }]} />
+                        <PageTitle
+                            breadCrumbItems={[{ label: 'Booking Confirmations', path: '/bookingConfirmations' }]}
+                        />
                     </Row>
                 </Col>
                 <Col>
-                    <Button color="info" className="float-right" onClick={() => addInvoicesForm()}>
-                        + Create Invoice
+                    <Button color="info" className="float-right" onClick={() => addBookingConfirmationsForm()}>
+                        + Create Booking Confirmations
                     </Button>
                 </Col>
             </Row>
             &nbsp;
             <Row>
                 <Col xl={12}>
-                    <InvoicesTable />
+                    <BookingConfirmationsTable />
                 </Col>
             </Row>
         </React.Fragment>
     );
 };
 
-export default InvoicesList;
+export default BookingConfirmationsList;

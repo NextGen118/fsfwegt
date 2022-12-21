@@ -138,13 +138,17 @@ const EditInvoiceCharges = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Invoice Charges', path: '/receipts' },
-                            { label: 'Edit Invoice Charges', path: '/receipts-add', active: true },
-                        ]}
-                        title={'Edit Invoice Charges'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Edit Invoice Charges</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Invoice Charges', path: '/invoiceCharges' },
+                                { label: 'Edit Invoice Charges', path: '/invoiceCharges-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
             <Card>

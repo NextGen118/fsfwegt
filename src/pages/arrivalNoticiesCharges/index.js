@@ -7,41 +7,41 @@ import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
 import Badge from '@mui/material/Badge';
 
-const InvoiceChargesTable = (props) => {
+const ArrivalNoticeChargesTable = (props) => {
     const history = useHistory();
 
-    const [invoiceCharges, setInvoiceCharges] = useState([]);
+    const [arrivalNoticeCharges, setArrivalNoticeCharges] = useState([]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
 
     useEffect(() => {
-        getInvoiceCharges();
+        getArrivalNoticeCharges();
     }, []);
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage;
     const indexOfFirstdata = indexOfLastdata - postPerPage;
-    const currentData = invoiceCharges.slice(indexOfFirstdata, indexOfLastdata);
+    const currentData = arrivalNoticeCharges.slice(indexOfFirstdata, indexOfLastdata);
 
     //pagination part onchange
     const handlePaginationChange = (event, value) => {
         setCurrentPage(value);
     };
 
-    const getInvoiceCharges = () => {
+    const getArrivalNoticeCharges = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/invoicecharges/show/all`)
+            .get(`http://127.0.0.1:8000/api/arrivalnoticecharges/show/all`)
             .then((res) => {
-                setInvoiceCharges(res.data.data);
+                setArrivalNoticeCharges(res.data.data);
             })
             .catch((error) => {
                 console.log(error);
             });
     };
 
-    const editInvoiceCharges = (id) => {
-        history.push(`edit-invoiceCharges/${id}`);
+    const editArrivalNoticeCharges = (id) => {
+        history.push(`edit-arrivalNoticeCharges/${id}`);
     };
 
     return (
@@ -59,6 +59,7 @@ const InvoiceChargesTable = (props) => {
                                 <th>Tax</th>
                                 <th>Profit In</th>
                                 <th>Action</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -77,7 +78,7 @@ const InvoiceChargesTable = (props) => {
                                             <Edit
                                                 color="blue"
                                                 size={20}
-                                                onClick={() => editInvoiceCharges(record.id)}
+                                                onClick={() => editArrivalNoticeCharges(record.id)}
                                             />
                                         </td>
                                     </tr>
@@ -92,11 +93,11 @@ const InvoiceChargesTable = (props) => {
     );
 };
 
-const InvoiceChargesList = (props) => {
+const ArrivalNoticeChargesList = (props) => {
     const history = useHistory();
 
-    const addInvoiceChargesForm = () => {
-        history.push('/add-invoiceCharges');
+    const addArrivalNoticeChargesForm = () => {
+        history.push('/add-arrivalNoticeCharges');
     };
 
     return (
@@ -104,27 +105,27 @@ const InvoiceChargesList = (props) => {
             <Row className="page-title">
                 <Col>
                     <Row>
-                        <h3 className="mb-1 mt-0">Invoice Charges</h3>
+                        <h3 className="mb-1 mt-0">Arrival Notice Charges</h3>
                     </Row>
                     <Row>
-                        <PageTitle breadCrumbItems={[{ label: 'Invoice Charges', path: '/invoiceCharges' }]} />
+                        <PageTitle breadCrumbItems={[{ label: 'Arrival Notice Charges', path: '/arrivalNoticeCharges' }]} />
                     </Row>
                 </Col>
-
+           
                 <Col>
-                    <Button color="info" className="float-right" onClick={() => addInvoiceChargesForm()}>
-                        + Create Invoice Charges
+                    <Button color="info" className="float-right" onClick={() => addArrivalNoticeChargesForm()}>
+                        + Create Arrival Notice Charges
                     </Button>
                 </Col>
             </Row>
             &nbsp;
             <Row>
                 <Col xl={12}>
-                    <InvoiceChargesTable />
+                    <ArrivalNoticeChargesTable />
                 </Col>
             </Row>
         </React.Fragment>
     );
 };
 
-export default InvoiceChargesList;
+export default ArrivalNoticeChargesList;

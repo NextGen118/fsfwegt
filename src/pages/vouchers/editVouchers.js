@@ -35,6 +35,10 @@ const EditVouchers = (props) => {
     const [vendorselect, setVendorselect] = useState('');
     const [currency, setCurrency] = useState([]);
     const [currencyselect, setCurrencyselect] = useState('');
+    const [activeselect, setActiveselect] = useState('');
+    const changeActive = (event) => {
+        setActiveselect(event.target.value);
+    };
 
     const getBilloflanding = () => {
         axios
@@ -105,6 +109,7 @@ const EditVouchers = (props) => {
                 setBookingconfirmationselect(data[0].booking_confirmation_id);
                 setVendorselect(data[0].vendor_id);
                 setCurrencyselect(data[0].currency_id);
+                setActiveselect(data[0].status);
             })
             .catch((error) => {
                 console.log(error);
@@ -122,7 +127,7 @@ const EditVouchers = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/vouchers/store?date=${values.date}&voucher_no=${values.voucher_no}&description=${values.description}&booking_confirmation_id=${bookingconfirmationselect}&bill_of_landing_id=${values.billoflandingselect}&vendor_id=${values.vendorselect}&currency_id=${values.currencyselect}&status=${values.status}&id=${id}`
+                `http://127.0.0.1:8000/api/vouchers/store?date=${values.date}&voucher_no=${values.voucher_no}&description=${values.description}&booking_confirmation_id=${bookingconfirmationselect}&bill_of_landing_id=${billoflandingselect}&vendor_id=${vendorselect}&currency_id=${currencyselect}&status=${activeselect}&id=${id}`
             )
             .then((res) => {
                 history.push('/vouchers');
@@ -141,13 +146,17 @@ const EditVouchers = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Vouchers', path: '/receipts' },
-                            { label: 'Edit Vouchers', path: '/receipts-add', active: true },
-                        ]}
-                        title={'Edit Vouchers'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Add Vouchers</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Vouchers', path: '/vouchers' },
+                                { label: 'Add Vouchers', path: '/vouchers-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
             <Card>
@@ -246,14 +255,16 @@ const EditVouchers = (props) => {
                             </Col>
 
                             <Col lg={4}>
-                                <AvField
-                                    name="status"
-                                    label="Status"
-                                    type="text"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.status}
-                                />
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={activeselect}
+                                    onChange={changeActive}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    <MenuItem value={1}>Active</MenuItem>
+                                    <MenuItem value={0}>Inactive</MenuItem>
+                                </Select>
                             </Col>
                         </Row>
                     </AvForm>

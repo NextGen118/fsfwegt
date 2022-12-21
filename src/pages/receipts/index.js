@@ -5,6 +5,7 @@ import { Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
+import Badge from '@mui/material/Badge';
 
 const ReceiptsTable = (props) => {
     const history = useHistory();
@@ -47,13 +48,16 @@ const ReceiptsTable = (props) => {
         <>
             <Card>
                 <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
-                    <Table>
+                    <Table striped>
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Date</th>
                                 <th>Receipt No</th>
-                                <th>description</th>
+                                <th>Description</th>
+                                <th>Client</th>
+                                <th>Invoice</th>
+                                <th>Currency</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -61,10 +65,25 @@ const ReceiptsTable = (props) => {
                             {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
-                                        <th scope="row">{record.id}</th>
                                         <td>{record.date}</td>
                                         <td>{record.receipt_no}</td>
                                         <td>{record.description}</td>
+                                        <td>{record.client_name}</td>
+                                        <td>{record.invoice_no}</td>
+                                        <td>{record.currency_name}</td>
+
+                                        <th>
+                                            {record.status == 1 ? (
+                                                <>
+                                                    <Badge
+                                                        badgeContent={'Active'}
+                                                        color="success"
+                                                        sx={{ ml: 5 }}></Badge>
+                                                </>
+                                            ) : (
+                                                <Badge color="error" badgeContent={'Inactive'} sx={{ ml: 5 }}></Badge>
+                                            )}
+                                        </th>
                                         <td>
                                             <Edit color="blue" size={20} onClick={() => editReceipts(record.id)} />
                                         </td>
@@ -91,10 +110,13 @@ const ReceiptsList = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col>
-                    <PageTitle breadCrumbItems={[{ label: 'Receipts', path: '/receipts' }]} title={'Receipts'} />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Receipts</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'Receipts', path: '/receipts' }]} />
+                    </Row>
                 </Col>
-            </Row>
-            <Row>
                 <Col>
                     <Button color="info" className="float-right" onClick={() => addReceiptsForm()}>
                         + Add Receipts

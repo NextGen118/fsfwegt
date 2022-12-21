@@ -36,7 +36,10 @@ const AddReceiptPayments = forwardRef((props, ref) => {
 
     const [receipts, setReceipts] = useState([]);
     const [receiptsselect, setReceiptsselect] = useState('');
-
+    const [activeselect, setActiveselect] = useState('');
+    const changeActive = (event) => {
+        setActiveselect(event.target.value);
+    };
     const getReceipts = () => {
         axios
             .get(`http://127.0.0.1:8000/api/receipts/show/all`)
@@ -56,7 +59,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${values.status}`
+                `http://127.0.0.1:8000/api/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${activeselect}`
             )
 
             .then((res) => {
@@ -77,13 +80,17 @@ const AddReceiptPayments = forwardRef((props, ref) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Receipt Payments', path: '/receiptPayments' },
-                            { label: 'Add Receipt Payments', path: '/receiptPayments-add', active: true },
-                        ]}
-                        title={'Add Receipt Payments'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Add Receipts Payments</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Receipts Payments', path: '/receiptPayments' },
+                                { label: 'Add Receipts Payments', path: '/receiptPayments-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
 
@@ -161,7 +168,16 @@ const AddReceiptPayments = forwardRef((props, ref) => {
                                 />
                             </Col>
                             <Col lg={4}>
-                                <AvField name="status" label="Status" type="text" required onChange={handleChange} />
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={activeselect}
+                                    onChange={changeActive}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    <MenuItem value={1}>Active</MenuItem>
+                                    <MenuItem value={0}>Inactive</MenuItem>
+                                </Select>
                             </Col>
                         </Row>
                     </AvForm>

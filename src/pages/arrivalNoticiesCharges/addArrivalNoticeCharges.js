@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
-const AddInvoiceCharges = forwardRef((props, ref) => {
+const AddArrivalNoticeCharges = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
         handleOpen() {
             setOpen(true);
@@ -32,21 +32,21 @@ const AddInvoiceCharges = forwardRef((props, ref) => {
 
     useEffect(() => {
         getCurrency();
-        getInvoice();
+        getArrivalNotice();
     }, []);
 
-    const [invoice, setInvoice] = useState([]);
-    const [invoiceselect, setInvoiceselect] = useState('');
+    const [arrivalNotice, setArrivalNotice] = useState([]);
+    const [arrivalNoticeselect, setArrivalNoticeselect] = useState('');
     const [currency, setCurrency] = useState([]);
     const [currencyselect, setCurrencyselect] = useState('');
     const [myCurrency, setMyCurrency] = useState([]);
     const [myCurrencyselect, setMyCurrencyselect] = useState('');
 
-    const getInvoice = () => {
+    const getArrivalNotice = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/invoices/show/all`)
+            .get(`http://127.0.0.1:8000/api/arivalnotices/show/all`)
             .then((res) => {
-                setInvoice(res.data.data);
+                setArrivalNotice(res.data.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -65,8 +65,8 @@ const AddInvoiceCharges = forwardRef((props, ref) => {
             });
     };
 
-    const changeInvoice = (event) => {
-        setInvoiceselect(event.target.value);
+    const changeArrivalNotice = (event) => {
+        setArrivalNoticeselect(event.target.value);
     };
     const changeCurrency = (event) => {
         setCurrencyselect(event.target.value);
@@ -78,11 +78,11 @@ const AddInvoiceCharges = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/invoicecharges/store?invoice_id=${invoiceselect}&description=${values.description}&unit=${values.unit}&unit_cost=${values.unit_cost}&unit_charge=${values.unit_charge}&amount=${values.amount}&currency_id=${currencyselect}&currency_id_mycurrency=${myCurrencyselect}&exchange_rate=${values.exchange_rate}&amount_in=${values.amount_in}&tax_description=${values.tax_description}&tax=${values.tax}&tax_amount=${values.tax_amount}&amount_final=${values.amount_final}&total_cost=${values.total_cost}&total_cost_in=${values.total_cost_in}&profit=${values.profit}&profit_in=${values.profit_in}`
+                `http://127.0.0.1:8000/api/arrivalnoticecharges/store?arrival_notice_id=${arrivalNoticeselect}&description=${values.description}&unit=${values.unit}&unit_cost=${values.unit_cost}&unit_charge=${values.unit_charge}&amount=${values.amount}&currency_id=${currencyselect}&currency_id_mycurrency=${myCurrencyselect}&exchange_rate=${values.exchange_rate}&amount_in=${values.amount_in}&tax_description=${values.tax_description}&tax=${values.tax}&tax_amount=${values.tax_amount}&payed=${values.payed}&amount_final=${values.amount_final}&total_cost=${values.total_cost}&total_cost_in=${values.total_cost_in}&profit=${values.profit}&profit_in=${values.profit_in}`
             )
 
             .then((res) => {
-                history.push('/invoiceCharges');
+                history.push('/arrivalNoticeCharges');
                 console.log('successfully1');
             })
             .catch((error) => {
@@ -92,7 +92,7 @@ const AddInvoiceCharges = forwardRef((props, ref) => {
     };
 
     const onBack = () => {
-        history.push('/invoiceCharges');
+        history.push('/arrivalNoticeCharges');
     };
 
     return (
@@ -100,13 +100,17 @@ const AddInvoiceCharges = forwardRef((props, ref) => {
             <Row className="page-title">
                 <Col md={12}>
                     <Row>
-                        <h3 className="mb-1 mt-0">Add Invoice Charges</h3>
+                        <h3 className="mb-1 mt-0">Add Arrival Noticie Charges</h3>
                     </Row>
                     <Row>
                         <PageTitle
                             breadCrumbItems={[
-                                { label: 'Invoice Charges', path: '/invoiceCharges' },
-                                { label: 'Add Invoice Charges', path: '/invoiceCharges-add', active: true },
+                                { label: 'Arrival Noticie Charges', path: '/arrivalNoticieCharges' },
+                                {
+                                    label: 'Add Arrival Noticie Charges',
+                                    path: '/arrivalNoticieCharges-add',
+                                    active: true,
+                                },
                             ]}
                         />
                     </Row>
@@ -118,16 +122,16 @@ const AddInvoiceCharges = forwardRef((props, ref) => {
                     <AvForm>
                         <Row>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Invoice No</InputLabel>
+                                <InputLabel id="demo-simple-select-label">Arrival Notice</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={invoiceselect}
-                                    onChange={changeInvoice}
+                                    value={arrivalNoticeselect}
+                                    onChange={changeArrivalNotice}
                                     sx={{ width: 360, height: 36, mb: 2 }}>
-                                    {invoice.map((rec) => (
+                                    {arrivalNotice.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.invoice_no}
+                                            {rec.arrival_notice_no}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -244,6 +248,9 @@ const AddInvoiceCharges = forwardRef((props, ref) => {
                                 />
                             </Col>
                             <Col lg={4}>
+                                <AvField name="payed" label="Payed" type="number" required onChange={handleChange} />
+                            </Col>
+                            <Col lg={4}>
                                 <AvField
                                     name="total_cost"
                                     label="Total Cost"
@@ -287,4 +294,4 @@ const AddInvoiceCharges = forwardRef((props, ref) => {
     );
 });
 
-export default AddInvoiceCharges;
+export default AddArrivalNoticeCharges;

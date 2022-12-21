@@ -1,86 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import PageTitle from '../../components/PageTitle';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
+import PageTitle from '../../components/PageTitle';
 import axios from 'axios';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
-const EditInvoices = (props) => {
-    const { id } = useParams();
-    const [values, setValues] = useState({
-        date: '',
-        invoice_no: '',
-        etd_pol: '',
-        eta_pod: '',
-        st_expire: '',
-        ata_fpd: '',
-        obl_no: '',
-        shipment_type: '',
-        hbl_no: '',
-        carrier: '',
-        nos_units: '',
-        weight: '',
-        cbm: '',
-        remarks: '',
-        usd_rate: '',
-        usd_tot: '',
-        status: '',
-        tax_invoice: '',
-    });
+const AddBookingConfirmations = forwardRef((props, ref) => {
+    useImperativeHandle(ref, () => ({
+        handleOpen() {
+            setOpen(true);
+        },
+    }));
 
-    const history = useHistory();
+    const [values, setValues] = useState({});
+    let history = useHistory();
+
+    const handleChange = (evt) => {
+        const value = evt.target.value;
+        setValues({
+            ...values,
+            [evt.target.name]: value,
+        });
+    };
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     useEffect(() => {
-        getBilloflanding();
-        getIgm();
-        getClient();
+        getTypeofunit();
         getPort();
-        getInvoicesByid();
-    }, [props.id]);
+        getClient();
+        getIgm();
+        getVendor();
+    }, []);
 
-    const [billoflanding, setBilloflanding] = useState([]);
-    const [billoflandingselect, setBilloflandingselect] = useState('');
-    const [clientshipper, setClientshipper] = useState([]);
-    const [clientshipperselect, setClientshipperselect] = useState('');
-    const [client, setClient] = useState([]);
-    const [clientselect, setClientselect] = useState('');
-    const [clientconsignee, setClientconsignee] = useState([]);
-    const [clientconsigneeselect, setClientconsigneeselect] = useState('');
     const [port_loading, setPort_loading] = useState([]);
     const [port_loadingselect, setPort_loadingselect] = useState('');
     const [port_discharge, setPort_discharge] = useState([]);
     const [port_dischargeselect, setPort_dischargeselect] = useState('');
+
+    const [clientshipper, setClientshipper] = useState([]);
+    const [clientshipperselect, setClientshipperselect] = useState('');
+    const [client, setClient] = useState([]);
+    const [clientselect, setClientselect] = useState('');
+
+    const [vendor, setVendor] = useState([]);
+    const [vendorselect, setVendorselect] = useState('');
+    const [vendoryard, setVendoryard] = useState([]);
+    const [vendoryardselect, setVendoryardselect] = useState('');
+
+    const [typeofunit, setTypeofunit] = useState([]);
+    const [typeofselect, setTypeofselect] = useState('');
+
     const [igm, setIgm] = useState([]);
     const [igmselect, setIgmselect] = useState('');
+
     const [activeselect, setActiveselect] = useState('');
     const changeActive = (event) => {
         setActiveselect(event.target.value);
     };
-    const getBilloflanding = () => {
-        axios
-            .get(`http://127.0.0.1:8000/api/billoflandings/show/all`)
-            .then((res) => {
-                setBilloflanding(res.data.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
-    const getClient = () => {
-        axios
-            .get(`http://127.0.0.1:8000/api/clients/show/all`)
-            .then((res) => {
-                setClientshipper(res.data.data);
-                setClientconsignee(res.data.data);
-                setClient(res.data.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+
     const getPort = () => {
         axios
             .get(`http://127.0.0.1:8000/api/ports/show/all`)
@@ -92,6 +75,31 @@ const EditInvoices = (props) => {
                 console.log(error);
             });
     };
+
+    const getClient = () => {
+        axios
+            .get(`http://127.0.0.1:8000/api/clients/show/all`)
+            .then((res) => {
+                setClientshipper(res.data.data);
+                setClient(res.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    const getVendor = () => {
+        axios
+            .get(`http://127.0.0.1:8000/api/vendors/show/all`)
+            .then((res) => {
+                setVendor(res.data.data);
+                setVendoryard(res.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     const getIgm = () => {
         axios
             .get(`http://127.0.0.1:8000/api/igmindiavoyages/show/all`)
@@ -103,91 +111,63 @@ const EditInvoices = (props) => {
             });
     };
 
-    const changeBilloflanding = (event) => {
-        setBilloflandingselect(event.target.value);
+    const getTypeofunit = () => {
+        axios
+            .get(`http://127.0.0.1:8000/api/typeofunits/show/all`)
+            .then((res) => {
+                setTypeofunit(res.data.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     };
-    const changeClientshipper = (event) => {
-        setClientshipperselect(event.target.value);
+
+    const changeVendor = (event) => {
+        setVendorselect(event.target.value);
     };
-    const changeClient = (event) => {
-        setClientselect(event.target.value);
+    const changeVendoryard = (event) => {
+        setVendoryardselect(event.target.value);
     };
-    const changeClientconsignee = (event) => {
-        setClientconsigneeselect(event.target.value);
-    };
+
     const changePort_loading = (event) => {
         setPort_loadingselect(event.target.value);
     };
     const changePort_discharge = (event) => {
         setPort_dischargeselect(event.target.value);
     };
+
+    const changeClientshipper = (event) => {
+        setClientshipperselect(event.target.value);
+    };
+    const changeClient = (event) => {
+        setClientselect(event.target.value);
+    };
     const changeIgm = (event) => {
         setIgmselect(event.target.value);
     };
-
-    const getInvoicesByid = () => {
-        axios
-            .get(`http://127.0.0.1:8000/api/invoices/show/all`)
-            .then((res) => {
-                const data = res.data.data.filter((ress) => ress.id === parseInt(id));
-                setValues({
-                    date: data[0].date,
-                    invoice_no: data[0].invoice_no,
-                    etd_pol: data[0].etd_pol,
-                    eta_pod: data[0].eta_pod,
-                    st_expire: data[0].st_expire,
-                    ata_fpd: data[0].ata_fpd,
-                    obl_no: data[0].obl_no,
-                    shipment_type: data[0].shipment_type,
-                    hbl_no: data[0].hbl_no,
-                    carrier: data[0].carrier,
-                    nos_units: data[0].nos_units,
-                    weight: data[0].weight,
-                    cbm: data[0].cbm,
-                    remarks: data[0].remarks,
-                    usd_rate: data[0].usd_rate,
-                    usd_tot: data[0].usd_tot,
-                    status: data[0].status,
-                    tax_invoice: data[0].tax_invoice,
-                });
-                setBilloflandingselect(data[0].bill_of_landing_id);
-                setClientshipperselect(data[0].client_id_shipper);
-                setClientconsigneeselect(data[0].client_id_consignee);
-                setClientselect(data[0].client_id);
-                setPort_loadingselect(data[0].port_id_loading);
-                setPort_dischargeselect(data[0].port_id_discharge);
-                setIgmselect(data[0].igm_india_voyage_id);
-                setActiveselect(data[0].status);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+    const changeType = (event) => {
+        setTypeofselect(event.target.value);
+        console.log(event.target.value, ' select');
     };
 
-    const handleChange = (evt) => {
-        const value = evt.target.value;
-        setValues({
-            ...values,
-            [evt.target.name]: value,
-        });
-    };
-
-    const submitEdit = () => {
+    const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/invoices/store?date=${values.date}&invoice_no=${values.invoice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&cbm=${values.cbm}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}&tax_invoice=${values.tax_invoice}&id=${id}`
+                `http://127.0.0.1:8000/api/bookingconfirmations/store?date=${values.date}&booking_confirmation_number=${values.booking_confirmation_number}&client_id_shipper=${clientshipperselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&type_of_unit_id=${typeofselect}&vendor_id_yard=${vendoryardselect}&vendor_id=${vendorselect}&port_net_ref=${values.port_net_ref}&place_of_delivery=${values.place_of_delivery}&place_of_receipt=${values.place_of_receipt}&description=${values.description}&eta=${values.eta}&closing_date=${values.closing_date}&etd=${values.etd}&eta_pod=${values.eta_pod}&voyage_number=${values.voyage_number}&measurement=${values.measurement}&type_of_shipment=${values.type_of_shipment}&release_reference=${values.release_reference}&gross_weight=${values.gross_weight}&quantity_of_unit=${values.quantity_of_unit}&release_expire=${values.release_expire}&remarks=${values.remarks}&status_1=${values.status_1}&status_2=${activeselect}`
             )
+
             .then((res) => {
-                history.push('/invoices');
+                history.push('/bookingConfirmations');
                 console.log('successfully1');
             })
             .catch((error) => {
                 console.log(error);
+                console.log('error');
             });
     };
 
     const onBack = () => {
-        history.push('/invoices');
+        history.push('/bookingConfirmations');
     };
 
     return (
@@ -195,57 +175,36 @@ const EditInvoices = (props) => {
             <Row className="page-title">
                 <Col md={12}>
                     <Row>
-                        <h3 className="mb-1 mt-0">Edit Invoices</h3>
+                        <h3 className="mb-1 mt-0">Add Booking Confirmations</h3>
                     </Row>
                     <Row>
                         <PageTitle
                             breadCrumbItems={[
-                                { label: 'Invoices', path: '/invoices' },
-                                { label: 'Edit Invoices', path: '/invoices-add', active: true },
+                                { label: 'Booking Confirmations', path: '/bookingConfirmations' },
+                                { label: 'Add Booking Confirmations', path: '/bookingConfirmations-add', active: true },
                             ]}
                         />
                     </Row>
                 </Col>
             </Row>
+
             <Card>
                 <CardBody>
                     <AvForm>
                         <Row>
                             <Col lg={4}>
-                                <AvField
-                                    name="date"
-                                    label="Date"
-                                    type="date"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.date}
-                                />
+                                <AvField name="date" label="Date" type="date" required onChange={handleChange} />
                             </Col>
                             <Col lg={4}>
                                 <AvField
-                                    name="invoice_no"
-                                    label="Invoice No"
+                                    name="booking_confirmation_number"
+                                    label="Booking Confirmation No"
                                     type="text"
                                     required
                                     onChange={handleChange}
-                                    value={values.invoice_no}
                                 />
                             </Col>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Bill of Landing</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={billoflandingselect}
-                                    onChange={changeBilloflanding}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
-                                    {billoflanding.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.bill_of_landing_number}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </Col>
+
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Shipper Client</InputLabel>
                                 <Select
@@ -277,16 +236,16 @@ const EditInvoices = (props) => {
                                 </Select>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Consignee Client</InputLabel>
+                                <InputLabel id="demo-simple-select-label">Vendor</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={clientconsigneeselect}
-                                    onChange={changeClientconsignee}
+                                    value={vendorselect}
+                                    onChange={changeVendor}
                                     sx={{ width: 360, height: 36, mb: 2 }}>
-                                    {clientconsignee.map((rec) => (
+                                    {vendor.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.client_name}
+                                            {rec.vendor_name}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -338,14 +297,86 @@ const EditInvoices = (props) => {
                             </Col>
 
                             <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Vendor Yard</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={vendorselect}
+                                    onChange={changeVendor}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    {vendor.map((rec) => (
+                                        <MenuItem value={rec.id} key={rec.id}>
+                                            {rec.vendor_name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Type Of Unit</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={typeofselect}
+                                    onChange={changeType}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    {typeofunit.map((rec) => (
+                                        <MenuItem value={rec.id} key={rec.id}>
+                                            {rec.type_of_unit}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
+
+                            <Col lg={4}>
                                 <AvField
-                                    name="etd_pol"
-                                    label="ETD (POL)"
+                                    name="port_net_ref"
+                                    label="Port Net Ref"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="place_of_delivery"
+                                    label="place_of_delivery"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="place_of_receipt"
+                                    label="place_of_receipt"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="description"
+                                    label="description"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField name="eta" label="ETA" type="date" required onChange={handleChange} />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="closing_date"
+                                    label="closing_date"
                                     type="date"
                                     required
                                     onChange={handleChange}
-                                    value={values.etd_pol}
                                 />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField name="etd" label="ETD" type="date" required onChange={handleChange} />
                             </Col>
                             <Col lg={4}>
                                 <AvField
@@ -354,131 +385,88 @@ const EditInvoices = (props) => {
                                     type="date"
                                     required
                                     onChange={handleChange}
-                                    value={values.eta_pod}
                                 />
                             </Col>
                             <Col lg={4}>
                                 <AvField
-                                    name="st_expire"
-                                    label="ST Expire"
-                                    type="date"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.st_expire}
-                                />
-                            </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="ata_fpd"
-                                    label="ATA (FPD)"
-                                    type="date"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.ata_fpd}
-                                />
-                            </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="obl_no"
-                                    label="OBL No"
+                                    name="voyage_number"
+                                    label="voyage_number"
                                     type="text"
                                     required
                                     onChange={handleChange}
-                                    value={values.obl_no}
                                 />
                             </Col>
                             <Col lg={4}>
                                 <AvField
-                                    name="shipment_type"
+                                    name="measurement"
+                                    label="measurement"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                />
+                            </Col>
+
+                            <Col lg={4}>
+                                <AvField
+                                    name="type_of_shipment"
                                     label="Shipment Type"
                                     type="text"
                                     required
                                     onChange={handleChange}
-                                    value={values.shipment_type}
                                 />
                             </Col>
+
                             <Col lg={4}>
                                 <AvField
-                                    name="hbl_no"
-                                    label="HBL No"
-                                    type="number"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.hbl_no}
-                                />
-                            </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="carrier"
-                                    label="Carrier"
+                                    name="release_reference"
+                                    label="release_reference"
                                     type="text"
                                     required
                                     onChange={handleChange}
-                                    value={values.carrier}
                                 />
                             </Col>
+
                             <Col lg={4}>
                                 <AvField
-                                    name="nos_units"
-                                    label="No Units"
-                                    type="number"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.nos_units}
-                                />
-                            </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="weight"
-                                    label="Weight"
-                                    type="number"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.weight}
-                                />
-                            </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="cbm"
-                                    label="CBM"
+                                    name="gross_weight"
+                                    label="gross_weight"
                                     type="text"
                                     required
                                     onChange={handleChange}
-                                    value={values.cbm}
                                 />
                             </Col>
                             <Col lg={4}>
                                 <AvField
-                                    name="remarks"
-                                    label="Remarks"
+                                    name="quantity_of_unit"
+                                    label="quantity_of_unit"
+                                    type="number"
+                                    required
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="release_expire"
+                                    label="release_expire"
+                                    type="date"
+                                    required
+                                    onChange={handleChange}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField name="remarks" label="remarks" type="text" required onChange={handleChange} />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="status_1"
+                                    label="status_1"
                                     type="text"
                                     required
                                     onChange={handleChange}
-                                    value={values.remarks}
                                 />
                             </Col>
                             <Col lg={4}>
-                                <AvField
-                                    name="usd_rate"
-                                    label="USD Rate"
-                                    type="number"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.usd_rate}
-                                />
-                            </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="usd_tot"
-                                    label="Total USD"
-                                    type="number"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.usd_tot}
-                                />
-                            </Col>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <InputLabel id="demo-simple-select-label">Status 2</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
@@ -489,29 +477,18 @@ const EditInvoices = (props) => {
                                     <MenuItem value={0}>Inactive</MenuItem>
                                 </Select>
                             </Col>
-                            <Col lg={4}>
-                                <AvField
-                                    name="tax_invoice"
-                                    label="Tax Invoice"
-                                    type="number"
-                                    required
-                                    onChange={handleChange}
-                                    value={values.tax_invoice}
-                                />
-                            </Col>
                         </Row>
                     </AvForm>
-                    <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                        Edit
+                    <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
+                        Submit
                     </Button>
-                    &nbsp;
-                    <Button color="danger" type="submit" onClick={onBack}>
+                    <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                         Back
                     </Button>
                 </CardBody>
             </Card>
         </React.Fragment>
     );
-};
+});
 
-export default EditInvoices;
+export default AddBookingConfirmations;

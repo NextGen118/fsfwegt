@@ -25,7 +25,7 @@ const EditReceipts = (props) => {
         getArrivalNotice();
         getCurrency();
         getDetentionInvoice();
-        getReceiptsByid()
+        getReceiptsByid();
     }, [props.id]);
 
     const [client, setClient] = useState([]);
@@ -42,7 +42,10 @@ const EditReceipts = (props) => {
 
     const [currency, setCurrency] = useState([]);
     const [currencyselect, setCurrencyselect] = useState('');
-
+    const [activeselect, setActiveselect] = useState('');
+    const changeActive = (event) => {
+        setActiveselect(event.target.value);
+    };
     const getClient = () => {
         axios
             .get(`http://127.0.0.1:8000/api/clients/show/all`)
@@ -135,6 +138,7 @@ const EditReceipts = (props) => {
                 setArrivalNoticeselect(data[0].arrival_notice_id);
                 setDetentionInvoiceselect(data[0].detention_invoice_id);
                 setCurrencyselect(data[0].currency_id);
+                setActiveselect(data[0].status);
             })
             .catch((error) => {
                 console.log(error);
@@ -152,7 +156,7 @@ const EditReceipts = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/receipts/store?date=${values.date}&receipt_no=${values.receipt_no}&description=${values.description}&client_id=${clientselect}&arrival_notice_id=${arrivalNoticeselect}&invoice_id=${invoicesselect}&detention_invoice_id=${detentionInvoiceselect}&currency_id=${currencyselect}&status=${values.status}&id=${id}`
+                `http://127.0.0.1:8000/api/receipts/store?date=${values.date}&receipt_no=${values.receipt_no}&description=${values.description}&client_id=${clientselect}&arrival_notice_id=${arrivalNoticeselect}&invoice_id=${invoicesselect}&detention_invoice_id=${detentionInvoiceselect}&currency_id=${currencyselect}&status=${activeselect}&id=${id}`
             )
             .then((res) => {
                 history.push('/receipts');
@@ -170,124 +174,144 @@ const EditReceipts = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Receipts', path: '/receipts' },
-                            { label: 'Edit Receipts', path: '/receipts-add', active: true },
-                        ]}
-                        title={'Edit Receipts'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Edit Receipts</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Receipts', path: '/receipts' },
+                                { label: 'Edit Receipts', path: '/receipts-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
             <Card>
-            <CardBody>
-                <AvForm>
-                    <Row>
-                        <Col lg={4}>
-                            <AvField name="date" label="Date" type="date" required onChange={handleChange} value={values.date} />
-                        </Col>
-                        <Col lg={4}>
-                            <AvField
-                                name="receipt_no"
-                                label="Receipt No"
-                                type="text"
-                                required
-                                onChange={handleChange}
-                                value={values.receipt_no}
-                            />
-                        </Col>
-                        <Col lg={4}>
-                            <AvField
-                                name="description"
-                                label="Description"
-                                type="text"
-                                required
-                                onChange={handleChange}
-                                value={values.description}
-                            />
-                        </Col>
-                        <Col lg={4}>
-                            <InputLabel id="demo-simple-select-label">Arrival Notice</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={arrivalNoticeselect}
-                                onChange={changeArrivalNotice}
-                                sx={{ width: 360, height: 36, mb: 2 }}>
-                                {arrivalNotice.map((arr) => (
-                                    <MenuItem value={arr.id} key={arr.id}>
-                                        {arr.arrival_notice_no}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </Col>
-                        <Col lg={4}>
-                            <InputLabel id="demo-simple-select-label">Invoice</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={invoicesselect}
-                                onChange={changeInvoices}
-                                sx={{ width: 360, height: 36, mb: 2 }}>
-                                {invoices.map((invo) => (
-                                    <MenuItem value={invo.id} key={invo.id}>
-                                        {invo.invoice_no}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </Col>
-                        <Col lg={4}>
-                            <InputLabel id="demo-simple-select-label">Detention Invoice</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={detentionInvoiceselect}
-                                onChange={changeDetentionInvoice}
-                                sx={{ width: 360, height: 36, mb: 2 }}>
-                                {detentionInvoice.map((dete) => (
-                                    <MenuItem value={dete.id} key={dete.id}>
-                                        {dete.detention_no}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </Col>
-                        <Col lg={4}>
-                            <InputLabel id="demo-simple-select-label">Client</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={clientselect}
-                                onChange={changeClient}
-                                sx={{ width: 360, mb: 2, height: 36 }}>
-                                {client.map((con) => (
-                                    <MenuItem value={con.id} key={con.id}>
-                                        {con.client_name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </Col>
-                        <Col lg={4}>
-                            <InputLabel id="demo-simple-select-label">Currency</InputLabel>
-                            <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={currencyselect}
-                                onChange={changeCurrency}
-                                sx={{ width: 360, height: 36, mb: 2 }}>
-                                {currency.map((cur) => (
-                                    <MenuItem value={cur.id} key={cur.id}>
-                                        {cur.currency_name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </Col>
-                        <Col lg={4}>
-                            <AvField name="status" label="Status" type="text" required onChange={handleChange} value={values.status}/>
-                        </Col>
-                    </Row>
-                </AvForm>
-            </CardBody>
-        </Card>
+                <CardBody>
+                    <AvForm>
+                        <Row>
+                            <Col lg={4}>
+                                <AvField
+                                    name="date"
+                                    label="Date"
+                                    type="date"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.date}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="receipt_no"
+                                    label="Receipt No"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.receipt_no}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <AvField
+                                    name="description"
+                                    label="Description"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.description}
+                                />
+                            </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Arrival Notice</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={arrivalNoticeselect}
+                                    onChange={changeArrivalNotice}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    {arrivalNotice.map((arr) => (
+                                        <MenuItem value={arr.id} key={arr.id}>
+                                            {arr.arrival_notice_no}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Invoice</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={invoicesselect}
+                                    onChange={changeInvoices}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    {invoices.map((invo) => (
+                                        <MenuItem value={invo.id} key={invo.id}>
+                                            {invo.invoice_no}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Detention Invoice</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={detentionInvoiceselect}
+                                    onChange={changeDetentionInvoice}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    {detentionInvoice.map((dete) => (
+                                        <MenuItem value={dete.id} key={dete.id}>
+                                            {dete.detention_no}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Client</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={clientselect}
+                                    onChange={changeClient}
+                                    sx={{ width: 360, mb: 2, height: 36 }}>
+                                    {client.map((con) => (
+                                        <MenuItem value={con.id} key={con.id}>
+                                            {con.client_name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Currency</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={currencyselect}
+                                    onChange={changeCurrency}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    {currency.map((cur) => (
+                                        <MenuItem value={cur.id} key={cur.id}>
+                                            {cur.currency_name}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Col>
+                            <Col lg={4}>
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={activeselect}
+                                    onChange={changeActive}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    <MenuItem value={1}>Active</MenuItem>
+                                    <MenuItem value={0}>Inactive</MenuItem>
+                                </Select>
+                            </Col>
+                        </Row>
+                    </AvForm>
+                </CardBody>
+            </Card>
             <Button color="primary" type="submit" onClick={() => submitEdit()}>
                 Edit
             </Button>

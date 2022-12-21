@@ -45,7 +45,10 @@ const AddVouchers = forwardRef((props, ref) => {
     const [vendorselect, setVendorselect] = useState('');
     const [currency, setCurrency] = useState([]);
     const [currencyselect, setCurrencyselect] = useState('');
-
+    const [activeselect, setActiveselect] = useState('');
+    const changeActive = (event) => {
+        setActiveselect(event.target.value);
+    };
     const getBilloflanding = () => {
         axios
             .get(`http://127.0.0.1:8000/api/billoflandings/show/all`)
@@ -103,7 +106,7 @@ const AddVouchers = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/vouchers/store?date=${values.date}&voucher_no=${values.voucher_no}&description=${values.description}&booking_confirmation_id=${bookingconfirmationselect}&bill_of_landing_id=${billoflandingselect}&vendor_id=${vendorselect}&currency_id=${currencyselect}&status=${values.status}`
+                `http://127.0.0.1:8000/api/vouchers/store?date=${values.date}&voucher_no=${values.voucher_no}&description=${values.description}&booking_confirmation_id=${bookingconfirmationselect}&bill_of_landing_id=${billoflandingselect}&vendor_id=${vendorselect}&currency_id=${currencyselect}&status=${activeselect}`
             )
 
             .then((res) => {
@@ -124,13 +127,17 @@ const AddVouchers = forwardRef((props, ref) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[
-                            { label: 'Vouchers', path: '/vouchers' },
-                            { label: 'Add Vouchers', path: '/vouchers-add', active: true },
-                        ]}
-                        title={'Add Vouchers'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Add Vouchers</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle
+                            breadCrumbItems={[
+                                { label: 'Vouchers', path: '/vouchers' },
+                                { label: 'Add Vouchers', path: '/vouchers-add', active: true },
+                            ]}
+                        />
+                    </Row>
                 </Col>
             </Row>
 
@@ -221,7 +228,16 @@ const AddVouchers = forwardRef((props, ref) => {
                             </Col>
 
                             <Col lg={4}>
-                                <AvField name="status" label="Status" type="text" required onChange={handleChange} />
+                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={activeselect}
+                                    onChange={changeActive}
+                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    <MenuItem value={1}>Active</MenuItem>
+                                    <MenuItem value={0}>Inactive</MenuItem>
+                                </Select>
                             </Col>
                         </Row>
                     </AvForm>
