@@ -1,25 +1,26 @@
-import React,{useEffect,useState,useRef} from "react";
-import { Row,Col,Card,CardBody,Table,Button } from "reactstrap";
+import React, { useEffect, useState, useRef } from "react";
+import { Row, Col, Card, CardBody, Table, Button } from "reactstrap";
 import axios from "axios";
-import {Edit} from "react-feather";
+import { Edit } from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
 import AddEquipmentSaleDetails from "./addEquipmentSaleDetails";
 import EditEquipmentSaleDetails from "./editEquipmentSaleDetails";
 
-const EquipmentSaleDetailsTable = (props)=>{
+const EquipmentSaleDetailsTable = (props) => {
 
     const history = useHistory()
 
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(10)
+    const [postCount, setPostCount] = useState(1)
 
     const [equipmentSaleDetails, setEquipmentSaleDetails] = useState([])
 
-    useEffect(()=>{
+    useEffect(() => {
         getEquipmentSaleDetails()
-    },[])
+    }, [])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -36,17 +37,24 @@ const EquipmentSaleDetailsTable = (props)=>{
 
     const getEquipmentSaleDetails = () => {
         axios.get(`http://127.0.0.1:8000/api/equipmentsaledetails/show/all`)
-            .then(res=>{
+            .then(res => {
                 setEquipmentSaleDetails(res.data.data)
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             })
     }
 
     const [id, setId] = useState('');
     const updateRef = useRef();
-    const editEquipmentSaleDetails = (event,id) =>{
+    const editEquipmentSaleDetails = (event, id) => {
         setId(id);
         event.preventDefault();
         if (updateRef.current !== undefined) {
@@ -56,36 +64,36 @@ const EquipmentSaleDetailsTable = (props)=>{
 
     return (
         <>
-        <Card>
-            <CardBody>
-                <Table className="mb-o">
-                    <thead>
-                        <tr>
-                            <th>Equipment Id</th>
-                            <th>Equipment Sale Id</th>
-                            <th>Amount</th>
-                            <th>Destination</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentData.map((record) => {
-                            return(
-                                <tr key={record.id}>
-                                    <td>{record.equipment_id}</td>
-                                    <td>{record.equipment_sale_id}</td>
-                                    <td>{record.amount}</td>
-                                    <td>{record.destination}</td>
-                                    <td><Edit onClick={(e)=>editEquipmentSaleDetails(e,record.id)}/></td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </Table>
-            </CardBody>
-        </Card>
-        <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
-        <EditEquipmentSaleDetails ref={updateRef} id={id} refresh={getEquipmentSaleDetails}/>
+            <Card>
+                <CardBody>
+                    <Table className="mb-o">
+                        <thead>
+                            <tr>
+                                <th>Equipment Id</th>
+                                <th>Equipment Sale Id</th>
+                                <th>Amount</th>
+                                <th>Destination</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentData.map((record) => {
+                                return (
+                                    <tr key={record.id}>
+                                        <td>{record.equipment_id}</td>
+                                        <td>{record.equipment_sale_id}</td>
+                                        <td>{record.amount}</td>
+                                        <td>{record.destination}</td>
+                                        <td><Edit onClick={(e) => editEquipmentSaleDetails(e, record.id)} /></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table>
+                </CardBody>
+            </Card>
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <EditEquipmentSaleDetails ref={updateRef} id={id} refresh={getEquipmentSaleDetails} />
         </>
     );
 }
@@ -100,28 +108,28 @@ const EquipmentSaleDetailsList = (props) => {
         }
     };
 
-    return(
+    return (
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle 
-                        breadCrumbItems = {[{label:'EquipmentSaleDetails', path: '/requipmentsaledetails'}]}
-                        title = {'Equipment Sale Details List'}
+                    <PageTitle
+                        breadCrumbItems={[{ label: 'EquipmentSaleDetails', path: '/requipmentsaledetails' }]}
+                        title={'Equipment Sale Details List'}
                     />
                 </Col>
             </Row>
             <Row>
                 <Col md={12}>
-                    <Button color="info" className="float-right" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>Add</Button>
                 </Col>
             </Row>
             &nbsp;
             <Row>
                 <Col xl={12}>
-                  <EquipmentSaleDetailsTable/>
+                    <EquipmentSaleDetailsTable />
                 </Col>
             </Row>
-            <AddEquipmentSaleDetails ref={childref}/>
+            <AddEquipmentSaleDetails ref={childref} />
         </React.Fragment>
     )
 }

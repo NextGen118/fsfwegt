@@ -14,6 +14,7 @@ const DetentionInvoiceSlabsTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
+    const [postCount, setPostCount] = useState(1)
 
     useEffect(() => {
         getDetentionInvoiceSlabs();
@@ -34,6 +35,13 @@ const DetentionInvoiceSlabsTable = (props) => {
             .get(`http://127.0.0.1:8000/api/detentioninvoiceslabs/show/all`)
             .then((res) => {
                 setDetentionInvoiceSlabs(res.data.data);
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -79,7 +87,7 @@ const DetentionInvoiceSlabsTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
         </>
     );
 };

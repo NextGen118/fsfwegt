@@ -1,7 +1,7 @@
-import React,{useEffect,useState,useRef} from "react";
-import { Row,Col,Card,CardBody,Table ,Button} from "reactstrap";
+import React, { useEffect, useState, useRef } from "react";
+import { Row, Col, Card, CardBody, Table, Button } from "reactstrap";
 import axios from "axios";
-import {Edit} from "react-feather";
+import { Edit } from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
@@ -9,7 +9,7 @@ import EditSwaps from "./editSwap";
 import AddSwaps from "./addSwap";
 
 
-const SwapsTable = (props)=>{
+const SwapsTable = (props) => {
 
     const history = useHistory()
 
@@ -17,10 +17,12 @@ const SwapsTable = (props)=>{
 
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(10)
+    const [postCount, setPostCount] = useState(1)
 
-    useEffect(()=>{
+
+    useEffect(() => {
         getSwaps()
-    },[])
+    }, [])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -37,17 +39,24 @@ const SwapsTable = (props)=>{
 
     const getSwaps = () => {
         axios.get(`http://127.0.0.1:8000/api/swaps/show/all`)
-            .then(res=>{
+            .then(res => {
                 setSwaps(res.data.data)
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             })
     }
 
     const [id, setId] = useState('');
     const updateRef = useRef();
-    const editSwaps = (event,id) =>{
+    const editSwaps = (event, id) => {
         setId(id);
         event.preventDefault();
         if (updateRef.current !== undefined) {
@@ -57,37 +66,37 @@ const SwapsTable = (props)=>{
 
     return (
         <>
-        <Card>
-            <CardBody>
-                <Table className="mb-o">
-                    <thead>
-                        <tr>
-                            <th>Client</th>
-                            <th>Equipment Id</th>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentData.map((record) => {
-                            return(
-                                <tr key={record.id}>
-                                    <td>{record.client_name}</td>
-                                    <td>{record.equipment_number}</td>
-                                    <td>{record.date}</td>
-                                    <td>{record.description}</td>
-                                    <td><Edit onClick={(e)=>editSwaps(e,record.id)}/></td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </Table>
-            </CardBody>
-        </Card>
-        <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
-        <EditSwaps ref={updateRef} id={id} refresh={getSwaps}/>
-        
+            <Card>
+                <CardBody>
+                    <Table className="mb-o">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Equipment Id</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentData.map((record) => {
+                                return (
+                                    <tr key={record.id}>
+                                        <td>{record.client_name}</td>
+                                        <td>{record.equipment_number}</td>
+                                        <td>{record.date}</td>
+                                        <td>{record.description}</td>
+                                        <td><Edit onClick={(e) => editSwaps(e, record.id)} /></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table>
+                </CardBody>
+            </Card>
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <EditSwaps ref={updateRef} id={id} refresh={getSwaps} />
+
         </>
     );
 }
@@ -103,28 +112,28 @@ const SwapsList = (props) => {
         }
     };
 
-    return(
+    return (
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle 
-                        breadCrumbItems = {[{label:'swaps', path: '/swaps'}]}
-                        title = {'Swaps List'}
+                    <PageTitle
+                        breadCrumbItems={[{ label: 'swaps', path: '/swaps' }]}
+                        title={'Swaps List'}
                     />
                 </Col>
             </Row>
             <Row>
                 <Col md={12}>
-                    <Button color="info" className="float-right" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>Add</Button>
                 </Col>
             </Row>
             &nbsp;
             <Row>
                 <Col xl={12}>
-                  <SwapsTable/>
+                    <SwapsTable />
                 </Col>
             </Row>
-            <AddSwaps ref={childref}/>
+            <AddSwaps ref={childref} />
         </React.Fragment>
     )
 }

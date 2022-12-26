@@ -14,6 +14,7 @@ const ReceiptPaymentsTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
+    const [postCount, setPostCount] = useState(1)
 
     useEffect(() => {
         getReceiptPayments();
@@ -34,6 +35,13 @@ const ReceiptPaymentsTable = (props) => {
             .get(`http://127.0.0.1:8000/api/receiptpayments/show/all`)
             .then((res) => {
                 setReceiptPayments(res.data.data);
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);

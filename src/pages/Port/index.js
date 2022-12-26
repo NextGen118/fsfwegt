@@ -16,6 +16,7 @@ const Porttable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(8)
+    const [postCount, setPostCount] = useState(1)
 
 
 
@@ -28,6 +29,13 @@ const Porttable = (props) => {
             .then(res => {
                 console.log(res.data)
                 setPort(res.data.data)
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -107,7 +115,7 @@ const Porttable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
             <EditPort ref={updateRef} id={id} refresh={getProperties} />
         </>
     );

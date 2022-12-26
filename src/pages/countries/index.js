@@ -1,14 +1,14 @@
-import React,{useEffect,useState,useRef} from "react";
-import { Row,Col,Card,CardBody,Table,Button } from "reactstrap";
+import React, { useEffect, useState, useRef } from "react";
+import { Row, Col, Card, CardBody, Table, Button } from "reactstrap";
 import axios from "axios";
-import {Edit} from "react-feather";
+import { Edit } from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
 import AddCountries from "./addCountries";
 import EditCountries from "./editCountries";
 
-const CountriesTable = (props)=>{
+const CountriesTable = (props) => {
 
     const history = useHistory()
 
@@ -16,10 +16,11 @@ const CountriesTable = (props)=>{
 
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(8)
+    const [postCount, setPostCount] = useState(1)
 
-    useEffect(()=>{
+    useEffect(() => {
         getCountries()
-    },[])
+    }, [])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -36,17 +37,24 @@ const CountriesTable = (props)=>{
 
     const getCountries = () => {
         axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
-            .then(res=>{
+            .then(res => {
                 setCountries(res.data.data)
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             })
     }
 
     const [id, setId] = useState('');
     const updateRef = useRef();
-    const editCountries = (event,id) =>{
+    const editCountries = (event, id) => {
         setId(id);
         event.preventDefault();
         if (updateRef.current !== undefined) {
@@ -56,32 +64,32 @@ const CountriesTable = (props)=>{
 
     return (
         <>
-        <Card>
-            <CardBody>
-                <Table className="mb-o">
-                    <thead>
-                        <tr>
-                            <th>Country Name</th>
-                            <th>Capital City Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentData.map((record) => {
-                            return(
-                                <tr key={record.id}>
-                                    <td>{record.country_name}</td>
-                                    <td>{record.capital_city_name}</td>
-                                    <td><Edit onClick={(e)=>editCountries(e,record.id)}/></td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </Table>
-            </CardBody>
-        </Card>
-        <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
-        <EditCountries ref={updateRef} id={id} refresh={getCountries}/>
+            <Card>
+                <CardBody>
+                    <Table className="mb-o">
+                        <thead>
+                            <tr>
+                                <th>Country Name</th>
+                                <th>Capital City Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentData.map((record) => {
+                                return (
+                                    <tr key={record.id}>
+                                        <td>{record.country_name}</td>
+                                        <td>{record.capital_city_name}</td>
+                                        <td><Edit onClick={(e) => editCountries(e, record.id)} /></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table>
+                </CardBody>
+            </Card>
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <EditCountries ref={updateRef} id={id} refresh={getCountries} />
         </>
     );
 }
@@ -97,28 +105,28 @@ const CountriesList = (props) => {
         }
     };
 
-    return(
+    return (
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle 
-                        breadCrumbItems = {[{label:'countries', path: '/countries'}]}
-                        title = {'Countries List'}
+                    <PageTitle
+                        breadCrumbItems={[{ label: 'countries', path: '/countries' }]}
+                        title={'Countries List'}
                     />
                 </Col>
             </Row>
             <Row>
                 <Col>
-                    <Button color="info" className="float-right" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>Add</Button>
                 </Col>
             </Row>
             &nbsp;
             <Row>
                 <Col xl={12}>
-                  <CountriesTable/>
+                    <CountriesTable />
                 </Col>
             </Row>
-            <AddCountries ref={childref}/>
+            <AddCountries ref={childref} />
         </React.Fragment>
     )
 }

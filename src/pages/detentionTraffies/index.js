@@ -14,6 +14,7 @@ const DetentionTraffiesTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
+    const [postCount, setPostCount] = useState(1)
 
     useEffect(() => {
         getDetentionTraffies();
@@ -34,6 +35,13 @@ const DetentionTraffiesTable = (props) => {
             .get(`http://127.0.0.1:8000/api/detentiontraffies/show/all`)
             .then((res) => {
                 setDetentionTraffies(res.data.data);
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -64,7 +72,7 @@ const DetentionTraffiesTable = (props) => {
                                         <td>{record.client_name}</td>
                                         <td>{record.free_days}</td>
                                         <td>{record.comm}</td>
-                                        
+
                                         <td>
                                             <Edit color="blue" size={20} onClick={() => editDetentionTraffies(record.id)} />
                                         </td>
@@ -75,7 +83,7 @@ const DetentionTraffiesTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
         </>
     );
 };

@@ -16,6 +16,7 @@ const Propertiestable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(8)
+    const [postCount, setPostCount] = useState(1)
 
 
 
@@ -28,6 +29,13 @@ const Propertiestable = (props) => {
             .then(res => {
                 console.log(res.data)
                 setProperties(res.data.data)
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -101,7 +109,7 @@ const Propertiestable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
             <EditProperties ref={updateRef} id={id} refresh={getProperties} />
         </>
     );

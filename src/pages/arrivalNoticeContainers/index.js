@@ -13,6 +13,7 @@ const ArrivalNoticeContainersTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
+    const [postCount, setPostCount] = useState(1)
 
     useEffect(() => {
         getArrivalNoticeContainers();
@@ -33,6 +34,13 @@ const ArrivalNoticeContainersTable = (props) => {
             .get(`http://127.0.0.1:8000/api/arrivalnoticecontainers/show/all`)
             .then((res) => {
                 setArrivalNoticeContainers(res.data.data);
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -67,7 +75,7 @@ const ArrivalNoticeContainersTable = (props) => {
                                         <td>{record.arrival_notice_no}</td>
                                         <td>{record.equipment_number}</td>
                                         <td>{record.type_of_unit}</td>
-                                        
+
                                         <td>
                                             <Edit color="blue" size={20} onClick={() => editArrivalNoticeContainers(record.id)} />
                                         </td>
@@ -78,7 +86,7 @@ const ArrivalNoticeContainersTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
         </>
     );
 };
@@ -94,7 +102,7 @@ const ArrivalNoticeContainersList = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col>
-                <Row>
+                    <Row>
                         <h3 className="mb-1 mt-0">Arrival Notice Containers</h3>
                     </Row>
                     <Row>

@@ -1,7 +1,7 @@
-import React,{useEffect,useState,useRef} from "react";
-import { Row,Col,Card,CardBody,Table,Button  } from "reactstrap";
+import React, { useEffect, useState, useRef } from "react";
+import { Row, Col, Card, CardBody, Table, Button } from "reactstrap";
 import axios from "axios";
-import {Edit} from "react-feather";
+import { Edit } from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
 import AddCurrencies from "./addCurrencies";
@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Select from '@mui/material/Select';
 
-const CurrenciesTable = (props)=>{
+const CurrenciesTable = (props) => {
 
     const history = useHistory()
 
@@ -29,16 +29,23 @@ const CurrenciesTable = (props)=>{
         axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
             .then(res => {
                 setCountry(res.data.data)
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
             });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getCurrencies()
         getCountry()
-    },[])
+    }, [])
 
     const filterSelect = (country) => {
         setFilter(currencies.filter((res) => res.country_id === country))
@@ -71,7 +78,7 @@ const CurrenciesTable = (props)=>{
 
     const getCurrencies = () => {
         axios.get(`http://127.0.0.1:8000/api/currencies/show/all`)
-            .then(res=>{
+            .then(res => {
                 setCurrencies(res.data.data)
                 setPostCount(() => {
                     if (res.data.data.length < 10) {
@@ -81,14 +88,14 @@ const CurrenciesTable = (props)=>{
                     return Math.ceil(res.data.data.length / 10)
                 })
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             })
     }
 
     const [id, setId] = useState('');
     const updateRef = useRef();
-    const editCurrencies = (event,id) =>{
+    const editCurrencies = (event, id) => {
         setId(id);
         event.preventDefault();
         if (updateRef.current !== undefined) {
@@ -98,50 +105,50 @@ const CurrenciesTable = (props)=>{
 
     return (
         <>
-        <Grid container mb={3}>
-            <Grid md={2}>Country <br />
-                <Select
-                    labelId="demo-multiple-name-label"
-                    id="demo-multiple-name"
-                    value={countryselect}
-                    onChange={changeCountry}
-                    sx={{ width: 150, height: 45 }}
-                    input={<OutlinedInput label="Country" sx={{ color: 'black' }} />}
-                >
-                    {country.map((con) => (
-                        <MenuItem value={con.id} key={con.id}>{con.country_name}</MenuItem>
-                    ))}
-                </Select>
-            </Grid>       
-        </Grid>
-        <Card>
-            <CardBody>
-                <Table className="mb-o">
-                    <thead>
-                        <tr>
-                            <th>Country Name</th>
-                            <th>Currency Code</th>
-                            <th>Currency Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {currentData.map((record) => {
-                            return(
-                                <tr key={record.id}>
-                                    <th scope="row">{record.country_name}</th>
-                                    <td>{record.currency_code}</td>
-                                    <td>{record.currency_name}</td>
-                                    <td><Edit onClick={(e)=>editCurrencies(e,record.id)}/></td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </Table>
-            </CardBody>
-        </Card>
-        <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
-        <EditCurrencies ref={updateRef} id={id} refresh={getCurrencies}/>
+            <Grid container mb={3}>
+                <Grid md={2}>Country <br />
+                    <Select
+                        labelId="demo-multiple-name-label"
+                        id="demo-multiple-name"
+                        value={countryselect}
+                        onChange={changeCountry}
+                        sx={{ width: 150, height: 45 }}
+                        input={<OutlinedInput label="Country" sx={{ color: 'black' }} />}
+                    >
+                        {country.map((con) => (
+                            <MenuItem value={con.id} key={con.id}>{con.country_name}</MenuItem>
+                        ))}
+                    </Select>
+                </Grid>
+            </Grid>
+            <Card>
+                <CardBody>
+                    <Table className="mb-o">
+                        <thead>
+                            <tr>
+                                <th>Country Name</th>
+                                <th>Currency Code</th>
+                                <th>Currency Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentData.map((record) => {
+                                return (
+                                    <tr key={record.id}>
+                                        <th scope="row">{record.country_name}</th>
+                                        <td>{record.currency_code}</td>
+                                        <td>{record.currency_name}</td>
+                                        <td><Edit onClick={(e) => editCurrencies(e, record.id)} /></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </Table>
+                </CardBody>
+            </Card>
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <EditCurrencies ref={updateRef} id={id} refresh={getCurrencies} />
         </>
     );
 }
@@ -157,28 +164,28 @@ const CurrenciesList = (props) => {
         }
     };
 
-    return(
+    return (
         <React.Fragment>
             <Row className="page-title">
                 <Col md={12}>
-                    <PageTitle 
-                        breadCrumbItems = {[{label:'currencies', path: '/currencies'}]}
-                        title = {'Currencies List'}
+                    <PageTitle
+                        breadCrumbItems={[{ label: 'currencies', path: '/currencies' }]}
+                        title={'Currencies List'}
                     />
                 </Col>
             </Row>
             <Row>
                 <Col md={12}>
-                    <Button color="info" className="float-right" onClick={(e)=>handleAddUserForm(e)}>Add</Button>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>Add</Button>
                 </Col>
             </Row>
             &nbsp;
             <Row>
                 <Col xl={12}>
-                  <CurrenciesTable/>
+                    <CurrenciesTable />
                 </Col>
             </Row>
-            <AddCurrencies ref={childref}/>
+            <AddCurrencies ref={childref} />
         </React.Fragment>
     )
 }

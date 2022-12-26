@@ -14,6 +14,8 @@ const BookingConfirmationsTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
+    const [postCount, setPostCount] = useState(1)
+
 
     useEffect(() => {
         getBookingConfirmations();
@@ -34,6 +36,13 @@ const BookingConfirmationsTable = (props) => {
             .get(`http://127.0.0.1:8000/api/bookingconfirmations/show/all`)
             .then((res) => {
                 setBookingConfirmations(res.data.data);
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
@@ -98,7 +107,7 @@ const BookingConfirmationsTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
         </>
     );
 };
