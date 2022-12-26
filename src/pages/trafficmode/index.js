@@ -45,7 +45,14 @@ const TrafficmodeTable = (props) => {
 
     const indexOfLastdata = currentPage * postPerPage
     const indexOfFirstdata = indexOfLastdata - postPerPage
-    const currentData = swaphistories.slice(indexOfFirstdata, indexOfLastdata)
+    const currentData = trafficmode.slice(indexOfFirstdata, indexOfLastdata)
+
+    const handlePaginationChange = (
+        event,
+        value
+    ) => {
+        setCurrentPage(value);
+    };
 
     return (
         <>
@@ -60,7 +67,7 @@ const TrafficmodeTable = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {trafficmode.map((record) => {
+                            {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
                                         <th scope="row">{record.id}</th>

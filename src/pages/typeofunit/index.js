@@ -44,7 +44,14 @@ const TypeofunitTable = (props) => {
 
     const indexOfLastdata = currentPage * postPerPage
     const indexOfFirstdata = indexOfLastdata - postPerPage
-    const currentData = swaphistories.slice(indexOfFirstdata, indexOfLastdata)
+    const currentData = typeofunit.slice(indexOfFirstdata, indexOfLastdata)
+
+    const handlePaginationChange = (
+        event,
+        value
+    ) => {
+        setCurrentPage(value);
+    };
 
     return (
         <>
@@ -60,7 +67,7 @@ const TypeofunitTable = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {typeofunit.map((record) => {
+                            {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
                                         <th scope="row">{record.id}</th>

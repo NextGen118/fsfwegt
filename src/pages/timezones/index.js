@@ -44,7 +44,14 @@ const TimezoneTable = (props) => {
 
     const indexOfLastdata = currentPage * postPerPage
     const indexOfFirstdata = indexOfLastdata - postPerPage
-    const currentData = swaphistories.slice(indexOfFirstdata, indexOfLastdata)
+    const currentData = timexone.slice(indexOfFirstdata, indexOfLastdata)
+
+    const handlePaginationChange = (
+        event,
+        value
+    ) => {
+        setCurrentPage(value);
+    };
 
     return (
         <>
@@ -60,7 +67,7 @@ const TimezoneTable = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {timexone.map((record) => {
+                            {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
                                         <th scope="row">{record.id}</th>
