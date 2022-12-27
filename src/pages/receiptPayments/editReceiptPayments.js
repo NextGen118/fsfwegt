@@ -11,14 +11,12 @@ import InputLabel from '@mui/material/InputLabel';
 const EditReceiptPayments = (props) => {
     const { id } = useParams();
     const [values, setValues] = useState({
-        receipt_id: '',
         pay_type: '',
         cheque_no: '',
         cheque_date: '',
         current_bal: '',
         paying_amount: '',
         paying_local: '',
-        status: '',
     });
 
     const history = useHistory();
@@ -125,10 +123,10 @@ const EditReceiptPayments = (props) => {
                                     id="demo-simple-select"
                                     value={receiptsselect}
                                     onChange={changeReceipts}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {receipts.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.cheque_no}
+                                            {rec.receipt_no}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -200,7 +198,7 @@ const EditReceiptPayments = (props) => {
                                     id="demo-simple-select"
                                     value={activeselect}
                                     onChange={changeActive}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     <MenuItem value={1}>Active</MenuItem>
                                     <MenuItem value={0}>Inactive</MenuItem>
                                 </Select>

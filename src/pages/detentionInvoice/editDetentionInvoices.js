@@ -295,7 +295,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={billoflandingselect}
                                     onChange={changeBilloflanding}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {billoflanding.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.bill_of_landing_number}
@@ -310,7 +310,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={clientshipperselect}
                                     onChange={changeClientshipper}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {clientshipper.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.client_name}
@@ -325,7 +325,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={clientselect}
                                     onChange={changeClient}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {client.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.client_name}
@@ -340,7 +340,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={clientconsigneeselect}
                                     onChange={changeClientconsignee}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {clientconsignee.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.client_name}
@@ -355,7 +355,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={port_loadingselect}
                                     onChange={changePort_loading}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {port_loading.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.port_name}
@@ -370,7 +370,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={port_dischargeselect}
                                     onChange={changePort_discharge}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {port_discharge.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.port_name}
@@ -385,7 +385,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={igmselect}
                                     onChange={changeIgm}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {igm.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.voyage}
@@ -400,7 +400,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={forignCurrencyselect}
                                     onChange={changeForignCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {forignCurrency.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.currency_name}
@@ -415,7 +415,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={detentionTraffiesselect}
                                     onChange={changeDetentionTraffies}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {detentionTraffies.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.id}
@@ -430,7 +430,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={localCurrencyselect}
                                     onChange={changeLocalCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {localCurrency.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.currency_name}
@@ -657,7 +657,7 @@ const EditDetentionInvoices = (props) => {
                                     id="demo-simple-select"
                                     value={activeselect}
                                     onChange={changeActive}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     <MenuItem value={1}>Active</MenuItem>
                                     <MenuItem value={0}>Inactive</MenuItem>
                                 </Select>

@@ -98,14 +98,14 @@ const AddDetentionInvoiceSlabs = forwardRef((props, ref) => {
                 <CardBody>
                     <AvForm>
                         <Row>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <InputLabel id="demo-simple-select-label">Detention Invoice Slabs</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={detentionInvoiceselect}
                                     onChange={changeDetentionInvoice}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {detentionInvoice.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.detention_no}
@@ -114,10 +114,10 @@ const AddDetentionInvoiceSlabs = forwardRef((props, ref) => {
                                 </Select>
                             </Col>
 
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <AvField name="slab_no" label="Slab No" type="text" required onChange={handleChange} />
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <AvField name="amount" label="Amount" type="number" required onChange={handleChange} />
                             </Col>
                         </Row>

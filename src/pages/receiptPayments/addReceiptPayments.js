@@ -105,7 +105,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={receiptsselect}
                                     onChange={changeReceipts}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {receipts.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.receipt_no}
@@ -174,7 +174,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={activeselect}
                                     onChange={changeActive}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     <MenuItem value={1}>Active</MenuItem>
                                     <MenuItem value={0}>Inactive</MenuItem>
                                 </Select>

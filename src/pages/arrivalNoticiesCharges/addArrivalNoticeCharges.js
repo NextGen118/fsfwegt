@@ -128,7 +128,7 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={arrivalNoticeselect}
                                     onChange={changeArrivalNotice}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {arrivalNotice.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.arrival_notice_no}
@@ -143,7 +143,7 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={currencyselect}
                                     onChange={changeCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {currency.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.currency_name}
@@ -158,7 +158,7 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={myCurrencyselect}
                                     onChange={changeMyCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {myCurrency.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.currency_name}

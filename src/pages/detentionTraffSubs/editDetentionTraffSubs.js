@@ -105,7 +105,7 @@ const EditDetentionTraffSubs = (props) => {
                 <CardBody>
                     <AvForm>
                         <Row>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <AvField
                                     name="tariff_name"
                                     label="Tariff Name"
@@ -115,7 +115,7 @@ const EditDetentionTraffSubs = (props) => {
                                     value={values.tariff_name}
                                 />
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <AvField
                                     name="slab_days"
                                     label="Slab Days"
@@ -125,7 +125,7 @@ const EditDetentionTraffSubs = (props) => {
                                     value={values.slab_days}
                                 />
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <AvField
                                     name="slab_rate"
                                     label="Slab Rate"
@@ -136,14 +136,14 @@ const EditDetentionTraffSubs = (props) => {
                                 />
                             </Col>
 
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <InputLabel id="demo-simple-select-label">Detention Traff</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={detentiontraffiesselect}
                                     onChange={changeDetentiontraffies}
-                                    sx={{ width: 360, mb: 2, height: 36 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {detentiontraffies.map((con) => (
                                         <MenuItem value={con.id} key={con.id}>
                                             {con.id}
@@ -153,15 +153,15 @@ const EditDetentionTraffSubs = (props) => {
                             </Col>
                         </Row>
                     </AvForm>
+                    <Button color="primary" type="submit" onClick={() => submitEdit()}>
+                        Edit
+                    </Button>
+                    &nbsp;
+                    <Button color="danger" type="submit" onClick={onBack}>
+                        Back
+                    </Button>
                 </CardBody>
             </Card>
-            <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                Edit
-            </Button>
-            &nbsp;
-            <Button color="danger" type="submit" onClick={onBack}>
-                Back
-            </Button>
         </React.Fragment>
     );
 };

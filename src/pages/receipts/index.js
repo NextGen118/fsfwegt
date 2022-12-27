@@ -62,7 +62,6 @@ const ReceiptsTable = (props) => {
                                 <th>Date</th>
                                 <th>Receipt No</th>
                                 <th>Description</th>
-                                <th>Client</th>
                                 <th>Invoice</th>
                                 <th>Currency</th>
                                 <th>Status</th>
@@ -76,7 +75,6 @@ const ReceiptsTable = (props) => {
                                         <td>{record.date}</td>
                                         <td>{record.receipt_no}</td>
                                         <td>{record.description}</td>
-                                        <td>{record.client_name}</td>
                                         <td>{record.invoice_no}</td>
                                         <td>{record.currency_name}</td>
 

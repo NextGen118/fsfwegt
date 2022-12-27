@@ -152,7 +152,7 @@ const EditArrivalNoticeContainers = (props) => {
                                     id="demo-simple-select"
                                     value={arrivalNoticeselect}
                                     onChange={changeArrivalNotice}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {arrivalNotice.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.arrival_notice_no}
@@ -167,7 +167,7 @@ const EditArrivalNoticeContainers = (props) => {
                                     id="demo-simple-select"
                                     value={equipmentselect}
                                     onChange={changeEquipment}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {equipment.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.equipment_number}
@@ -182,7 +182,7 @@ const EditArrivalNoticeContainers = (props) => {
                                     id="demo-simple-select"
                                     value={typeofselect}
                                     onChange={changeType}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {typeofunit.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.type_of_unit}

@@ -162,7 +162,7 @@ const EditInvoiceCharges = (props) => {
                                     id="demo-simple-select"
                                     value={invoiceselect}
                                     onChange={changeInvoice}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {invoice.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.invoice_no}
@@ -177,7 +177,7 @@ const EditInvoiceCharges = (props) => {
                                     id="demo-simple-select"
                                     value={currencyselect}
                                     onChange={changeCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {currency.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.currency_name}
@@ -192,7 +192,7 @@ const EditInvoiceCharges = (props) => {
                                     id="demo-simple-select"
                                     value={myCurrencyselect}
                                     onChange={changeMyCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {myCurrency.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.currency_name}

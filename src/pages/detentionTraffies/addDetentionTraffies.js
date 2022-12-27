@@ -103,7 +103,7 @@ const AddDetentionTraffies = (props) => {
                 <CardBody>
                     <AvForm>
                         <Row>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <AvField
                                     name="free_days"
                                     label="Free Days"
@@ -112,18 +112,18 @@ const AddDetentionTraffies = (props) => {
                                     onChange={handleChange}
                                 />
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <AvField name="comm" label="COMM" type="number" required onChange={handleChange} />
                             </Col>
 
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <InputLabel id="demo-simple-select-label">Client Agent</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={clientAgentselect}
                                     onChange={changeClientAgent}
-                                    sx={{ width: 360, mb: 2, height: 36 }}>
+                                    sx={{ width: '100%', mb: 2, height: 40 }}>
                                     {clientAgent.map((con) => (
                                         <MenuItem value={con.id} key={con.id}>
                                             {con.client_name}
@@ -131,14 +131,14 @@ const AddDetentionTraffies = (props) => {
                                     ))}
                                 </Select>
                             </Col>
-                            <Col lg={4}>
+                            <Col lg={6}>
                                 <InputLabel id="demo-simple-select-label">Currency</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={currencyselect}
                                     onChange={changeCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {currency.map((cur) => (
                                         <MenuItem value={cur.id} key={cur.id}>
                                             {cur.currency_name}
@@ -148,15 +148,14 @@ const AddDetentionTraffies = (props) => {
                             </Col>
                         </Row>
                     </AvForm>
+                    <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
+                        Submit
+                    </Button>
+                    <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                        Back
+                    </Button>
                 </CardBody>
             </Card>
-
-            <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                Submit
-            </Button>
-            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                Back
-            </Button>
         </React.Fragment>
     );
 };

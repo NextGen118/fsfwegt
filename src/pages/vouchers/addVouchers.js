@@ -173,7 +173,7 @@ const AddVouchers = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={currencyselect}
                                     onChange={changeCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {currency.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.currency_name}
@@ -188,7 +188,7 @@ const AddVouchers = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={billoflandingselect}
                                     onChange={changeBilloflanding}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {billoflanding.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.bill_of_landing_number}
@@ -203,7 +203,7 @@ const AddVouchers = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={vendorselect}
                                     onChange={changeVendor}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {vendor.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.vendor_name}
@@ -218,7 +218,7 @@ const AddVouchers = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={bookingconfirmationselect}
                                     onChange={changeBookingconfirmation}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {bookingconfirmation.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.booking_confirmation_number}
@@ -234,7 +234,7 @@ const AddVouchers = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={activeselect}
                                     onChange={changeActive}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     <MenuItem value={1}>Active</MenuItem>
                                     <MenuItem value={0}>Inactive</MenuItem>
                                 </Select>

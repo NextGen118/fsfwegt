@@ -101,7 +101,7 @@ const AddVoucherPayments = forwardRef((props, ref) => {
                                     id="demo-simple-select"
                                     value={vouchersselect}
                                     onChange={changeVouchers}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 40, mb: 2 }}>
                                     {vouchers.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.voucher_no}

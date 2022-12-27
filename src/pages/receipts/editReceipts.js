@@ -228,7 +228,7 @@ const EditReceipts = (props) => {
                                     id="demo-simple-select"
                                     value={arrivalNoticeselect}
                                     onChange={changeArrivalNotice}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 36, mb: 2 }}>
                                     {arrivalNotice.map((arr) => (
                                         <MenuItem value={arr.id} key={arr.id}>
                                             {arr.arrival_notice_no}
@@ -243,7 +243,7 @@ const EditReceipts = (props) => {
                                     id="demo-simple-select"
                                     value={invoicesselect}
                                     onChange={changeInvoices}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 36, mb: 2 }}>
                                     {invoices.map((invo) => (
                                         <MenuItem value={invo.id} key={invo.id}>
                                             {invo.invoice_no}
@@ -258,7 +258,7 @@ const EditReceipts = (props) => {
                                     id="demo-simple-select"
                                     value={detentionInvoiceselect}
                                     onChange={changeDetentionInvoice}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 36, mb: 2 }}>
                                     {detentionInvoice.map((dete) => (
                                         <MenuItem value={dete.id} key={dete.id}>
                                             {dete.detention_no}
@@ -273,7 +273,7 @@ const EditReceipts = (props) => {
                                     id="demo-simple-select"
                                     value={clientselect}
                                     onChange={changeClient}
-                                    sx={{ width: 360, mb: 2, height: 36 }}>
+                                    sx={{ width: '100%', mb: 2, height: 36 }}>
                                     {client.map((con) => (
                                         <MenuItem value={con.id} key={con.id}>
                                             {con.client_name}
@@ -288,7 +288,7 @@ const EditReceipts = (props) => {
                                     id="demo-simple-select"
                                     value={currencyselect}
                                     onChange={changeCurrency}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 36, mb: 2 }}>
                                     {currency.map((cur) => (
                                         <MenuItem value={cur.id} key={cur.id}>
                                             {cur.currency_name}
@@ -303,22 +303,22 @@ const EditReceipts = (props) => {
                                     id="demo-simple-select"
                                     value={activeselect}
                                     onChange={changeActive}
-                                    sx={{ width: 360, height: 36, mb: 2 }}>
+                                    sx={{ width: '100%', height: 36, mb: 2 }}>
                                     <MenuItem value={1}>Active</MenuItem>
                                     <MenuItem value={0}>Inactive</MenuItem>
                                 </Select>
                             </Col>
                         </Row>
                     </AvForm>
+                    <Button color="primary" type="submit" onClick={() => submitEdit()}>
+                        Edit
+                    </Button>
+                    &nbsp;
+                    <Button color="danger" type="submit" onClick={onBack}>
+                        Back
+                    </Button>
                 </CardBody>
             </Card>
-            <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                Edit
-            </Button>
-            &nbsp;
-            <Button color="danger" type="submit" onClick={onBack}>
-                Back
-            </Button>
         </React.Fragment>
     );
 };
