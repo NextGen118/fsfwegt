@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 import { Row, Col, Card, CardBody, Table, Button } from 'reactstrap';
 
 
@@ -28,6 +29,14 @@ const OwnerListTable = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(8)
     const [postCount, setPostCount] = useState(1)
+
+    const [values, setValues] = React.useState("")
+
+    const handleSearchChange =
+        (event) => {
+            setValues(event.target.value)
+            console.log("search", values)
+        }
 
     const [activate, setActivate] = useState([
 
@@ -57,23 +66,18 @@ const OwnerListTable = () => {
     }
 
 
-    useEffect(() => {
-        getCountry()
-        getPort()
-        getOwner()
-    }, [])
 
     const [countryselect, setCountryselect] = useState('')
     const changeCountry = (event) => {
         setCountryselect(event.target.value);
-        filterSelect(event.target.value, null)
+        //filterSelect(event.target.value, null)
     };
 
     const [portselect, setPortselect] = useState('')
     const changePort = (event) => {
         setPortselect(event.target.value);
         console.log(event.target.value, "country select")
-        filterSelect(null, event.target.value)
+        //filterSelect(null, event.target.value)
     };
 
     //const [activeselect, setActiveselect] = useState('')
@@ -85,38 +89,56 @@ const OwnerListTable = () => {
 
 
 
-    const filterSelect = (country, port) => {
-        setFilter(owner.filter((res) => res.country_id === country || res.port_id === port))
-    }
+    // const filterSelect = (country, port) => {
+    //     setFilter(owner.filter((res) => res.country_id === country || res.port_id === port))
+    // }
 
     const getOwner = () => {
         console.log(filter, "data filter")
-        axios.get(`http://127.0.0.1:8000/api/owners/show/all`)
-            .then(res => {
-                console.log(res.data)
-                setOwner(res.data.data)
-                setPostCount(() => {
-                    if (res.data.data.length < 8) {
-                        return 1
-                    }
+        if (values !== '') {
+            axios.get(`http://127.0.0.1:8000/api/owners/search/query?query=${values}`)
+                .then(res => {
+                    console.log(res.data)
+                    setOwner(res.data)
+                    setPostCount(() => {
+                        if (res.data.length < 8) {
+                            return 1
+                        }
 
-                    return Math.ceil(res.data.data.length / 8)
+                        return Math.ceil(res.data.length / 8)
+                    })
                 })
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            axios.get(`http://127.0.0.1:8000/api/owners/show/all`)
+                .then(res => {
+                    console.log(res.data.data)
+                    setOwner(res.data.data)
+                    setPostCount(() => {
+                        if (res.data.data.length < 8) {
+                            return 1
+                        }
+
+                        return Math.ceil(res.data.data.length / 8)
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
 
-    let currentData = []
     const indexOfLastdata = currentPage * postPerPage
     const indexOfFirstdata = indexOfLastdata - postPerPage
+    const currentData = owner.slice(indexOfFirstdata, indexOfLastdata)
 
-    if (filter.length !== 0) {
-        currentData = filter.slice(indexOfFirstdata, indexOfLastdata)
-    } else {
-        currentData = owner.slice(indexOfFirstdata, indexOfLastdata)
-    }
+    // if (filter.length !== 0) {
+    //     currentData = filter.slice(indexOfFirstdata, indexOfLastdata)
+    // } else {
+    //     currentData = owner.slice(indexOfFirstdata, indexOfLastdata)
+    // }
 
     //pagination part onchange
     const handlePaginationChange = (
@@ -126,10 +148,17 @@ const OwnerListTable = () => {
         setCurrentPage(value);
     };
 
+
+    useEffect(() => {
+        getCountry()
+        getPort()
+        getOwner()
+    }, [values])
+
     return (
         <>
-            <Grid container mb={3}>
-                <Grid md={2}>
+            <Grid container mb={12} sx={{ backgroundColor: 'white', height: '100px', padding: '10px' }}>
+                {/* <Grid md={2}>
                     Country <br />
                     <Select
                         labelId="demo-multiple-name-label"
@@ -167,27 +196,15 @@ const OwnerListTable = () => {
                         ))}
 
                     </Select>
-                </Grid>
-
-                {/* <Grid md={1}>
-                    Active <br />
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={activeselect}
-                        onChange={changeActive}
-                        sx={{ width: 150, height: 45 }}
-
-                    >
-                        {activate.map((con) => (
-                            <MenuItem value={con.Key} key={con.Key}>{con.Value}</MenuItem>
-
-                        ))}
-
-                    </Select>
                 </Grid> */}
 
+                <Grid md={12} sx={{ textAlign: 'right' }}>
+
+                    <TextField id="standard-basic" label="Search" variant="standard" value={values}
+                        onChange={handleSearchChange} />
+                </Grid>
             </Grid>
+
             <Card>
 
                 <CardBody>
@@ -233,7 +250,7 @@ const OwnerListTable = () => {
                 </CardBody>
 
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" style={{ float: 'right' }} />
         </>
     );
 };
