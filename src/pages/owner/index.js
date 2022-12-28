@@ -95,8 +95,9 @@ const OwnerListTable = () => {
 
     const getOwner = () => {
         console.log(filter, "data filter")
+        console.log(process.env, "env")
         if (values !== '') {
-            axios.get(`http://127.0.0.1:8000/api/owners/search/query?query=${values}`)
+            axios.get(`${process.env.REACT_APP_BASE_URL}/owners/search/query?query=${values}`)
                 .then(res => {
                     console.log(res.data)
                     setOwner(res.data)
@@ -112,7 +113,7 @@ const OwnerListTable = () => {
                     console.log(error);
                 });
         } else {
-            axios.get(`http://127.0.0.1:8000/api/owners/show/all`)
+            axios.get(`${process.env.REACT_APP_BASE_URL}/owners/show/all`)
                 .then(res => {
                     console.log(res.data.data)
                     setOwner(res.data.data)
