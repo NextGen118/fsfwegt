@@ -7,6 +7,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import { Grid } from '@mui/material';
 
 const EditDetentionNoticeContainers = (props) => {
     const { id } = useParams();
@@ -94,13 +95,11 @@ const EditDetentionNoticeContainers = (props) => {
                     payed: data[0].payed,
                     other_recovery: data[0].other_recovery,
                     remarks: data[0].remarks,
-
                 });
                 setArrivalNoticeselect(data[0].arrival_notice_id);
                 setEquipmentselect(data[0].equipment_id);
                 setTypeofselect(data[0].type_of_unit_id);
                 setActiveselect(data[0].status);
-
             })
             .catch((error) => {
                 console.log(error);
@@ -225,13 +224,34 @@ const EditDetentionNoticeContainers = (props) => {
                                 />
                             </Col>
                             <Col lg={4}>
-                                <AvField name="payed" label="Payed" type="number" required onChange={handleChange} value={values.payed}/>
+                                <AvField
+                                    name="payed"
+                                    label="Payed"
+                                    type="number"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.payed}
+                                />
                             </Col>
                             <Col lg={4}>
-                                <AvField name="other_recovery" label="Other Recovery" type="number" required onChange={handleChange} value={values.other_recovery}/>
+                                <AvField
+                                    name="other_recovery"
+                                    label="Other Recovery"
+                                    type="number"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.other_recovery}
+                                />
                             </Col>
                             <Col lg={4}>
-                                <AvField name="remarks" label="Remarks" type="text" required onChange={handleChange} value={values.remarks}/>
+                                <AvField
+                                    name="remarks"
+                                    label="Remarks"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.remarks}
+                                />
                             </Col>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Status</InputLabel>
@@ -247,13 +267,15 @@ const EditDetentionNoticeContainers = (props) => {
                             </Col>
                         </Row>
                     </AvForm>
-                    <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                        Edit
-                    </Button>
-                    &nbsp;
-                    <Button color="danger" type="submit" onClick={onBack}>
-                        Back
-                    </Button>
+                    <Grid md={12} sx={{ textAlign: 'right' }}>
+                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
+                            Edit
+                        </Button>
+                        &nbsp;
+                        <Button color="danger" type="submit" onClick={onBack}>
+                            Back
+                        </Button>
+                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

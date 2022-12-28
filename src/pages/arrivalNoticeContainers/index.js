@@ -5,6 +5,7 @@ import { Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
+import { Grid, TextField } from '@mui/material';
 
 const ArrivalNoticeContainersTable = (props) => {
     const history = useHistory();
@@ -13,11 +14,18 @@ const ArrivalNoticeContainersTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
-    const [postCount, setPostCount] = useState(1)
+    const [postCount, setPostCount] = useState(1);
+
+    const [values, setValues] = React.useState('');
+
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+        console.log('search', values);
+    };
 
     useEffect(() => {
         getArrivalNoticeContainers();
-    }, []);
+    }, [values]);
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage;
@@ -30,21 +38,41 @@ const ArrivalNoticeContainersTable = (props) => {
     };
 
     const getArrivalNoticeContainers = () => {
-        axios
-            .get(`http://127.0.0.1:8000/api/arrivalnoticecontainers/show/all`)
-            .then((res) => {
-                setArrivalNoticeContainers(res.data.data);
-                setPostCount(() => {
-                    if (res.data.data.length < 8) {
-                        return 1
-                    }
+        if (values !== '') {
+            axios
+                .get(`http://127.0.0.1:8000/api/arrivalnoticecontainers/search/query?query=${values}`)
+                .then((res) => {
+                    console.log(res.data);
+                    setArrivalNoticeContainers(res.data);
+                    setPostCount(() => {
+                        if (res.data.length < 8) {
+                            return 1;
+                        }
 
-                    return Math.ceil(res.data.data.length / 8)
+                        return Math.ceil(res.data.length / 8);
+                    });
                 })
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            axios
+                .get(`http://127.0.0.1:8000/api/arrivalnoticecontainers/show/all`)
+                .then((res) => {
+                    console.log(res.data.data);
+                    setArrivalNoticeContainers(res.data.data);
+                    setPostCount(() => {
+                        if (res.data.data.length < 8) {
+                            return 1;
+                        }
+
+                        return Math.ceil(res.data.data.length / 8);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
 
     const editArrivalNoticeContainers = (id) => {
@@ -53,6 +81,20 @@ const ArrivalNoticeContainersTable = (props) => {
 
     return (
         <>
+            <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
+            </Card>
             <Card>
                 <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
                     <Table striped>
@@ -67,9 +109,9 @@ const ArrivalNoticeContainersTable = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentData.map((record) => {
+                            {currentData.map((record, index) => {
                                 return (
-                                    <tr key={record.id}>
+                                    <tr key={index}>
                                         <td>{record.marks}</td>
                                         <td>{record.seal_no}</td>
                                         <td>{record.arrival_notice_no}</td>
@@ -77,7 +119,11 @@ const ArrivalNoticeContainersTable = (props) => {
                                         <td>{record.type_of_unit}</td>
 
                                         <td>
-                                            <Edit color="blue" size={20} onClick={() => editArrivalNoticeContainers(record.id)} />
+                                            <Edit
+                                                color="blue"
+                                                size={20}
+                                                onClick={() => editArrivalNoticeContainers(record.id)}
+                                            />
                                         </td>
                                     </tr>
                                 );
@@ -106,7 +152,9 @@ const ArrivalNoticeContainersList = (props) => {
                         <h3 className="mb-1 mt-0">Arrival Notice Containers</h3>
                     </Row>
                     <Row>
-                        <PageTitle breadCrumbItems={[{ label: 'Arrival Notice Containers', path: '/arrivalNoticeContainers' }]} />
+                        <PageTitle
+                            breadCrumbItems={[{ label: 'Arrival Notice Containers', path: '/arrivalNoticeContainers' }]}
+                        />
                     </Row>
                 </Col>
                 <Col>

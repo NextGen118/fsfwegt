@@ -5,6 +5,7 @@ import { Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
+import { Grid, TextField } from '@mui/material';
 
 const VoucherPaymentsTable = (props) => {
     const history = useHistory();
@@ -13,11 +14,17 @@ const VoucherPaymentsTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [postPerPage, setPostPerPage] = useState(10);
-    const [postCount, setPostCount] = useState(1)
+    const [postCount, setPostCount] = useState(1);
 
+    const [values, setValues] = React.useState('');
+
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+        console.log('search', values);
+    };
     useEffect(() => {
         getVoucherPayments();
-    }, []);
+    }, [values]);
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage;
@@ -30,22 +37,41 @@ const VoucherPaymentsTable = (props) => {
     };
 
     const getVoucherPayments = () => {
-        axios
-            .get(`http://127.0.0.1:8000/api/voucherpayments/show/all`)
-            .then((res) => {
-                setVoucherPayments(res.data.data);
+        if (values !== '') {
+            axios
+                .get(`http://127.0.0.1:8000/api/voucherpayments/search/query?query=${values}`)
+                .then((res) => {
+                    console.log(res.data);
+                    setVoucherPayments(res.data);
+                    setPostCount(() => {
+                        if (res.data.length < 8) {
+                            return 1;
+                        }
 
-                setPostCount(() => {
-                    if (res.data.data.length < 8) {
-                        return 1
-                    }
-
-                    return Math.ceil(res.data.data.length / 8)
+                        return Math.ceil(res.data.length / 8);
+                    });
                 })
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            axios
+                .get(`http://127.0.0.1:8000/api/voucherpayments/show/all`)
+                .then((res) => {
+                    console.log(res.data.data);
+                    setVoucherPayments(res.data.data);
+                    setPostCount(() => {
+                        if (res.data.data.length < 8) {
+                            return 1;
+                        }
+
+                        return Math.ceil(res.data.data.length / 8);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
 
     const editVoucherPayments = (id) => {
@@ -54,6 +80,20 @@ const VoucherPaymentsTable = (props) => {
 
     return (
         <>
+            <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
+            </Card>
             <Card>
                 <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
                     <Table striped>
@@ -68,9 +108,9 @@ const VoucherPaymentsTable = (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentData.map((record) => {
+                            {currentData.map((record, index) => {
                                 return (
-                                    <tr key={record.id}>
+                                    <tr key={index}>
                                         <td>{record.pay_type}</td>
                                         <td>{record.cheque_no}</td>
                                         <td>{record.current_bal}</td>

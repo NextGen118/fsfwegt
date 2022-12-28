@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import { Grid } from '@mui/material';
 
 const AddDetentionInvoiceSlabs = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
@@ -122,12 +123,14 @@ const AddDetentionInvoiceSlabs = forwardRef((props, ref) => {
                             </Col>
                         </Row>
                     </AvForm>
-                    <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                        Submit
-                    </Button>
-                    <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                        Back
-                    </Button>
+                    <Grid md={12} sx={{ textAlign: 'right' }}>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
+                            Submit
+                        </Button>
+                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                            Back
+                        </Button>
+                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

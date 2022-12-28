@@ -7,6 +7,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
+import { Grid } from '@mui/material';
 
 const EditBookingConfirmations = (props) => {
     const { id } = useParams();
@@ -233,7 +234,11 @@ const EditBookingConfirmations = (props) => {
                         <PageTitle
                             breadCrumbItems={[
                                 { label: 'Booking Confirmations', path: '/bookingConfirmations' },
-                                { label: 'Edit Booking Confirmations', path: '/bookingConfirmations-add', active: true },
+                                {
+                                    label: 'Edit Booking Confirmations',
+                                    path: '/bookingConfirmations-add',
+                                    active: true,
+                                },
                             ]}
                         />
                     </Row>
@@ -392,7 +397,8 @@ const EditBookingConfirmations = (props) => {
                                     label="Port Net Ref"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.port_net_ref}
+                                    onChange={handleChange}
+                                    value={values.port_net_ref}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -401,7 +407,8 @@ const EditBookingConfirmations = (props) => {
                                     label="place_of_delivery"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.place_of_delivery}
+                                    onChange={handleChange}
+                                    value={values.place_of_delivery}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -410,7 +417,8 @@ const EditBookingConfirmations = (props) => {
                                     label="place_of_receipt"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.place_of_receipt}
+                                    onChange={handleChange}
+                                    value={values.place_of_receipt}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -419,11 +427,19 @@ const EditBookingConfirmations = (props) => {
                                     label="description"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.description}
+                                    onChange={handleChange}
+                                    value={values.description}
                                 />
                             </Col>
                             <Col lg={4}>
-                                <AvField name="eta" label="ETA" type="date" required onChange={handleChange} value={values.eta}/>
+                                <AvField
+                                    name="eta"
+                                    label="ETA"
+                                    type="date"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.eta}
+                                />
                             </Col>
                             <Col lg={4}>
                                 <AvField
@@ -431,11 +447,19 @@ const EditBookingConfirmations = (props) => {
                                     label="closing_date"
                                     type="date"
                                     required
-                                    onChange={handleChange} value={values.closing_date}
+                                    onChange={handleChange}
+                                    value={values.closing_date}
                                 />
                             </Col>
                             <Col lg={4}>
-                                <AvField name="etd" label="ETD" type="date" required onChange={handleChange} value={values.etd}/>
+                                <AvField
+                                    name="etd"
+                                    label="ETD"
+                                    type="date"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.etd}
+                                />
                             </Col>
                             <Col lg={4}>
                                 <AvField
@@ -443,7 +467,8 @@ const EditBookingConfirmations = (props) => {
                                     label="ETA (POD)"
                                     type="date"
                                     required
-                                    onChange={handleChange} value={values.eta_pod}
+                                    onChange={handleChange}
+                                    value={values.eta_pod}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -452,7 +477,8 @@ const EditBookingConfirmations = (props) => {
                                     label="voyage_number"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.voyage_number}
+                                    onChange={handleChange}
+                                    value={values.voyage_number}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -461,7 +487,8 @@ const EditBookingConfirmations = (props) => {
                                     label="measurement"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.measurement}
+                                    onChange={handleChange}
+                                    value={values.measurement}
                                 />
                             </Col>
 
@@ -471,7 +498,8 @@ const EditBookingConfirmations = (props) => {
                                     label="Shipment Type"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.type_of_shipment}
+                                    onChange={handleChange}
+                                    value={values.type_of_shipment}
                                 />
                             </Col>
 
@@ -481,7 +509,8 @@ const EditBookingConfirmations = (props) => {
                                     label="release_reference"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.release_reference}
+                                    onChange={handleChange}
+                                    value={values.release_reference}
                                 />
                             </Col>
 
@@ -491,7 +520,8 @@ const EditBookingConfirmations = (props) => {
                                     label="gross_weight"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.gross_weight}
+                                    onChange={handleChange}
+                                    value={values.gross_weight}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -500,7 +530,8 @@ const EditBookingConfirmations = (props) => {
                                     label="quantity_of_unit"
                                     type="number"
                                     required
-                                    onChange={handleChange} value={values.quantity_of_unit}
+                                    onChange={handleChange}
+                                    value={values.quantity_of_unit}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -509,11 +540,19 @@ const EditBookingConfirmations = (props) => {
                                     label="release_expire"
                                     type="date"
                                     required
-                                    onChange={handleChange} value={values.release_expire}
+                                    onChange={handleChange}
+                                    value={values.release_expire}
                                 />
                             </Col>
                             <Col lg={4}>
-                                <AvField name="remarks" label="remarks" type="text" required onChange={handleChange} value={values.remarks}/>
+                                <AvField
+                                    name="remarks"
+                                    label="remarks"
+                                    type="text"
+                                    required
+                                    onChange={handleChange}
+                                    value={values.remarks}
+                                />
                             </Col>
                             <Col lg={4}>
                                 <AvField
@@ -521,7 +560,8 @@ const EditBookingConfirmations = (props) => {
                                     label="status_1"
                                     type="text"
                                     required
-                                    onChange={handleChange} value={values.status_1}
+                                    onChange={handleChange}
+                                    value={values.status_1}
                                 />
                             </Col>
                             <Col lg={4}>
@@ -538,13 +578,15 @@ const EditBookingConfirmations = (props) => {
                             </Col>
                         </Row>
                     </AvForm>
-                    <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                        Edit
-                    </Button>
-                    &nbsp;
-                    <Button color="danger" type="submit" onClick={onBack}>
-                        Back
-                    </Button>
+                    <Grid md={12} sx={{ textAlign: 'right' }}>
+                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
+                            Edit
+                        </Button>
+                        &nbsp;
+                        <Button color="danger" type="submit" onClick={onBack}>
+                            Back
+                        </Button>
+                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>
