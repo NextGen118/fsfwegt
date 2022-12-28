@@ -40,7 +40,7 @@ const ArrivalNoticeContainersTable = (props) => {
     const getArrivalNoticeContainers = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/arrivalnoticecontainers/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/arrivalnoticecontainers/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setArrivalNoticeContainers(res.data);
@@ -57,7 +57,7 @@ const ArrivalNoticeContainersTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/arrivalnoticecontainers/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/arrivalnoticecontainers/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setArrivalNoticeContainers(res.data.data);

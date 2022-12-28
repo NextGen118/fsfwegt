@@ -29,7 +29,7 @@ const EditDetentionTraffSubs = (props) => {
 
     const getDetentiontraffies = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/detentiontraffies/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/detentiontraffies/show/all`)
             .then((res) => {
                 setDetentiontraffies(res.data.data);
             })
@@ -45,7 +45,7 @@ const EditDetentionTraffSubs = (props) => {
 
     const getDetentionTraffSubsByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/detentiontraffsubs/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/detentiontraffsubs/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -71,7 +71,7 @@ const EditDetentionTraffSubs = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/detentiontraffsubs/store?tariff_name=${values.tariff_name}&slab_days=${values.slab_days}&slab_rate=${values.slab_rate}&detention_traffic_id=${detentiontraffiesselect}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/detentiontraffsubs/store?tariff_name=${values.tariff_name}&slab_days=${values.slab_days}&slab_rate=${values.slab_rate}&detention_traffic_id=${detentiontraffiesselect}&id=${id}`
             )
             .then((res) => {
                 history.push('/detentionTraffSubs');
@@ -155,12 +155,12 @@ const EditDetentionTraffSubs = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
                         &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

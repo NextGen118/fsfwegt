@@ -78,7 +78,7 @@ const EditDetentionInvoices = (props) => {
 
     const getBilloflanding = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/billoflandings/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/billoflandings/show/all`)
             .then((res) => {
                 setBilloflanding(res.data.data);
             })
@@ -88,7 +88,7 @@ const EditDetentionInvoices = (props) => {
     };
     const getClient = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/clients/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then((res) => {
                 setClientshipper(res.data.data);
                 setClientconsignee(res.data.data);
@@ -100,7 +100,7 @@ const EditDetentionInvoices = (props) => {
     };
     const getPort = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/ports/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then((res) => {
                 setPort_loading(res.data.data);
                 setPort_discharge(res.data.data);
@@ -111,7 +111,7 @@ const EditDetentionInvoices = (props) => {
     };
     const getIgm = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/igmindiavoyages/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/igmindiavoyages/show/all`)
             .then((res) => {
                 setIgm(res.data.data);
             })
@@ -121,7 +121,7 @@ const EditDetentionInvoices = (props) => {
     };
     const getCurrency = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/currencies/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then((res) => {
                 setForignCurrency(res.data.data);
                 setLocalCurrency(res.data.data);
@@ -132,7 +132,7 @@ const EditDetentionInvoices = (props) => {
     };
     const getDetentionTraffies = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/detentiontraffies/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/detentiontraffies/show/all`)
             .then((res) => {
                 setDetentionTraffies(res.data.data);
             })
@@ -175,7 +175,7 @@ const EditDetentionInvoices = (props) => {
 
     const getDetentionInvoicesByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/detentioninvoice/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoice/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -232,7 +232,7 @@ const EditDetentionInvoices = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/detentioninvoice/store?date=${values.date}&detention_no=${values.detention_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&forign_currency_id=${forignCurrencyselect}&tariff_id=${detentionTraffiesselect}&local_currency_id=${localCurrencyselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&remarks=${values.remarks}&total_days_detention=${values.total_days_detention}&discount_type=${values.discount_type}&discount_input=${values.discount_input}&previous_bill=${values.previous_bill}&total_amount=${values.total_amount}&final_amount=${values.final_amount}&nos_units=${values.nos_units}&grand_total=${values.grand_total}&grand_total_this_invoice_unit=${values.grand_total_this_invoice_unit}&payed=${values.payed}&bl_free_days=${values.bl_free_days}&exchange_rate=${values.exchange_rate}&final_amount_tarrif=${values.final_amount_tarrif}&comm=${values.comm}&yard_suppose_date=${values.yard_suppose_date}&status=${activeselect}&status2=${values.status2}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/detentioninvoice/store?date=${values.date}&detention_no=${values.detention_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&forign_currency_id=${forignCurrencyselect}&tariff_id=${detentionTraffiesselect}&local_currency_id=${localCurrencyselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&remarks=${values.remarks}&total_days_detention=${values.total_days_detention}&discount_type=${values.discount_type}&discount_input=${values.discount_input}&previous_bill=${values.previous_bill}&total_amount=${values.total_amount}&final_amount=${values.final_amount}&nos_units=${values.nos_units}&grand_total=${values.grand_total}&grand_total_this_invoice_unit=${values.grand_total_this_invoice_unit}&payed=${values.payed}&bl_free_days=${values.bl_free_days}&exchange_rate=${values.exchange_rate}&final_amount_tarrif=${values.final_amount_tarrif}&comm=${values.comm}&yard_suppose_date=${values.yard_suppose_date}&status=${activeselect}&status2=${values.status2}&id=${id}`
             )
             .then((res) => {
                 history.push('/detentionInvoices');
@@ -676,12 +676,11 @@ const EditDetentionInvoices = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                        &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

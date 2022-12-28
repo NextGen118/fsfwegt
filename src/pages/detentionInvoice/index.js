@@ -40,7 +40,7 @@ const DetentionInvoicesTable = (props) => {
     const getDetentionInvoices = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/detentioninvoice/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoice/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setDetentionInvoices(res.data);
@@ -57,7 +57,7 @@ const DetentionInvoicesTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/detentioninvoice/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoice/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setDetentionInvoices(res.data.data);

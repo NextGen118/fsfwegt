@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import { auto } from '@popperjs/core';
 import { Grid } from '@mui/material';
 
 const AddReceipts = (props) => {
@@ -51,7 +50,7 @@ const AddReceipts = (props) => {
 
     const getClient = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/clients/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then((res) => {
                 setClient(res.data.data);
             })
@@ -62,7 +61,7 @@ const AddReceipts = (props) => {
 
     const getInvoices = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/invoices/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/invoices/show/all`)
             .then((res) => {
                 setInvoices(res.data.data);
             })
@@ -73,7 +72,7 @@ const AddReceipts = (props) => {
 
     const getArrivalNotice = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/arivalnotices/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/arivalnotices/show/all`)
             .then((res) => {
                 setArrivalNotice(res.data.data);
             })
@@ -84,7 +83,7 @@ const AddReceipts = (props) => {
 
     const getDetentionInvoice = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/detentioninvoice/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoice/show/all`)
             .then((res) => {
                 setDetentionInvoice(res.data.data);
             })
@@ -95,7 +94,7 @@ const AddReceipts = (props) => {
 
     const getCurrency = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/currencies/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then((res) => {
                 setCurrency(res.data.data);
             })
@@ -127,7 +126,7 @@ const AddReceipts = (props) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/receipts/store?date=${values.date}&receipt_no=${values.receipt_no}&description=${values.description}&client_id=${clientselect}&arrival_notice_id=${arrivalNoticeselect}&invoice_id=${invoicesselect}&detention_invoice_id=${detentionInvoiceselect}&currency_id=${currencyselect}&status=${activeselect}`
+                `${process.env.REACT_APP_BASE_URL}/receipts/store?date=${values.date}&receipt_no=${values.receipt_no}&description=${values.description}&client_id=${clientselect}&arrival_notice_id=${arrivalNoticeselect}&invoice_id=${invoicesselect}&detention_invoice_id=${detentionInvoiceselect}&currency_id=${currencyselect}&status=${activeselect}`
             )
 
             .then((res) => {
@@ -277,11 +276,11 @@ const AddReceipts = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
                         <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
+                            Submit
                         </Button>
                     </Grid>
                 </CardBody>

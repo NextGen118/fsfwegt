@@ -5,7 +5,6 @@ import { Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
-import Badge from '@mui/material/Badge';
 import { Grid, TextField } from '@mui/material';
 
 const DetentionInvoiceSlabsTable = (props) => {
@@ -40,7 +39,7 @@ const DetentionInvoiceSlabsTable = (props) => {
     const getDetentionInvoiceSlabs = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/detentioninvoiceslabs/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoiceslabs/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setDetentionInvoiceSlabs(res.data);
@@ -57,7 +56,7 @@ const DetentionInvoiceSlabsTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/detentioninvoiceslabs/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoiceslabs/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setDetentionInvoiceSlabs(res.data.data);

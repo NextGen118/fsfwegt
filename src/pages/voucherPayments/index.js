@@ -39,7 +39,7 @@ const VoucherPaymentsTable = (props) => {
     const getVoucherPayments = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/voucherpayments/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/voucherpayments/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setVoucherPayments(res.data);
@@ -56,7 +56,7 @@ const VoucherPaymentsTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/voucherpayments/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/voucherpayments/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setVoucherPayments(res.data.data);

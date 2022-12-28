@@ -28,7 +28,7 @@ const EditDetentionInvoiceSlabs = (props) => {
 
     const getDetentionInvoice = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/detentioninvoice/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoice/show/all`)
             .then((res) => {
                 setDetentionInvoice(res.data.data);
             })
@@ -43,7 +43,7 @@ const EditDetentionInvoiceSlabs = (props) => {
 
     const getDetentionInvoiceSlabsByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/detentioninvoiceslabs/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoiceslabs/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -68,7 +68,7 @@ const EditDetentionInvoiceSlabs = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/detentioninvoiceslabs/store?detention_invoice_id=${detentionInvoiceselect}&slab_no=${values.slab_no}&amount=${values.amount}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/detentioninvoiceslabs/store?detention_invoice_id=${detentionInvoiceselect}&slab_no=${values.slab_no}&amount=${values.amount}&id=${id}`
             )
             .then((res) => {
                 history.push('/detentionInvoiceSlabs');
@@ -147,12 +147,11 @@ const EditDetentionInvoiceSlabs = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                        &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" style={{ marginLeft: 15 }} type="submit" onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

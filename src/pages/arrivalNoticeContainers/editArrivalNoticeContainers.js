@@ -34,7 +34,7 @@ const EditArrivalNoticeContainers = (props) => {
 
     const getArrivalNotice = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/arivalnotices/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/arivalnotices/show/all`)
             .then((res) => {
                 setArrivalNotice(res.data.data);
             })
@@ -45,7 +45,7 @@ const EditArrivalNoticeContainers = (props) => {
 
     const getEquipment = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/equipments/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/equipments/show/all`)
             .then((res) => {
                 setEquipment(res.data.data);
             })
@@ -56,7 +56,7 @@ const EditArrivalNoticeContainers = (props) => {
 
     const getTypeofunit = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/typeofunits/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/typeofunits/show/all`)
             .then((res) => {
                 setTypeofunit(res.data.data);
             })
@@ -79,7 +79,7 @@ const EditArrivalNoticeContainers = (props) => {
 
     const getArrivalNoticeContainersByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/arrivalnoticecontainers/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/arrivalnoticecontainers/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -106,7 +106,7 @@ const EditArrivalNoticeContainers = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/arrivalnoticecontainers/store?arrival_notice_id=${arrivalNoticeselect}&equipment_id=${equipmentselect}&type_of_unit_id=${typeofselect}&seal_no=${values.seal_no}&marks=${values.marks}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/arrivalnoticecontainers/store?arrival_notice_id=${arrivalNoticeselect}&equipment_id=${equipmentselect}&type_of_unit_id=${typeofselect}&seal_no=${values.seal_no}&marks=${values.marks}&id=${id}`
             )
             .then((res) => {
                 history.push('/arrivalNoticeContainers');
@@ -215,12 +215,11 @@ const EditArrivalNoticeContainers = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                        &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" style={{ marginLeft: 15 }} type="submit" onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

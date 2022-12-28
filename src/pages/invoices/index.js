@@ -40,7 +40,7 @@ const InvoicesTable = (props) => {
     const getInvoices = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/invoices/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/invoices/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setInvoices(res.data);
@@ -57,7 +57,7 @@ const InvoicesTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/invoices/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/invoices/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setInvoices(res.data.data);

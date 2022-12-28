@@ -40,7 +40,7 @@ const VouchersTable = (props) => {
     const getVouchers = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/vouchers/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/vouchers/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setVouchers(res.data);
@@ -57,7 +57,7 @@ const VouchersTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/vouchers/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/vouchers/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setVouchers(res.data.data);

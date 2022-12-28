@@ -72,7 +72,7 @@ const EditBookingConfirmations = (props) => {
 
     const getPort = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/ports/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then((res) => {
                 setPort_loading(res.data.data);
                 setPort_discharge(res.data.data);
@@ -84,7 +84,7 @@ const EditBookingConfirmations = (props) => {
 
     const getClient = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/clients/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then((res) => {
                 setClientshipper(res.data.data);
                 setClient(res.data.data);
@@ -96,7 +96,7 @@ const EditBookingConfirmations = (props) => {
 
     const getVendor = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/vendors/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then((res) => {
                 setVendor(res.data.data);
                 setVendoryard(res.data.data);
@@ -108,7 +108,7 @@ const EditBookingConfirmations = (props) => {
 
     const getIgm = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/igmindiavoyages/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/igmindiavoyages/show/all`)
             .then((res) => {
                 setIgm(res.data.data);
             })
@@ -119,7 +119,7 @@ const EditBookingConfirmations = (props) => {
 
     const getTypeofunit = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/typeofunits/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/typeofunits/show/all`)
             .then((res) => {
                 setTypeofunit(res.data.data);
             })
@@ -158,7 +158,7 @@ const EditBookingConfirmations = (props) => {
 
     const getBookingConfirmationsByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/bookingconfirmations/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/bookingconfirmations/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -208,7 +208,7 @@ const EditBookingConfirmations = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/bookingconfirmations/store?date=${values.date}&booking_confirmation_number=${values.booking_confirmation_number}&client_id_shipper=${clientshipperselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&type_of_unit_id=${typeofselect}&vendor_id_yard=${vendoryardselect}&vendor_id=${vendorselect}&port_net_ref=${values.port_net_ref}&place_of_delivery=${values.place_of_delivery}&place_of_receipt=${values.place_of_receipt}&description=${values.description}&eta=${values.eta}&closing_date=${values.closing_date}&etd=${values.etd}&eta_pod=${values.eta_pod}&voyage_number=${values.voyage_number}&measurement=${values.measurement}&type_of_shipment=${values.type_of_shipment}&release_reference=${values.release_reference}&gross_weight=${values.gross_weight}&quantity_of_unit=${values.quantity_of_unit}&release_expire=${values.release_expire}&remarks=${values.remarks}&status_1=${values.status_1}&status_2=${activeselect}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/bookingconfirmations/store?date=${values.date}&booking_confirmation_number=${values.booking_confirmation_number}&client_id_shipper=${clientshipperselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&type_of_unit_id=${typeofselect}&vendor_id_yard=${vendoryardselect}&vendor_id=${vendorselect}&port_net_ref=${values.port_net_ref}&place_of_delivery=${values.place_of_delivery}&place_of_receipt=${values.place_of_receipt}&description=${values.description}&eta=${values.eta}&closing_date=${values.closing_date}&etd=${values.etd}&eta_pod=${values.eta_pod}&voyage_number=${values.voyage_number}&measurement=${values.measurement}&type_of_shipment=${values.type_of_shipment}&release_reference=${values.release_reference}&gross_weight=${values.gross_weight}&quantity_of_unit=${values.quantity_of_unit}&release_expire=${values.release_expire}&remarks=${values.remarks}&status_1=${values.status_1}&status_2=${activeselect}&id=${id}`
             )
             .then((res) => {
                 history.push('/bookingConfirmations');
@@ -365,10 +365,10 @@ const EditBookingConfirmations = (props) => {
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={vendorselect}
-                                    onChange={changeVendor}
+                                    value={vendoryardselect}
+                                    onChange={changeVendoryard}
                                     sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {vendor.map((rec) => (
+                                    {vendoryard.map((rec) => (
                                         <MenuItem value={rec.id} key={rec.id}>
                                             {rec.vendor_name}
                                         </MenuItem>
@@ -579,12 +579,11 @@ const EditBookingConfirmations = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                        &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

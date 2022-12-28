@@ -62,7 +62,7 @@ const EditInvoices = (props) => {
     };
     const getBilloflanding = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/billoflandings/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/billoflandings/show/all`)
             .then((res) => {
                 setBilloflanding(res.data.data);
             })
@@ -72,7 +72,7 @@ const EditInvoices = (props) => {
     };
     const getClient = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/clients/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then((res) => {
                 setClientshipper(res.data.data);
                 setClientconsignee(res.data.data);
@@ -84,7 +84,7 @@ const EditInvoices = (props) => {
     };
     const getPort = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/ports/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then((res) => {
                 setPort_loading(res.data.data);
                 setPort_discharge(res.data.data);
@@ -95,7 +95,7 @@ const EditInvoices = (props) => {
     };
     const getIgm = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/igmindiavoyages/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/igmindiavoyages/show/all`)
             .then((res) => {
                 setIgm(res.data.data);
             })
@@ -128,7 +128,7 @@ const EditInvoices = (props) => {
 
     const getInvoicesByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/invoices/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/invoices/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -176,7 +176,7 @@ const EditInvoices = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/invoices/store?date=${values.date}&invoice_no=${values.invoice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&cbm=${values.cbm}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}&tax_invoice=${values.tax_invoice}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/invoices/store?date=${values.date}&invoice_no=${values.invoice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&cbm=${values.cbm}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}&tax_invoice=${values.tax_invoice}&id=${id}`
             )
             .then((res) => {
                 history.push('/invoices');
@@ -503,12 +503,11 @@ const EditInvoices = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                        &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

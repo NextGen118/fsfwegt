@@ -30,7 +30,7 @@ const AddDetentionTraffSubs = (props) => {
 
     const getDetentiontraffies = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/detentiontraffies/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/detentiontraffies/show/all`)
             .then((res) => {
                 setDetentiontraffies(res.data.data);
             })
@@ -47,7 +47,7 @@ const AddDetentionTraffSubs = (props) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/detentiontraffsubs/store?tariff_name=${values.tariff_name}&slab_days=${values.slab_days}&slab_rate=${values.slab_rate}&detention_traffic_id=${detentiontraffiesselect}`
+                `${process.env.REACT_APP_BASE_URL}/detentiontraffsubs/store?tariff_name=${values.tariff_name}&slab_days=${values.slab_days}&slab_rate=${values.slab_rate}&detention_traffic_id=${detentiontraffiesselect}`
             )
 
             .then((res) => {
@@ -132,11 +132,11 @@ const AddDetentionTraffSubs = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
                         <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
+                            Submit
                         </Button>
                     </Grid>
                 </CardBody>

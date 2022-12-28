@@ -35,7 +35,7 @@ const EditReceiptPayments = (props) => {
     };
     const getReceipts = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/receipts/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/receipts/show/all`)
             .then((res) => {
                 setReceipts(res.data.data);
             })
@@ -51,7 +51,7 @@ const EditReceiptPayments = (props) => {
 
     const getReceiptPaymentsByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/receiptpayments/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/receiptpayments/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -81,7 +81,7 @@ const EditReceiptPayments = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${activeselect}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${activeselect}&id=${id}`
             )
             .then((res) => {
                 history.push('/receiptPayments');
@@ -207,12 +207,11 @@ const EditReceiptPayments = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                        &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" style={{ marginLeft: 15 }} type="submit" onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

@@ -47,7 +47,7 @@ const EditInvoiceCharges = (props) => {
 
     const getInvoice = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/invoices/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/invoices/show/all`)
             .then((res) => {
                 setInvoice(res.data.data);
             })
@@ -58,7 +58,7 @@ const EditInvoiceCharges = (props) => {
 
     const getCurrency = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/currencies/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then((res) => {
                 setCurrency(res.data.data);
                 setMyCurrency(res.data.data);
@@ -80,7 +80,7 @@ const EditInvoiceCharges = (props) => {
 
     const getInvoiceChargesByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/invoicecharges/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/invoicecharges/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -120,7 +120,7 @@ const EditInvoiceCharges = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/invoicecharges/store?invoice_id=${invoiceselect}&description=${values.description}&unit=${values.unit}&unit_cost=${values.unit_cost}&unit_charge=${values.unit_charge}&amount=${values.amount}&currency_id=${currencyselect}&currency_id_mycurrency=${myCurrencyselect}&exchange_rate=${values.exchange_rate}&amount_in=${values.amount_in}&tax_description=${values.tax_description}&tax=${values.tax}&tax_amount=${values.tax_amount}&amount_final=${values.amount_final}&total_cost=${values.total_cost}&total_cost_in=${values.total_cost_in}&profit=${values.profit}&profit_in=${values.profit_in}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/invoicecharges/store?invoice_id=${invoiceselect}&description=${values.description}&unit=${values.unit}&unit_cost=${values.unit_cost}&unit_charge=${values.unit_charge}&amount=${values.amount}&currency_id=${currencyselect}&currency_id_mycurrency=${myCurrencyselect}&exchange_rate=${values.exchange_rate}&amount_in=${values.amount_in}&tax_description=${values.tax_description}&tax=${values.tax}&tax_amount=${values.tax_amount}&amount_final=${values.amount_final}&total_cost=${values.total_cost}&total_cost_in=${values.total_cost_in}&profit=${values.profit}&profit_in=${values.profit_in}&id=${id}`
             )
             .then((res) => {
                 history.push('/invoiceCharges');
@@ -354,12 +354,12 @@ const EditInvoiceCharges = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
                         &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

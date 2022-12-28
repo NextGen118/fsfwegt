@@ -5,7 +5,6 @@ import { Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
-import Badge from '@mui/material/Badge';
 import { Grid, TextField } from '@mui/material';
 
 const DetentionTraffSubsTable = (props) => {
@@ -40,7 +39,7 @@ const DetentionTraffSubsTable = (props) => {
     const getDetentionTraffSubs = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/detentiontraffsubs/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/detentiontraffsubs/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setDetentionTraffSubs(res.data);
@@ -57,7 +56,7 @@ const DetentionTraffSubsTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/detentiontraffsubs/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/detentiontraffsubs/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setDetentionTraffSubs(res.data.data);

@@ -5,9 +5,7 @@ import { Edit } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
-import Badge from '@mui/material/Badge';
 import { Grid, TextField } from '@mui/material';
-
 
 const InvoiceChargesTable = (props) => {
     const history = useHistory();
@@ -41,7 +39,7 @@ const InvoiceChargesTable = (props) => {
     const getInvoiceCharges = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/invoicecharges/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/invoicecharges/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setInvoiceCharges(res.data);
@@ -58,7 +56,7 @@ const InvoiceChargesTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/invoicecharges/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/invoicecharges/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setInvoiceCharges(res.data.data);

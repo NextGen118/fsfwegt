@@ -10,12 +10,6 @@ import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 
 const AddArrivalNoticies = forwardRef((props, ref) => {
-    useImperativeHandle(ref, () => ({
-        handleOpen() {
-            setOpen(true);
-        },
-    }));
-
     const [values, setValues] = useState({});
     let history = useHistory();
 
@@ -25,10 +19,6 @@ const AddArrivalNoticies = forwardRef((props, ref) => {
             ...values,
             [evt.target.name]: value,
         });
-    };
-    const [open, setOpen] = React.useState(false);
-    const handleClose = () => {
-        setOpen(false);
     };
 
     useEffect(() => {
@@ -62,7 +52,7 @@ const AddArrivalNoticies = forwardRef((props, ref) => {
 
     const getBilloflanding = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/billoflandings/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/billoflandings/show/all`)
             .then((res) => {
                 setBilloflanding(res.data.data);
             })
@@ -72,7 +62,7 @@ const AddArrivalNoticies = forwardRef((props, ref) => {
     };
     const getClient = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/clients/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then((res) => {
                 setClientshipper(res.data.data);
                 setClientconsignee(res.data.data);
@@ -84,7 +74,7 @@ const AddArrivalNoticies = forwardRef((props, ref) => {
     };
     const getPort = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/ports/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then((res) => {
                 setPort_loading(res.data.data);
                 setPort_discharge(res.data.data);
@@ -95,7 +85,7 @@ const AddArrivalNoticies = forwardRef((props, ref) => {
     };
     const getIgm = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/igmindiavoyages/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/igmindiavoyages/show/all`)
             .then((res) => {
                 setIgm(res.data.data);
             })
@@ -106,7 +96,7 @@ const AddArrivalNoticies = forwardRef((props, ref) => {
 
     const getVendor = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/vendors/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then((res) => {
                 setVendor(res.data.data);
             })
@@ -143,7 +133,7 @@ const AddArrivalNoticies = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/arivalnotices/store?date=${values.date}&arrival_notice_no=${values.arrival_notice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&vendor_id_yard=${vendorselect}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}`
+                `${process.env.REACT_APP_BASE_URL}/arivalnotices/store?date=${values.date}&arrival_notice_no=${values.arrival_notice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&vendor_id_yard=${vendorselect}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}`
             )
 
             .then((res) => {
@@ -420,11 +410,11 @@ const AddArrivalNoticies = forwardRef((props, ref) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
                         <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
+                            Submit
                         </Button>
                     </Grid>
                 </CardBody>

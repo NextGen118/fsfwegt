@@ -10,12 +10,6 @@ import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 
 const AddReceiptPayments = forwardRef((props, ref) => {
-    useImperativeHandle(ref, () => ({
-        handleOpen() {
-            setOpen(true);
-        },
-    }));
-
     const [values, setValues] = useState({});
     let history = useHistory();
 
@@ -25,10 +19,6 @@ const AddReceiptPayments = forwardRef((props, ref) => {
             ...values,
             [evt.target.name]: value,
         });
-    };
-    const [open, setOpen] = React.useState(false);
-    const handleClose = () => {
-        setOpen(false);
     };
 
     useEffect(() => {
@@ -43,7 +33,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
     };
     const getReceipts = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/receipts/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/receipts/show/all`)
             .then((res) => {
                 setReceipts(res.data.data);
             })
@@ -60,7 +50,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${activeselect}`
+                `${process.env.REACT_APP_BASE_URL}/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${activeselect}`
             )
 
             .then((res) => {
@@ -183,11 +173,11 @@ const AddReceiptPayments = forwardRef((props, ref) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
                         <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
+                            Submit
                         </Button>
                     </Grid>
                 </CardBody>

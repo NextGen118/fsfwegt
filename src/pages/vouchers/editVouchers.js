@@ -43,7 +43,7 @@ const EditVouchers = (props) => {
 
     const getBilloflanding = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/billoflandings/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/billoflandings/show/all`)
             .then((res) => {
                 setBilloflanding(res.data.data);
             })
@@ -53,7 +53,7 @@ const EditVouchers = (props) => {
     };
     const getBookingconfirmation = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/bookingconfirmations/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/bookingconfirmations/show/all`)
             .then((res) => {
                 setBookingconfirmation(res.data.data);
             })
@@ -63,7 +63,7 @@ const EditVouchers = (props) => {
     };
     const getVendor = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/vendors/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then((res) => {
                 setVendor(res.data.data);
             })
@@ -73,7 +73,7 @@ const EditVouchers = (props) => {
     };
     const getCurrency = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/currencies/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then((res) => {
                 setCurrency(res.data.data);
             })
@@ -97,7 +97,7 @@ const EditVouchers = (props) => {
 
     const getVouchersByid = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/vouchers/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/vouchers/show/all`)
             .then((res) => {
                 const data = res.data.data.filter((ress) => ress.id === parseInt(id));
                 setValues({
@@ -128,7 +128,7 @@ const EditVouchers = (props) => {
     const submitEdit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/vouchers/store?date=${values.date}&voucher_no=${values.voucher_no}&description=${values.description}&booking_confirmation_id=${bookingconfirmationselect}&bill_of_landing_id=${billoflandingselect}&vendor_id=${vendorselect}&currency_id=${currencyselect}&status=${activeselect}&id=${id}`
+                `${process.env.REACT_APP_BASE_URL}/vouchers/store?date=${values.date}&voucher_no=${values.voucher_no}&description=${values.description}&booking_confirmation_id=${bookingconfirmationselect}&bill_of_landing_id=${billoflandingselect}&vendor_id=${vendorselect}&currency_id=${currencyselect}&status=${activeselect}&id=${id}`
             )
             .then((res) => {
                 history.push('/vouchers');
@@ -270,12 +270,11 @@ const EditVouchers = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                        &nbsp;
-                        <Button color="danger" type="submit" onClick={onBack}>
+                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
+                            Edit
                         </Button>
                     </Grid>
                 </CardBody>

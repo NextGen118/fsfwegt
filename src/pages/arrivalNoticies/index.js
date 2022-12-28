@@ -42,7 +42,7 @@ const ArrivalNoticiesTable = (props) => {
     const getArrivalNoticies = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/arivalnotices/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/arivalnotices/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setArrivalNoticies(res.data);
@@ -59,7 +59,7 @@ const ArrivalNoticiesTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/arivalnotices/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/arivalnotices/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setArrivalNoticies(res.data.data);

@@ -41,7 +41,7 @@ const ReceiptPaymentsTable = (props) => {
     const getReceiptPayments = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/receiptpayments/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/receiptpayments/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setReceiptPayments(res.data);
@@ -58,7 +58,7 @@ const ReceiptPaymentsTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/receiptpayments/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/receiptpayments/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setReceiptPayments(res.data.data);

@@ -40,7 +40,7 @@ const BookingConfirmationsTable = (props) => {
     const getBookingConfirmations = () => {
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/bookingconfirmations/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/bookingconfirmations/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setBookingConfirmations(res.data);
@@ -57,7 +57,7 @@ const BookingConfirmationsTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/bookingconfirmations/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/bookingconfirmations/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setBookingConfirmations(res.data.data);

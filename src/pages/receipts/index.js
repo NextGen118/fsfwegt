@@ -43,7 +43,7 @@ const ReceiptsTable = (props) => {
         console.log(filter, 'data filter');
         if (values !== '') {
             axios
-                .get(`http://127.0.0.1:8000/api/receipts/search/query?query=${values}`)
+                .get(`${process.env.REACT_APP_BASE_URL}/receipts/search/query?query=${values}`)
                 .then((res) => {
                     console.log(res.data);
                     setReceipt(res.data);
@@ -60,7 +60,7 @@ const ReceiptsTable = (props) => {
                 });
         } else {
             axios
-                .get(`http://127.0.0.1:8000/api/receipts/show/all`)
+                .get(`${process.env.REACT_APP_BASE_URL}/receipts/show/all`)
                 .then((res) => {
                     console.log(res.data.data);
                     setReceipt(res.data.data);

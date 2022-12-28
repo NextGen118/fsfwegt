@@ -34,7 +34,7 @@ const AddDetentionTraffies = (props) => {
 
     const getClientAgent = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/clients/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then((res) => {
                 setClientAgent(res.data.data);
             })
@@ -45,7 +45,7 @@ const AddDetentionTraffies = (props) => {
 
     const getCurrency = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/currencies/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then((res) => {
                 setCurrency(res.data.data);
             })
@@ -65,7 +65,7 @@ const AddDetentionTraffies = (props) => {
     const onSubmit = () => {
         axios
             .post(
-                `http://127.0.0.1:8000/api/detentiontraffies/store?free_days=${values.free_days}&comm=${values.comm}&client_id_agent=${clientAgentselect}&currency_id=${currencyselect}`
+                `${process.env.REACT_APP_BASE_URL}/detentiontraffies/store?free_days=${values.free_days}&comm=${values.comm}&client_id_agent=${clientAgentselect}&currency_id=${currencyselect}`
             )
 
             .then((res) => {
@@ -150,11 +150,11 @@ const AddDetentionTraffies = (props) => {
                         </Row>
                     </AvForm>
                     <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
                         <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
                             Back
+                        </Button>
+                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
+                            Submit
                         </Button>
                     </Grid>
                 </CardBody>
