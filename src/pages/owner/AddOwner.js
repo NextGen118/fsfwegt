@@ -1,11 +1,15 @@
 import React, { useState, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { Row, Col, Card, CardBody, InputGroupAddon, Label, CustomInput, Input, Button } from 'reactstrap';
 import { AvForm, AvField, AvGroup, AvInput, AvFeedback } from 'availity-reactstrap-validation';
-import { FormGroup, Grid, FormControl, TextField, MenuItem, InputLabel, Select } from '@mui/material';
+import { FormGroup, Grid, FormControl, TextField, MenuItem, InputLabel, Select, useStepContext } from '@mui/material';
 import axios from 'axios';
 
 import PageTitle from '../../components/PageTitle';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { createOwnerApiCall, showAllOwnerApi } from '../../axios/owner/owner';
+
+import { SuccessMsg, FailureMsg } from "../../components/AlertMsg"
+import { create } from 'sortablejs';
 
 
 const AddOwner = () => {
@@ -22,6 +26,9 @@ const AddOwner = () => {
     ])
 
 
+    const [alertSuccess, setAlertSucces] = useState(true)
+    const [alertFaild, setAlertFaild] = useState(true)
+    const [errorName, setErrorname] = useState('')
 
     const getPort = () => {
         axios.get(`http://127.0.0.1:8000/api/ports/show/all`)
@@ -85,20 +92,63 @@ const AddOwner = () => {
         });
     }
 
-    const onAdd = (event) => {
-        event.preventDefault();
-        axios.post(`http://127.0.0.1:8000/api/owners/store?owner_code=${values.owner_code}&owner_name=${values.owner_name}&sub_code=${values.sub_code}&country_id=${countryselect}&port_id=${portselect}&email=${values.email}&telephone_number=${values.telephone_number}&fax=${values.fax}&mobile_number=${values.mobile_number}&contact_name=${values.contact_name}&address=${values.address}&remarks=${values.remarks}&is_active=1`)
-            .then(res => {
+    function isFormValidate() {
+        if (
+            !values.remarks ||
+            !values.address ||
+            !values.contact_name ||
+            !values.fax ||
+            !values.owner_code ||
+            !values.sub_code ||
+            !countryselect ||
+            !portselect ||
+            !values.telephone_number ||
+            !values.mobile_number
+        ) {
+            return false;
+        }
 
-                console.log("successfully")
-                history.push('/owner')
-
-            })
-            .catch((error) => {
-                console.log(error, "error");
-            });
-
+        return true;
     }
+
+    const onAdd = (event) => {
+
+        let ownerobj = {
+            owner_code: values.owner_code,
+            sub_code: values.sub_code,
+            countryselect: countryselect,
+            portselect: portselect,
+            email: values.email,
+            telephone_number: values.telephone_number,
+            mobile_number: values.mobile_number,
+            fax: values.fax,
+            owner_name: values.owner_name,
+            address: values.address,
+            remarks: values.remarks,
+            activeselect: 1,
+        };
+        console.log(ownerobj, "owner obj")
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createOwnerApiCall(ownerobj)
+                .then(createRes => {
+                    console.log(createRes)
+                    if (createRes.status === 200) {
+                        showAllOwnerApi()
+                        history.push('/owner');
+                        setAlertSucces(false)
+
+                    } else {
+                        FailureMsg("Owner");
+                        setAlertFaild(false)
+                    }
+                })
+
+
+        }
+    }
+
+
 
     const Back = () => {
         history.push('/owner')
@@ -234,6 +284,15 @@ const AddOwner = () => {
                     </FormGroup>
                 </CardBody>
             </Card>
+            {!alertFaild && <Grid sx={{ position: 'absolute', bottom: 0 }}>
+                {FailureMsg("Owner")}
+            </Grid>}
+
+            {!alertSuccess &&
+                <Grid sx={{ position: 'absolute', bottom: 0 }}>
+                    {SuccessMsg("Owner")}
+                </Grid>}
+
         </React.Fragment >
     );
 };
