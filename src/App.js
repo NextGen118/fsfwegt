@@ -36,7 +36,12 @@ cookies.set('user', JSON.stringify(user), { path: '/' });
  */
 class App extends Component {
     render() {
-        return <Routes></Routes>;
+        return (
+            <>
+            
+                <Routes></Routes>;
+            </>
+        );
     }
 }
 
