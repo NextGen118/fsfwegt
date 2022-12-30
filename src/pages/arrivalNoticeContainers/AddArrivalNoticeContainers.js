@@ -1,13 +1,14 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { Row, Col, Card, CardBody, Button } from 'reactstrap';
-import { AvForm, AvField } from 'availity-reactstrap-validation';
 import PageTitle from '../../components/PageTitle';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import { Grid } from '@mui/material';
+import { FormGroup, Grid, FormControl, TextField, MenuItem, InputLabel, Select } from '@mui/material';
+import {
+    createArrivalNoticeContainersApiCall,
+    showAllArrivalNoticeContainersApi,
+} from '../../axios/arrivalNoticeContainers/ArrivalNoticeContainers';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddArrivalNoticeContainers = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -78,21 +79,46 @@ const AddArrivalNoticeContainers = forwardRef((props, ref) => {
         setTypeofselect(event.target.value);
         console.log(event.target.value, ' select');
     };
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticeContainers', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticeContainers', false, 'error');
+        }, 500);
+    });
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/arrivalnoticecontainers/store?arrival_notice_id=${arrivalNoticeselect}&equipment_id=${equipmentselect}&type_of_unit_id=${typeofselect}&seal_no=${values.seal_no}&marks=${values.marks}`
-            )
+    function isFormValidate() {
+        if (!values.seal_no || !values.marks || !typeofselect || !arrivalNoticeselect || !equipmentselect) {
+            return false;
+        }
 
-            .then((res) => {
-                history.push('/arrivalNoticeContainers');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('error');
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let arrivalNoticeContainersobj = {
+            seal_no: values.seal_no,
+            marks: values.marks,
+            typeofselect: typeofselect,
+            equipmentselect: equipmentselect,
+            arrivalNoticeselect: arrivalNoticeselect,
+        };
+        console.log(arrivalNoticeContainersobj, 'arrivalNoticeContainers obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createArrivalNoticeContainersApiCall(arrivalNoticeContainersobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllArrivalNoticeContainersApi();
+                    history.push('/arrivalNoticeContainers');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -123,70 +149,101 @@ const AddArrivalNoticeContainers = forwardRef((props, ref) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
-                        <Row>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Arrival Notice No</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={arrivalNoticeselect}
-                                    onChange={changeArrivalNotice}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {arrivalNotice.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.arrival_notice_no}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </Col>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Equipment NO</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={equipmentselect}
-                                    onChange={changeEquipment}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {equipment.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.equipment_number}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </Col>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Type Of Unit</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={typeofselect}
-                                    onChange={changeType}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {typeofunit.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.type_of_unit}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </Col>
+                    <FormGroup onSubmit={onAdd}>
+                        <form>
+                            <Row>
+                                <Col lg={4}>
+                                    <TextField
+                                        name="seal_no"
+                                        label="Seal No"
+                                        type="text"
+                                        required
+                                        onChange={handleChange}
+                                        fullWidth
+                                        sx={{ width: '100%', mb: 2 }}
+                                    />
+                                </Col>
+                                <Col lg={4}>
+                                    <TextField
+                                        name="marks"
+                                        label="Marks"
+                                        type="text"
+                                        required
+                                        onChange={handleChange}
+                                        fullWidth
+                                        sx={{ width: '100%', mb: 2 }}
+                                    />
+                                </Col>
+                                <Col lg={4}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Arrival Notice No *</InputLabel>
+                                        <Select
+                                            required
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={arrivalNoticeselect}
+                                            onChange={changeArrivalNotice}
+                                            sx={{ width: '100%', mb: 2 }}
+                                            label="Arrival Notice NO *">
+                                            {arrivalNotice.map((rec) => (
+                                                <MenuItem value={rec.id} key={rec.id}>
+                                                    {rec.arrival_notice_no}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Col>
 
-                            <Col lg={4}>
-                                <AvField name="seal_no" label="Seal No" type="text" required onChange={handleChange} />
-                            </Col>
-                            <Col lg={4}>
-                                <AvField name="marks" label="Marks" type="text" required onChange={handleChange} />
-                            </Col>
-                        </Row>
-                    </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
+                                <Col lg={4}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Equipment NO *</InputLabel>
+                                        <Select
+                                            required
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={equipmentselect}
+                                            onChange={changeEquipment}
+                                            sx={{ width: '100%', mb: 2 }}
+                                            label="Equipment NO *">
+                                            {equipment.map((rec) => (
+                                                <MenuItem value={rec.id} key={rec.id}>
+                                                    {rec.equipment_number}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Col>
+
+                                <Col lg={4}>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="demo-simple-select-label">Type Of Unit</InputLabel>
+                                        <Select
+                                            required
+                                            labelId="demo-simple-select-label"
+                                            id="demo-simple-select"
+                                            value={typeofselect}
+                                            onChange={changeType}
+                                            sx={{ width: '100%', mb: 2 }}
+                                            label="Type Of Unit *">
+                                            {typeofunit.map((rec) => (
+                                                <MenuItem value={rec.id} key={rec.id}>
+                                                    {rec.type_of_unit}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Col>
+                            </Row>
+                            <Grid md={12} sx={{ textAlign: 'right' }}>
+                                <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                    Back
+                                </Button>
+                                <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                    Submit
+                                </Button>
+                            </Grid>
+                        </form>
+                    </FormGroup>
                 </CardBody>
             </Card>
         </React.Fragment>
