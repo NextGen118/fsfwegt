@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    createDetentionTraffiesApiCall,
+    showAllDetentionTraffiesApi,
+} from '../../axios/detentionTraffies/detentionTraffies';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddDetentionTraffies = (props) => {
     const [values, setValues] = useState({});
@@ -62,22 +67,46 @@ const AddDetentionTraffies = (props) => {
         console.log(event.target.value, ' select');
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/detentiontraffies/store?free_days=${values.free_days}&comm=${values.comm}&client_id_agent=${clientAgentselect}&currency_id=${currencyselect}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                console.log('successfully');
+    function isFormValidate() {
+        if (!values.free_days || !values.comm || !clientAgentselect || !currencyselect) {
+            return false;
+        }
 
-                history.push('/detentionTraffies');
-            })
-            .catch((error) => {
-                console.log(error);
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let detentionTraffiesobj = {
+            free_days: values.free_days,
+            comm: values.comm,
+            clientAgentselect: clientAgentselect,
+            currencyselect: currencyselect,
+        };
+        console.log(detentionTraffiesobj, 'detentionTraffies obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createDetentionTraffiesApiCall(detentionTraffiesobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllDetentionTraffiesApi();
+                    history.push('/detentionTraffies');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
-
     const onBack = () => {
         history.push('/detentionTraffies');
     };
@@ -102,13 +131,13 @@ const AddDetentionTraffies = (props) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={6}>
                                 <AvField
                                     name="free_days"
                                     label="Free Days"
-                                    type="text"
+                                    type="number"
                                     required
                                     onChange={handleChange}
                                 />
@@ -148,15 +177,15 @@ const AddDetentionTraffies = (props) => {
                                 </Select>
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

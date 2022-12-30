@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { createVoucherPaymentsApiCall, showAllVoucherPaymentsApi } from '../../axios/voucherPayments/voucherPayments';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddVoucherPayments = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -43,22 +45,58 @@ const AddVoucherPayments = forwardRef((props, ref) => {
         setVouchersselect(event.target.value);
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/voucherpayments/store?voucher_id=${vouchersselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                history.push('/voucherPayments');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('error');
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.pay_type ||
+            !values.cheque_no ||
+            !values.cheque_date ||
+            !values.current_bal ||
+            !values.paying_amount ||
+            !values.paying_local ||
+            !vouchersselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let voucherPaymentsobj = {
+            pay_type: values.pay_type,
+            cheque_no: values.cheque_no,
+            cheque_date: values.cheque_date,
+            current_bal: values.current_bal,
+            paying_amount: values.paying_amount,
+            paying_local: values.paying_local,
+            vouchersselect: vouchersselect,
+        };
+        console.log(voucherPaymentsobj, 'voucherPayments obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createVoucherPaymentsApiCall(voucherPaymentsobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllVoucherPaymentsApi();
+                    history.push('/voucherPayments');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
-
     const onBack = () => {
         history.push('/voucherPayments');
     };
@@ -83,7 +121,7 @@ const AddVoucherPayments = forwardRef((props, ref) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Voucher No</InputLabel>
@@ -156,15 +194,15 @@ const AddVoucherPayments = forwardRef((props, ref) => {
                                 />
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

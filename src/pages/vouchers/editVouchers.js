@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { editVouchersApiCall, showAllVouchersApi } from '../../axios/vouchers/vouchers';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditVouchers = (props) => {
     const { id } = useParams();
@@ -125,20 +127,60 @@ const EditVouchers = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/vouchers/store?date=${values.date}&voucher_no=${values.voucher_no}&description=${values.description}&booking_confirmation_id=${bookingconfirmationselect}&bill_of_landing_id=${billoflandingselect}&vendor_id=${vendorselect}&currency_id=${currencyselect}&status=${activeselect}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/vouchers');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.voucher_no ||
+            !values.description ||
+            !billoflandingselect ||
+            !bookingconfirmationselect ||
+            !vendorselect ||
+            !currencyselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let vouchersobj = {
+            date: values.date,
+            voucher_no: values.voucher_no,
+            description: values.description,
+            billoflandingselect: billoflandingselect,
+            bookingconfirmationselect: bookingconfirmationselect,
+            currencyselect: currencyselect,
+            vendorselect: vendorselect,
+            activeselect: activeselect,
+            id: id,
+        };
+        console.log(vouchersobj, 'vouchers obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editVouchersApiCall(vouchersobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllVouchersApi();
+                    history.push('/vouchers');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
+            });
+        }
+    };
     const onBack = () => {
         history.push('/vouchers');
     };
@@ -162,7 +204,7 @@ const EditVouchers = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
                                 <AvField
@@ -268,15 +310,15 @@ const EditVouchers = (props) => {
                                 </Select>
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    editArrivalNoticeChargesApiCall,
+    showAllArrivalNoticeChargesApi,
+} from '../../axios/arrivalNoticiesCharges/arrivalNoticiesCharges';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditArrivalNoticeCharges = (props) => {
     const { id } = useParams();
@@ -118,18 +123,81 @@ const EditArrivalNoticeCharges = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/arrivalnoticecharges/store?arrival_notice_id=${arrivalNoticeselect}&description=${values.description}&unit=${values.unit}&unit_cost=${values.unit_cost}&unit_charge=${values.unit_charge}&amount=${values.amount}&currency_id=${currencyselect}&currency_id_mycurrency=${myCurrencyselect}&exchange_rate=${values.exchange_rate}&amount_in=${values.amount_in}&tax_description=${values.tax_description}&tax=${values.tax}&tax_amount=${values.tax_amount}&payed=${values.payed}&amount_final=${values.amount_final}&total_cost=${values.total_cost}&total_cost_in=${values.total_cost_in}&profit=${values.profit}&profit_in=${values.profit_in}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/arrivalNoticeCharges');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (
+            !values.description ||
+            !values.unit ||
+            !values.unit_cost ||
+            !values.unit_charge ||
+            !values.amount ||
+            !values.exchange_rate ||
+            !values.amount_in ||
+            !values.tax_description ||
+            !values.tax ||
+            !values.tax_amount ||
+            !values.amount_final ||
+            !values.total_cost ||
+            !values.total_cost_in ||
+            !values.profit ||
+            !values.profit_in ||
+            !values.payed ||
+            !arrivalNoticeselect ||
+            !currencyselect ||
+            !myCurrencyselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let arrivalNoticiesChargesobj = {
+            description: values.description,
+            unit: values.unit,
+            unit_cost: values.unit_cost,
+            unit_charge: values.unit_charge,
+            amount: values.amount,
+            exchange_rate: values.exchange_rate,
+            amount_in: values.amount_in,
+            tax_description: values.tax_description,
+            tax: values.tax,
+            tax_amount: values.tax_amount,
+            amount_final: values.amount_final,
+            total_cost: values.total_cost,
+            total_cost_in: values.total_cost_in,
+            profit: values.profit,
+            profit_in: values.profit_in,
+            payed: values.payed,
+            arrivalNoticeselect: arrivalNoticeselect,
+            currencyselect: currencyselect,
+            myCurrencyselect: myCurrencyselect,
+            id: id,
+        };
+        console.log(arrivalNoticiesChargesobj, 'arrivalNoticiesCharges obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editArrivalNoticeChargesApiCall(arrivalNoticiesChargesobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllArrivalNoticeChargesApi();
+                    history.push('/arrivalNoticeCharges');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -159,7 +227,7 @@ const EditArrivalNoticeCharges = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Arrival Notice</InputLabel>
@@ -367,15 +435,15 @@ const EditArrivalNoticeCharges = (props) => {
                                 />
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" style={{ marginLeft: 15 }} type="submit">
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" style={{ marginLeft: 15 }} type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

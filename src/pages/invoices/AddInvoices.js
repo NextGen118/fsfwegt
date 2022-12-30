@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { createInvoicesApiCall, showAllInvoicesApi } from '../../axios/invoices/invoices';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddInvoices = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -113,20 +115,92 @@ const AddInvoices = forwardRef((props, ref) => {
         setIgmselect(event.target.value);
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/invoices/store?date=${values.date}&invoice_no=${values.invoice_no}&bill_of_landing_id=${billoflandingselect}&client_id_shipper=${clientshipperselect}&client_id_consignee=${clientconsigneeselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&etd_pol=${values.etd_pol}&eta_pod=${values.eta_pod}&st_expire=${values.st_expire}&ata_fpd=${values.ata_fpd}&obl_no=${values.obl_no}&shipment_type=${values.shipment_type}&hbl_no=${values.hbl_no}&carrier=${values.carrier}&nos_units=${values.nos_units}&weight=${values.weight}&cbm=${values.cbm}&remarks=${values.remarks}&usd_rate=${values.usd_rate}&usd_tot=${values.usd_tot}&status=${activeselect}&tax_invoice=${values.tax_invoice}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                history.push('/invoices');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('error');
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.invoice_no ||
+            !values.etd_pol ||
+            !values.eta_pod ||
+            !values.st_expire ||
+            !values.ata_fpd ||
+            !values.obl_no ||
+            !values.shipment_type ||
+            !values.hbl_no ||
+            !values.carrier ||
+            !values.nos_units ||
+            !values.weight ||
+            !values.cbm ||
+            !values.remarks ||
+            !values.usd_rate ||
+            !values.usd_tot ||
+            !values.tax_invoice ||
+            !billoflandingselect ||
+            !clientshipperselect ||
+            !clientconsigneeselect ||
+            !clientselect ||
+            !port_loadingselect ||
+            !port_dischargeselect ||
+            !igmselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let invoicesobj = {
+            date: values.date,
+            invoice_no: values.invoice_no,
+            etd_pol: values.etd_pol,
+            eta_pod: values.eta_pod,
+            st_expire: values.st_expire,
+            ata_fpd: values.ata_fpd,
+            obl_no: values.obl_no,
+            shipment_type: values.shipment_type,
+            hbl_no: values.hbl_no,
+            carrier: values.carrier,
+            nos_units: values.nos_units,
+            weight: values.weight,
+            cbm: values.cbm,
+            remarks: values.remarks,
+            usd_rate: values.usd_rate,
+            usd_tot: values.usd_tot,
+            tax_invoice: values.tax_invoice,
+            billoflandingselect: billoflandingselect,
+            clientshipperselect: clientshipperselect,
+            clientselect: clientselect,
+            clientconsigneeselect: clientconsigneeselect,
+            port_loadingselect: port_loadingselect,
+            port_dischargeselect: port_dischargeselect,
+            igmselect: igmselect,
+            activeselect: 1,
+        };
+        console.log(invoicesobj, 'invoices obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createInvoicesApiCall(invoicesobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllInvoicesApi();
+                    history.push('/invoices');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -153,7 +227,7 @@ const AddInvoices = forwardRef((props, ref) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
                                 <AvField name="date" label="Date" type="date" required onChange={handleChange} />
@@ -374,28 +448,16 @@ const AddInvoices = forwardRef((props, ref) => {
                                     onChange={handleChange}
                                 />
                             </Col>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={activeselect}
-                                    onChange={changeActive}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    <MenuItem value={1}>Active</MenuItem>
-                                    <MenuItem value={0}>Inactive</MenuItem>
-                                </Select>
-                            </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { createReceiptPaymentsApiCall, showAllReceiptPaymentsApi } from '../../axios/receiptPayments/receiptPayments';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddReceiptPayments = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -47,20 +49,78 @@ const AddReceiptPayments = forwardRef((props, ref) => {
         console.log(event.target.value, ' select');
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${activeselect}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                history.push('/receiptPayments');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('error');
+    function isFormValidate() {
+        if (
+            !values.pay_type ||
+            !values.cheque_no ||
+            !values.cheque_date ||
+            !values.current_bal ||
+            !values.paying_amount ||
+            !values.paying_local ||
+            !values.shipment_type ||
+            !values.hbl_no ||
+            !values.carrier ||
+            !values.nos_units ||
+            !values.weight ||
+            !values.cbm ||
+            !values.remarks ||
+            !values.usd_rate ||
+            !values.usd_tot ||
+            !values.tax_invoice ||
+            !receiptsselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let receiptPaymentsobj = {
+            pay_type: values.pay_type,
+            cheque_no: values.cheque_no,
+            cheque_date: values.cheque_date,
+            current_bal: values.current_bal,
+            paying_amount: values.paying_amount,
+            paying_local: values.paying_local,
+            shipment_type: values.shipment_type,
+            hbl_no: values.hbl_no,
+            carrier: values.carrier,
+            nos_units: values.nos_units,
+            weight: values.weight,
+            cbm: values.cbm,
+            remarks: values.remarks,
+            usd_rate: values.usd_rate,
+            usd_tot: values.usd_tot,
+            tax_invoice: values.tax_invoice,
+            receiptsselect: receiptsselect,
+            activeselect: 1,
+        };
+        console.log(receiptPaymentsobj, 'receiptPayments obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createReceiptPaymentsApiCall(receiptPaymentsobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllReceiptPaymentsApi();
+                    history.push('/receiptPayments');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -87,7 +147,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Receipt</InputLabel>
@@ -135,7 +195,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
                                 <AvField
                                     name="current_bal"
                                     label="Current Balance"
-                                    type="text"
+                                    type="number"
                                     required
                                     onChange={handleChange}
                                 />
@@ -144,7 +204,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
                                 <AvField
                                     name="paying_amount"
                                     label="Paying Ammount"
-                                    type="text"
+                                    type="number"
                                     required
                                     onChange={handleChange}
                                 />
@@ -153,33 +213,21 @@ const AddReceiptPayments = forwardRef((props, ref) => {
                                 <AvField
                                     name="paying_local"
                                     label="Paying Local"
-                                    type="text"
+                                    type="number"
                                     required
                                     onChange={handleChange}
                                 />
                             </Col>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={activeselect}
-                                    onChange={changeActive}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    <MenuItem value={1}>Active</MenuItem>
-                                    <MenuItem value={0}>Inactive</MenuItem>
-                                </Select>
-                            </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

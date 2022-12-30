@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    editDetentionTraffSubsApiCall,
+    showAllDetentionTraffSubsApi,
+} from '../../axios/detentionTraffSubs/detentionTraffSubs';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditDetentionTraffSubs = (props) => {
     const { id } = useParams();
@@ -68,17 +73,46 @@ const EditDetentionTraffSubs = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/detentiontraffsubs/store?tariff_name=${values.tariff_name}&slab_days=${values.slab_days}&slab_rate=${values.slab_rate}&detention_traffic_id=${detentiontraffiesselect}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/detentionTraffSubs');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (!values.tariff_name || !values.slab_days || !values.slab_rate || !detentiontraffiesselect) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let detentionTraffSubsobj = {
+            tariff_name: values.tariff_name,
+            slab_days: values.slab_days,
+            slab_rate: values.slab_rate,
+            detentiontraffiesselect: detentiontraffiesselect,
+            id: id,
+        };
+        console.log(detentionTraffSubsobj, 'detentionTraffSubs obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editDetentionTraffSubsApiCall(detentionTraffSubsobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllDetentionTraffSubsApi();
+                    history.push('/detentionTraffSubs');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -104,7 +138,7 @@ const EditDetentionTraffSubs = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={6}>
                                 <AvField
@@ -153,16 +187,16 @@ const EditDetentionTraffSubs = (props) => {
                                 </Select>
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            &nbsp;
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        &nbsp;
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

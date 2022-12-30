@@ -8,7 +8,6 @@ import Pagination from '@mui/material/Pagination';
 import Badge from '@mui/material/Badge';
 import { Grid, TextField } from '@mui/material';
 
-
 const ArrivalNoticiesTable = (props) => {
     const history = useHistory();
 
@@ -149,7 +148,13 @@ const ArrivalNoticiesTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination
+                count={postCount}
+                page={currentPage}
+                onChange={handlePaginationChange}
+                variant="outlined"
+                style={{ float: 'right' }}
+            />
         </>
     );
 };

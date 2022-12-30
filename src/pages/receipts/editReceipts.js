@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { editReceiptsApiCall, showAllReceiptsApi } from '../../axios/receipts/receipts';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditReceipts = (props) => {
     const { id } = useParams();
@@ -154,17 +156,61 @@ const EditReceipts = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/receipts/store?date=${values.date}&receipt_no=${values.receipt_no}&description=${values.description}&client_id=${clientselect}&arrival_notice_id=${arrivalNoticeselect}&invoice_id=${invoicesselect}&detention_invoice_id=${detentionInvoiceselect}&currency_id=${currencyselect}&status=${activeselect}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/receipts');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.receipt_no ||
+            !values.description ||
+            !clientselect ||
+            !invoicesselect ||
+            !arrivalNoticeselect ||
+            !detentionInvoiceselect ||
+            !currencyselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let receiptsobj = {
+            date: values.date,
+            receipt_no: values.receipt_no,
+            description: values.description,
+            clientselect: clientselect,
+            invoicesselect: invoicesselect,
+            arrivalNoticeselect: arrivalNoticeselect,
+            detentionInvoiceselect: detentionInvoiceselect,
+            currencyselect: currencyselect,
+            activeselect: activeselect,
+            id: id,
+        };
+        console.log(receiptsobj, 'receipts obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editReceiptsApiCall(receiptsobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllReceiptsApi();
+                    history.push('/receipts');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -190,7 +236,7 @@ const EditReceipts = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
                                 <AvField
@@ -310,15 +356,15 @@ const EditReceipts = (props) => {
                                 </Select>
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

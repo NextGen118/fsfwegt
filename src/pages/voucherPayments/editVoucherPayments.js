@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { editVoucherPaymentsApiCall, showAllVoucherPaymentsApi } from '../../axios/voucherPayments/voucherPayments';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditVoucherPayments = (props) => {
     const { id } = useParams();
@@ -73,18 +75,58 @@ const EditVoucherPayments = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/voucherpayments/store?voucher_id=${vouchersselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/voucherPayments');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.pay_type ||
+            !values.cheque_no ||
+            !values.cheque_date ||
+            !values.current_bal ||
+            !values.paying_amount ||
+            !values.paying_local ||
+            !vouchersselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let voucherPaymentsobj = {
+            pay_type: values.pay_type,
+            cheque_no: values.cheque_no,
+            cheque_date: values.cheque_date,
+            current_bal: values.current_bal,
+            paying_amount: values.paying_amount,
+            paying_local: values.paying_local,
+            vouchersselect: vouchersselect,
+            id: id,
+        };
+        console.log(voucherPaymentsobj, 'voucherPayments obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editVoucherPaymentsApiCall(voucherPaymentsobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllVoucherPaymentsApi();
+                    history.push('/voucherPayments');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -110,7 +152,7 @@ const EditVoucherPayments = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Voucher No</InputLabel>
@@ -189,15 +231,15 @@ const EditVoucherPayments = (props) => {
                                 />
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

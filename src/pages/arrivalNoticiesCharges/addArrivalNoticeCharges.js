@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    createArrivalNoticeChargesApiCall,
+    showAllArrivalNoticeChargesApi,
+} from '../../axios/arrivalNoticiesCharges/arrivalNoticiesCharges';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddArrivalNoticeCharges = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -66,20 +71,80 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
         setMyCurrencyselect(event.target.value);
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/arrivalnoticecharges/store?arrival_notice_id=${arrivalNoticeselect}&description=${values.description}&unit=${values.unit}&unit_cost=${values.unit_cost}&unit_charge=${values.unit_charge}&amount=${values.amount}&currency_id=${currencyselect}&currency_id_mycurrency=${myCurrencyselect}&exchange_rate=${values.exchange_rate}&amount_in=${values.amount_in}&tax_description=${values.tax_description}&tax=${values.tax}&tax_amount=${values.tax_amount}&payed=${values.payed}&amount_final=${values.amount_final}&total_cost=${values.total_cost}&total_cost_in=${values.total_cost_in}&profit=${values.profit}&profit_in=${values.profit_in}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                history.push('/arrivalNoticeCharges');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('error');
+    function isFormValidate() {
+        if (
+            !values.description ||
+            !values.unit ||
+            !values.unit_cost ||
+            !values.unit_charge ||
+            !values.amount ||
+            !values.exchange_rate ||
+            !values.amount_in ||
+            !values.tax_description ||
+            !values.tax ||
+            !values.tax_amount ||
+            !values.amount_final ||
+            !values.total_cost ||
+            !values.total_cost_in ||
+            !values.profit ||
+            !values.profit_in ||
+            !values.payed ||
+            !arrivalNoticeselect ||
+            !currencyselect ||
+            !myCurrencyselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let arrivalNoticiesChargesobj = {
+            description: values.description,
+            unit: values.unit,
+            unit_cost: values.unit_cost,
+            unit_charge: values.unit_charge,
+            amount: values.amount,
+            exchange_rate: values.exchange_rate,
+            amount_in: values.amount_in,
+            tax_description: values.tax_description,
+            tax: values.tax,
+            tax_amount: values.tax_amount,
+            amount_final: values.amount_final,
+            total_cost: values.total_cost,
+            total_cost_in: values.total_cost_in,
+            profit: values.profit,
+            profit_in: values.profit_in,
+            payed: values.payed,
+            arrivalNoticeselect: arrivalNoticeselect,
+            currencyselect: currencyselect,
+            myCurrencyselect: myCurrencyselect,
+        };
+        console.log(arrivalNoticiesChargesobj, 'arrivalNoticiesCharges obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createArrivalNoticeChargesApiCall(arrivalNoticiesChargesobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllArrivalNoticeChargesApi();
+                    history.push('/arrivalNoticeCharges');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -110,7 +175,7 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Arrival Notice</InputLabel>
@@ -272,15 +337,15 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
                                 />
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

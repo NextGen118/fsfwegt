@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    createDetentionInvoiceSlabsApiCall,
+    showAllDetentionInvoiceSlabsApi,
+} from '../../axios/detentionInvoiceSlabs/detentionInvoiceSlabs';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddDetentionInvoiceSlabs = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -43,20 +48,44 @@ const AddDetentionInvoiceSlabs = forwardRef((props, ref) => {
         setDetentionInvoiceselect(event.target.value);
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/detentioninvoiceslabs/store?detention_invoice_id=${detentionInvoiceselect}&slab_no=${values.slab_no}&amount=${values.amount}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                history.push('/detentionInvoiceSlabs');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('error');
+    function isFormValidate() {
+        if (!values.slab_no || !values.amount || !detentionInvoiceselect) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let detentionInvoiceSlabsobj = {
+            slab_no: values.slab_no,
+            amount: values.amount,
+            detentionInvoiceselect: detentionInvoiceselect,
+        };
+        console.log(detentionInvoiceSlabsobj, 'detentionInvoiceSlabs obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createDetentionInvoiceSlabsApiCall(detentionInvoiceSlabsobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllDetentionInvoiceSlabsApi();
+                    history.push('/detentionInvoiceSlabs');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -87,7 +116,7 @@ const AddDetentionInvoiceSlabs = forwardRef((props, ref) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={6}>
                                 <InputLabel id="demo-simple-select-label">Detention Invoice Slabs</InputLabel>
@@ -112,15 +141,15 @@ const AddDetentionInvoiceSlabs = forwardRef((props, ref) => {
                                 <AvField name="amount" label="Amount" type="number" required onChange={handleChange} />
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

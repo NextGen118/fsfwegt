@@ -135,7 +135,13 @@ const ArrivalNoticeChargesTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination
+                count={postCount}
+                page={currentPage}
+                onChange={handlePaginationChange}
+                variant="outlined"
+                style={{ float: 'right' }}
+            />
         </>
     );
 };

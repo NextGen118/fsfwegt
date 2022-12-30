@@ -197,6 +197,7 @@ const Port = React.lazy(() => import('../pages/Port/index'));
 
 const Owner = React.lazy(() => import('../pages/owner/index'));
 const OwnerAdd = React.lazy(() => import('../pages/owner/AddOwner'));
+const EditOwner = React.lazy(() => import('../pages/owner/editOwner'));
 
 //DetentionTraffies
 const DetentionTraffiesList = React.lazy(() => import('../pages/detentionTraffies/index'));
@@ -285,6 +286,14 @@ const ownerAddRotes = {
     roles: ['Admin'],
     route: PrivateRoute,
     component: OwnerAdd,
+};
+const ownerEditRotes = {
+    path: '/owner-edit',
+    name: 'Owner Edit',
+    icon: FeatherIcon.Anchor,
+    roles: ['Admin'],
+    route: PrivateRoute,
+    component: EditOwner,
 };
 
 /**************** Receipts ************/
@@ -1773,6 +1782,7 @@ const allRoutes = [
     PortRoutes,
     ownerRoutes,
     ownerAddRotes,
+    ownerEditRotes,
     //receipts
     receiptsRoutes,
     editreceiptsRoutes,

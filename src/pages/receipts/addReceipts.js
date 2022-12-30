@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { createReceiptsApiCall, showAllReceiptsApi } from '../../axios/receipts/receipts';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddReceipts = (props) => {
     const [values, setValues] = useState({});
@@ -123,20 +125,60 @@ const AddReceipts = (props) => {
         console.log(event.target.value, ' select');
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/receipts/store?date=${values.date}&receipt_no=${values.receipt_no}&description=${values.description}&client_id=${clientselect}&arrival_notice_id=${arrivalNoticeselect}&invoice_id=${invoicesselect}&detention_invoice_id=${detentionInvoiceselect}&currency_id=${currencyselect}&status=${activeselect}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                console.log('successfully');
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.receipt_no ||
+            !values.description ||
+            !clientselect ||
+            !invoicesselect ||
+            !arrivalNoticeselect ||
+            !detentionInvoiceselect ||
+            !currencyselect ||
+            !activeselect
+        ) {
+            return false;
+        }
 
-                history.push('/receipts');
-            })
-            .catch((error) => {
-                console.log(error);
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let receiptsobj = {
+            date: values.date,
+            receipt_no: values.receipt_no,
+            description: values.description,
+            clientselect: clientselect,
+            invoicesselect: invoicesselect,
+            arrivalNoticeselect: arrivalNoticeselect,
+            detentionInvoiceselect: detentionInvoiceselect,
+            currencyselect: currencyselect,
+            activeselect: 1,
+        };
+        console.log(receiptsobj, 'receipts obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createReceiptsApiCall(receiptsobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllReceiptsApi();
+                    history.push('/receipts');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -163,7 +205,7 @@ const AddReceipts = (props) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
                                 <AvField name="date" label="Date" type="date" required onChange={handleChange} />
@@ -261,28 +303,16 @@ const AddReceipts = (props) => {
                                     ))}
                                 </Select>
                             </Col>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={activeselect}
-                                    onChange={changeActive}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    <MenuItem value={1}>Active</MenuItem>
-                                    <MenuItem value={0}>Inactive</MenuItem>
-                                </Select>
-                            </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

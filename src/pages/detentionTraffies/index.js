@@ -127,7 +127,13 @@ const DetentionTraffiesTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination
+                style={{ float: 'right' }}
+                count={postCount}
+                page={currentPage}
+                onChange={handlePaginationChange}
+                variant="outlined"
+            />
         </>
     );
 };

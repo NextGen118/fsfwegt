@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import PageTitle from '../../components/PageTitle';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { createOwnerApiCall, showAllOwnerApi } from '../../axios/owner/owner.js';
+import { createOwnerApiCall, showAllOwnerApi } from '../../axios/Owner/owner';
 
 import SuccessMsg from '../../components/AlertMsg';
 import { create } from 'sortablejs';
@@ -28,7 +28,7 @@ const AddOwner = () => {
 
     const getPort = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/ports/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then((res) => {
                 setPort(res.data.data);
             })
@@ -39,7 +39,7 @@ const AddOwner = () => {
 
     const getCountry = () => {
         axios
-            .get(`http://127.0.0.1:8000/api/countries/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then((res) => {
                 setCountry(res.data.data);
             })
@@ -90,9 +90,9 @@ const AddOwner = () => {
     };
 
     useEffect(() => {
-        SuccessMsg('Owner', true, "error");
+        SuccessMsg('Owner', true, 'error');
         setTimeout(() => {
-            SuccessMsg('Owner', false, "error");
+            SuccessMsg('Owner', false, 'error');
         }, 500);
     });
 
@@ -140,7 +140,6 @@ const AddOwner = () => {
                     history.push('/owner');
                     setAlertSucces(false);
                 } else {
-
                     setAlertFaild(false);
                 }
             });
@@ -177,7 +176,6 @@ const AddOwner = () => {
                                         id="outlined-required"
                                         required
                                         onChange={handleChange}
-
                                     />
                                 </Grid>
 
@@ -188,7 +186,6 @@ const AddOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
-
                                     />
                                 </Grid>
 
@@ -199,19 +196,11 @@ const AddOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
-
                                     />
                                 </Grid>
 
                                 <Grid mb={2}>
-                                    <AvField
-                                        name="email"
-                                        label="Email"
-                                        type="email"
-                                        required
-                                        onChange={handleChange}
-
-                                    />
+                                    <AvField name="email" label="Email" type="email" required onChange={handleChange} />
                                 </Grid>
                             </Col>
 
@@ -223,7 +212,6 @@ const AddOwner = () => {
                                         type="mobile"
                                         required
                                         onChange={handleChange}
-
                                     />
                                 </Grid>
 
@@ -234,7 +222,6 @@ const AddOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
-
                                     />
                                 </Grid>
 
@@ -245,7 +232,6 @@ const AddOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
-
                                     />
                                 </Grid>
 
@@ -256,7 +242,6 @@ const AddOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
-
                                     />
                                 </Grid>
                             </Col>
@@ -269,29 +254,26 @@ const AddOwner = () => {
                                         type="mobile"
                                         required
                                         onChange={handleChange}
-
                                     />
+                                </Grid>
+
+                                <Grid mb={2}>
+                                    <AvField name="fax" label="Fax" type="text" required onChange={handleChange} />
                                 </Grid>
 
                                 <Grid mb={2}>
                                     <AvField
-                                        name="fax"
-                                        label="Fax"
-                                        type="text"
+                                        type="select"
+                                        value={portselect}
+                                        onChange={changePort}
                                         required
-                                        onChange={handleChange}
-
-                                    />
-                                </Grid>
-
-                                <Grid mb={2}>
-
-                                    <AvField type="select" value={portselect}
-                                        onChange={changePort} required label="Country" name="selectport" >
-
+                                        label="Country"
+                                        name="selectport">
                                         {port.map((con) => (
-                                            <option value={con.id} key={con.id}> {con.port_name}</option>
-
+                                            <option value={con.id} key={con.id}>
+                                                {' '}
+                                                {con.port_name}
+                                            </option>
                                         ))}
                                     </AvField>
 
@@ -309,19 +291,21 @@ const AddOwner = () => {
                                             </MenuItem>
                                         ))}
                                     </Select> */}
-
                                 </Grid>
                                 <Grid mb={2}>
-
-                                    <AvField type="select" value={countryselect} required
-                                        onChange={changeCountry} label="Country" name="selectcountry" >
-
+                                    <AvField
+                                        type="select"
+                                        value={countryselect}
+                                        required
+                                        onChange={changeCountry}
+                                        label="Country"
+                                        name="selectcountry">
                                         {country.map((con) => (
-                                            <option value={con.id} key={con.id}> {con.country_name}</option>
-
+                                            <option value={con.id} key={con.id}>
+                                                {' '}
+                                                {con.country_name}
+                                            </option>
                                         ))}
-
-
                                     </AvField>
 
                                     {/* <InputLabel id="demo-simple-select-label">Country *</InputLabel>
@@ -339,7 +323,6 @@ const AddOwner = () => {
                                             </MenuItem>
                                         ))}
                                     </Select> */}
-
                                 </Grid>
                             </Col>
 

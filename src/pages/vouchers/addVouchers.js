@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { createVouchersApiCall, showAllVouchersApi } from '../../axios/vouchers/vouchers';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddVouchers = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -94,20 +96,58 @@ const AddVouchers = forwardRef((props, ref) => {
         setCurrencyselect(event.target.value);
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/vouchers/store?date=${values.date}&voucher_no=${values.voucher_no}&description=${values.description}&booking_confirmation_id=${bookingconfirmationselect}&bill_of_landing_id=${billoflandingselect}&vendor_id=${vendorselect}&currency_id=${currencyselect}&status=${activeselect}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                history.push('/vouchers');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('error');
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.voucher_no ||
+            !values.description ||
+            !billoflandingselect ||
+            !bookingconfirmationselect ||
+            !vendorselect ||
+            !currencyselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let vouchersobj = {
+            date: values.date,
+            voucher_no: values.voucher_no,
+            description: values.description,
+            billoflandingselect: billoflandingselect,
+            bookingconfirmationselect: bookingconfirmationselect,
+            currencyselect: currencyselect,
+            vendorselect: vendorselect,
+            activeselect: 1,
+        };
+        console.log(vouchersobj, 'vouchers obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createVouchersApiCall(vouchersobj).then((createRes) => {
+                console.log(createRes);
+                if (createRes.status === 200) {
+                    showAllVouchersApi();
+                    history.push('/vouchers');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -134,7 +174,7 @@ const AddVouchers = forwardRef((props, ref) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
                                 <AvField name="date" label="Date" type="date" required onChange={handleChange} />
@@ -217,29 +257,16 @@ const AddVouchers = forwardRef((props, ref) => {
                                     ))}
                                 </Select>
                             </Col>
-
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={activeselect}
-                                    onChange={changeActive}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    <MenuItem value={1}>Active</MenuItem>
-                                    <MenuItem value={0}>Inactive</MenuItem>
-                                </Select>
-                            </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

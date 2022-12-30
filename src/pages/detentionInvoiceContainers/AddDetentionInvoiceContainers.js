@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    createDetentionInvoiceContainersApiCall,
+    showAllDetentionInvoiceContainersApi,
+} from '../../axios/detentionInvoiceContainers/detentionInvoiceContainers';
+import SuccessMsg from '../../components/AlertMsg';
 
 const AddDetentionNoticeContainers = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -83,20 +88,63 @@ const AddDetentionNoticeContainers = forwardRef((props, ref) => {
         console.log(event.target.value, ' select');
     };
 
-    const onSubmit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/detentioninvoicecontainers/store?arrival_notice_id=${arrivalNoticeselect}&equipment_id=${equipmentselect}&type_of_unit_id=${typeofselect}&seal_no=${values.seal_no}&payed=${values.payed}&marks=${values.marks}&other_recovery=${values.other_recovery}&remarks=${values.remarks}&status=${activeselect}`
-            )
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
-            .then((res) => {
-                history.push('/detentionInvoiceContainers');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('error');
-            });
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.seal_no ||
+            !values.marks ||
+            !values.payed ||
+            !values.other_recovery ||
+            !values.remarks ||
+            !arrivalNoticeselect ||
+            !equipmentselect ||
+            !typeofselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onAdd = (event) => {
+        let detentionInvoiceContainersobj = {
+            seal_no: values.seal_no,
+            marks: values.marks,
+            payed: values.payed,
+            other_recovery: values.other_recovery,
+            remarks: values.remarks,
+            arrivalNoticeselect: arrivalNoticeselect,
+            equipmentselect: equipmentselect,
+            typeofselect: typeofselect,
+            activeselect: 1,
+        };
+        console.log(detentionInvoiceContainersobj, 'detentionInvoiceContainers obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const createRes = createDetentionInvoiceContainersApiCall(detentionInvoiceContainersobj).then(
+                (createRes) => {
+                    console.log(createRes);
+                    if (createRes.status === 200) {
+                        showAllDetentionInvoiceContainersApi();
+                        history.push('/detentionInvoiceContainers');
+                        setAlertSucces(false);
+                    } else {
+                        setAlertFaild(false);
+                    }
+                }
+            );
+        }
     };
 
     const onBack = () => {
@@ -127,7 +175,7 @@ const AddDetentionNoticeContainers = forwardRef((props, ref) => {
 
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Arrival Notice No</InputLabel>
@@ -196,28 +244,16 @@ const AddDetentionNoticeContainers = forwardRef((props, ref) => {
                             <Col lg={4}>
                                 <AvField name="remarks" label="Remarks" type="text" required onChange={handleChange} />
                             </Col>
-                            <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={activeselect}
-                                    onChange={changeActive}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    <MenuItem value={1}>Active</MenuItem>
-                                    <MenuItem value={0}>Inactive</MenuItem>
-                                </Select>
-                            </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Submit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                            Submit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

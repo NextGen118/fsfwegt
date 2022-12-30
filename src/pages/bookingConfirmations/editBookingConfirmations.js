@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    editBookingConfirmationsApiCall,
+    showAllBookingConfirmationsApi,
+} from '../../axios/bookingConfirmations/bookingConfirmations';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditBookingConfirmations = (props) => {
     const { id } = useParams();
@@ -205,18 +210,99 @@ const EditBookingConfirmations = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/bookingconfirmations/store?date=${values.date}&booking_confirmation_number=${values.booking_confirmation_number}&client_id_shipper=${clientshipperselect}&client_id=${clientselect}&port_id_loading=${port_loadingselect}&port_id_discharge=${port_dischargeselect}&igm_india_voyage_id=${igmselect}&type_of_unit_id=${typeofselect}&vendor_id_yard=${vendoryardselect}&vendor_id=${vendorselect}&port_net_ref=${values.port_net_ref}&place_of_delivery=${values.place_of_delivery}&place_of_receipt=${values.place_of_receipt}&description=${values.description}&eta=${values.eta}&closing_date=${values.closing_date}&etd=${values.etd}&eta_pod=${values.eta_pod}&voyage_number=${values.voyage_number}&measurement=${values.measurement}&type_of_shipment=${values.type_of_shipment}&release_reference=${values.release_reference}&gross_weight=${values.gross_weight}&quantity_of_unit=${values.quantity_of_unit}&release_expire=${values.release_expire}&remarks=${values.remarks}&status_1=${values.status_1}&status_2=${activeselect}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/bookingConfirmations');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.booking_confirmation_number ||
+            !values.port_net_ref ||
+            !values.place_of_delivery ||
+            !values.place_of_receipt ||
+            !values.description ||
+            !values.eta ||
+            !values.closing_date ||
+            !values.etd ||
+            !values.eta_pod ||
+            !values.voyage_number ||
+            !values.measurement ||
+            !values.type_of_shipment ||
+            !values.release_reference ||
+            !values.gross_weight ||
+            !values.quantity_of_unit ||
+            !values.release_expire ||
+            !values.remarks ||
+            !values.status_1 ||
+            !port_loadingselect ||
+            !port_dischargeselect ||
+            !clientselect ||
+            !clientshipperselect ||
+            !typeofselect ||
+            !vendoryardselect ||
+            !igmselect ||
+            !vendorselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let bookingConfirmationsobj = {
+            date: values.date,
+            booking_confirmation_number: values.booking_confirmation_number,
+            port_net_ref: values.port_net_ref,
+            place_of_delivery: values.place_of_delivery,
+            place_of_receipt: values.place_of_receipt,
+            description: values.description,
+            eta: values.eta,
+            closing_date: values.closing_date,
+            etd: values.etd,
+            eta_pod: values.eta_pod,
+            voyage_number: values.voyage_number,
+            measurement: values.measurement,
+            type_of_shipment: values.type_of_shipment,
+            release_reference: values.release_reference,
+            gross_weight: values.gross_weight,
+            quantity_of_unit: values.quantity_of_unit,
+            release_expire: values.release_expire,
+            remarks: values.remarks,
+            status_1: values.status_1,
+            port_loadingselect: port_loadingselect,
+            port_dischargeselect: port_dischargeselect,
+            clientselect: clientselect,
+            clientshipperselect: clientshipperselect,
+            vendoryardselect: vendoryardselect,
+            typeofselect: typeofselect,
+            igmselect: igmselect,
+            vendorselect: vendorselect,
+            activeselect: activeselect,
+            id: id,
+        };
+        console.log(bookingConfirmationsobj, 'bookingConfirmations obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editBookingConfirmationsApiCall(bookingConfirmationsobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllBookingConfirmationsApi();
+                    history.push('/bookingConfirmations');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -246,7 +332,7 @@ const EditBookingConfirmations = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
                                 <AvField
@@ -577,15 +663,15 @@ const EditBookingConfirmations = (props) => {
                                 </Select>
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

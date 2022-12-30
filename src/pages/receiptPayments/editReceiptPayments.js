@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { editReceiptPaymentsApiCall, showAllReceiptPaymentsApi } from '../../axios/receiptPayments/receiptPayments';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditReceiptPayments = (props) => {
     const { id } = useParams();
@@ -78,18 +80,79 @@ const EditReceiptPayments = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/receiptpayments/store?receipt_id=${receiptsselect}&pay_type=${values.pay_type}&cheque_no=${values.cheque_no}&cheque_date=${values.cheque_date}&current_bal=${values.current_bal}&paying_amount=${values.paying_amount}&paying_local=${values.paying_local}&status=${activeselect}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/receiptPayments');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (
+            !values.pay_type ||
+            !values.cheque_no ||
+            !values.cheque_date ||
+            !values.current_bal ||
+            !values.paying_amount ||
+            !values.paying_local ||
+            !values.shipment_type ||
+            !values.hbl_no ||
+            !values.carrier ||
+            !values.nos_units ||
+            !values.weight ||
+            !values.cbm ||
+            !values.remarks ||
+            !values.usd_rate ||
+            !values.usd_tot ||
+            !values.tax_invoice ||
+            !receiptsselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let receiptPaymentsobj = {
+            pay_type: values.pay_type,
+            cheque_no: values.cheque_no,
+            cheque_date: values.cheque_date,
+            current_bal: values.current_bal,
+            paying_amount: values.paying_amount,
+            paying_local: values.paying_local,
+            shipment_type: values.shipment_type,
+            hbl_no: values.hbl_no,
+            carrier: values.carrier,
+            nos_units: values.nos_units,
+            weight: values.weight,
+            cbm: values.cbm,
+            remarks: values.remarks,
+            usd_rate: values.usd_rate,
+            usd_tot: values.usd_tot,
+            tax_invoice: values.tax_invoice,
+            receiptsselect: receiptsselect,
+            activeselect: activeselect,
+            id: id,
+        };
+        console.log(receiptPaymentsobj, 'receiptPayments obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editReceiptPaymentsApiCall(receiptPaymentsobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllReceiptPaymentsApi();
+                    history.push('/receiptPayments');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -115,7 +178,7 @@ const EditReceiptPayments = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Receipt</InputLabel>
@@ -166,7 +229,7 @@ const EditReceiptPayments = (props) => {
                                 <AvField
                                     name="current_bal"
                                     label="Current Balance"
-                                    type="text"
+                                    type="number"
                                     required
                                     onChange={handleChange}
                                     value={values.current_bal}
@@ -176,7 +239,7 @@ const EditReceiptPayments = (props) => {
                                 <AvField
                                     name="paying_amount"
                                     label="Paying Ammount"
-                                    type="text"
+                                    type="number"
                                     required
                                     onChange={handleChange}
                                     value={values.paying_amount}
@@ -186,7 +249,7 @@ const EditReceiptPayments = (props) => {
                                 <AvField
                                     name="paying_local"
                                     label="Paying Local"
-                                    type="text"
+                                    type="number"
                                     required
                                     onChange={handleChange}
                                     value={values.paying_local}
@@ -205,15 +268,15 @@ const EditReceiptPayments = (props) => {
                                 </Select>
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" style={{ marginLeft: 15 }} type="submit">
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" style={{ marginLeft: 15 }} type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

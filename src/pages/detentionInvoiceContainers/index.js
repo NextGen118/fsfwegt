@@ -8,7 +8,6 @@ import Pagination from '@mui/material/Pagination';
 import Badge from '@mui/material/Badge';
 import { Grid, TextField } from '@mui/material';
 
-
 const DetentionInvoiceContainersTable = (props) => {
     const history = useHistory();
 
@@ -145,7 +144,13 @@ const DetentionInvoiceContainersTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination
+                style={{ float: 'right' }}
+                count={postCount}
+                page={currentPage}
+                onChange={handlePaginationChange}
+                variant="outlined"
+            />
         </>
     );
 };

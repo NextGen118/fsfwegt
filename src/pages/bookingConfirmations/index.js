@@ -101,10 +101,10 @@ const BookingConfirmationsTable = (props) => {
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Arrival Notice No</th>
-                                <th>OBL No</th>
-                                <th>Carrier</th>
-                                <th>Client</th>
+                                <th>Booking Confirmation No</th>
+                                <th>Place Of Delivery</th>
+                                <th>Place Of Receipt</th>
+                                <th>Client Name</th>
                                 <th>Shipmint Type</th>
                                 <th>Status</th>
                                 <th>Action</th>
@@ -147,7 +147,13 @@ const BookingConfirmationsTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination
+                style={{ float: 'right' }}
+                count={postCount}
+                page={currentPage}
+                onChange={handlePaginationChange}
+                variant="outlined"
+            />
         </>
     );
 };

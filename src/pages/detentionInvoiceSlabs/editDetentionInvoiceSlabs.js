@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    editDetentionInvoiceSlabsApiCall,
+    showAllDetentionInvoiceSlabsApi,
+} from '../../axios/detentionInvoiceSlabs/detentionInvoiceSlabs';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditDetentionInvoiceSlabs = (props) => {
     const { id } = useParams();
@@ -65,18 +70,45 @@ const EditDetentionInvoiceSlabs = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/detentioninvoiceslabs/store?detention_invoice_id=${detentionInvoiceselect}&slab_no=${values.slab_no}&amount=${values.amount}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/detentionInvoiceSlabs');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (!values.slab_no || !values.amount || !detentionInvoiceselect) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let detentionInvoiceSlabsobj = {
+            slab_no: values.slab_no,
+            amount: values.amount,
+            detentionInvoiceselect: detentionInvoiceselect,
+            id: id,
+        };
+        console.log(detentionInvoiceSlabsobj, 'detentionInvoiceSlabs obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editDetentionInvoiceSlabsApiCall(detentionInvoiceSlabsobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllDetentionInvoiceSlabsApi();
+                    history.push('/detentionInvoiceSlabs');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -106,7 +138,7 @@ const EditDetentionInvoiceSlabs = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={6}>
                                 <InputLabel id="demo-simple-select-label">Detention Invoice No</InputLabel>
@@ -145,15 +177,15 @@ const EditDetentionInvoiceSlabs = (props) => {
                                 />
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" style={{ marginLeft: 15 }} type="submit">
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" style={{ marginLeft: 15 }} type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

@@ -8,6 +8,8 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import { editInvoiceChargesApiCall, showAllInvoiceChargesApi } from '../../axios/invoiceCharges/invoiceCharges';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditInvoiceCharges = (props) => {
     const { id } = useParams();
@@ -117,18 +119,79 @@ const EditInvoiceCharges = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/invoicecharges/store?invoice_id=${invoiceselect}&description=${values.description}&unit=${values.unit}&unit_cost=${values.unit_cost}&unit_charge=${values.unit_charge}&amount=${values.amount}&currency_id=${currencyselect}&currency_id_mycurrency=${myCurrencyselect}&exchange_rate=${values.exchange_rate}&amount_in=${values.amount_in}&tax_description=${values.tax_description}&tax=${values.tax}&tax_amount=${values.tax_amount}&amount_final=${values.amount_final}&total_cost=${values.total_cost}&total_cost_in=${values.total_cost_in}&profit=${values.profit}&profit_in=${values.profit_in}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/invoiceCharges');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (
+            !values.description ||
+            !values.unit ||
+            !values.unit_cost ||
+            !values.unit_charge ||
+            !values.amount ||
+            !values.exchange_rate ||
+            !values.amount_in ||
+            !values.tax_description ||
+            !values.tax ||
+            !values.tax_amount ||
+            !values.amount_final ||
+            !values.total_cost ||
+            !values.total_cost_in ||
+            !values.profit ||
+            !values.profit_in ||
+            !invoiceselect ||
+            !currencyselect ||
+            !myCurrencyselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let invoiceChargesobj = {
+            description: values.description,
+            unit: values.unit,
+            unit_cost: values.unit_cost,
+            unit_charge: values.unit_charge,
+            amount: values.amount,
+            exchange_rate: values.exchange_rate,
+            amount_in: values.amount_in,
+            tax_description: values.tax_description,
+            tax: values.tax,
+            tax_amount: values.tax_amount,
+            amount_final: values.amount_final,
+            total_cost: values.total_cost,
+            total_cost_in: values.total_cost_in,
+            profit: values.profit,
+            profit_in: values.profit_in,
+            invoiceselect: invoiceselect,
+            currencyselect: currencyselect,
+            myCurrencyselect: myCurrencyselect,
+            id: id,
+        };
+        console.log(invoiceChargesobj, 'invoiceCharges obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editInvoiceChargesApiCall(invoiceChargesobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllInvoiceChargesApi();
+                    history.push('/invoiceCharges');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -154,7 +217,7 @@ const EditInvoiceCharges = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Invoice No</InputLabel>
@@ -352,16 +415,16 @@ const EditInvoiceCharges = (props) => {
                                 />
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            &nbsp;
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        &nbsp;
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

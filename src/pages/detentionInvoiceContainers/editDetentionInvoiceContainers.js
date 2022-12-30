@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    editDetentionInvoiceContainersApiCall,
+    showAllDetentionInvoiceContainersApi,
+} from '../../axios/detentionInvoiceContainers/detentionInvoiceContainers';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditDetentionNoticeContainers = (props) => {
     const { id } = useParams();
@@ -114,18 +119,62 @@ const EditDetentionNoticeContainers = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/detentioninvoicecontainers/store?arrival_notice_id=${arrivalNoticeselect}&equipment_id=${equipmentselect}&type_of_unit_id=${typeofselect}&marks=${values.marks}&seal_no=${values.seal_no}&payed=${values.payed}&other_recovery=${values.other_recovery}&remarks=${values.remarks}&status=${activeselect}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/detentionInvoiceContainers');
-                console.log('successfully1');
-            })
-            .catch((error) => {
-                console.log(error);
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
+
+    function isFormValidate() {
+        if (
+            !values.date ||
+            !values.seal_no ||
+            !values.marks ||
+            !values.payed ||
+            !values.other_recovery ||
+            !values.remarks ||
+            !arrivalNoticeselect ||
+            !equipmentselect ||
+            !typeofselect ||
+            !activeselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let detentionInvoiceContainersobj = {
+            seal_no: values.seal_no,
+            marks: values.marks,
+            payed: values.payed,
+            other_recovery: values.other_recovery,
+            remarks: values.remarks,
+            arrivalNoticeselect: arrivalNoticeselect,
+            equipmentselect: equipmentselect,
+            typeofselect: typeofselect,
+            activeselect: activeselect,
+            id: id,
+        };
+        console.log(detentionInvoiceContainersobj, 'detentionInvoiceContainers obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editDetentionInvoiceContainersApiCall(detentionInvoiceContainersobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllDetentionInvoiceContainersApi();
+                    history.push('/detentionInvoiceContainers');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
             });
+        }
     };
 
     const onBack = () => {
@@ -155,7 +204,7 @@ const EditDetentionNoticeContainers = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
                                 <InputLabel id="demo-simple-select-label">Arrival Notice No</InputLabel>
@@ -266,15 +315,15 @@ const EditDetentionNoticeContainers = (props) => {
                                 </Select>
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" style={{ marginLeft: 15 }} type="submit">
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        <Button color="danger" style={{ marginLeft: 15 }} type="submit" onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" style={{ marginLeft: 15 }} type="submit" onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>

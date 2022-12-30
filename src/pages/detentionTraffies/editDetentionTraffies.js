@@ -8,6 +8,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
+import {
+    editDetentionTraffiesApiCall,
+    showAllDetentionTraffiesApi,
+} from '../../axios/detentionTraffies/detentionTraffies';
+import SuccessMsg from '../../components/AlertMsg';
 
 const EditDetentionTraffies = (props) => {
     const { id } = useParams();
@@ -85,19 +90,47 @@ const EditDetentionTraffies = (props) => {
         });
     };
 
-    const submitEdit = () => {
-        axios
-            .post(
-                `${process.env.REACT_APP_BASE_URL}/detentiontraffies/store?free_days=${values.free_days}&comm=${values.comm}&client_id_agent=${clientAgentselect}&currency_id=${currencyselect}&id=${id}`
-            )
-            .then((res) => {
-                history.push('/detentionTraffies');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    };
+    const [alertSuccess, setAlertSucces] = useState(true);
+    const [alertFaild, setAlertFaild] = useState(true);
+    const [errorName, setErrorname] = useState('');
+    useEffect(() => {
+        SuccessMsg('ArrivalNoticies', true, 'error');
+        setTimeout(() => {
+            SuccessMsg('ArrivalNoticies', false, 'error');
+        }, 500);
+    });
 
+    function isFormValidate() {
+        if (!values.free_days || !values.comm || !clientAgentselect || !currencyselect) {
+            return false;
+        }
+
+        return true;
+    }
+
+    const onEdit = (event) => {
+        let detentionTraffiesobj = {
+            free_days: values.free_days,
+            comm: values.comm,
+            clientAgentselect: clientAgentselect,
+            currencyselect: currencyselect,
+            id: id,
+        };
+        console.log(detentionTraffiesobj, 'detentionTraffies obj');
+        if (isFormValidate) {
+            event.preventDefault();
+            const editRes = editDetentionTraffiesApiCall(detentionTraffiesobj).then((editRes) => {
+                console.log(editRes);
+                if (editRes.status === 200) {
+                    showAllDetentionTraffiesApi();
+                    history.push('/detentionTraffies');
+                    setAlertSucces(false);
+                } else {
+                    setAlertFaild(false);
+                }
+            });
+        }
+    };
     const onBack = () => {
         history.push('/detentionTraffies');
     };
@@ -121,13 +154,13 @@ const EditDetentionTraffies = (props) => {
             </Row>
             <Card>
                 <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={6}>
                                 <AvField
                                     name="free_days"
                                     label="Free Days"
-                                    type="text"
+                                    type="number"
                                     required
                                     onChange={handleChange}
                                     value={values.free_days}
@@ -175,16 +208,15 @@ const EditDetentionTraffies = (props) => {
                                 </Select>
                             </Col>
                         </Row>
+                        <Grid md={12} sx={{ textAlign: 'right' }}>
+                            <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
+                                Back
+                            </Button>
+                            <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                Edit
+                            </Button>
+                        </Grid>
                     </AvForm>
-                    <Grid md={12} sx={{ textAlign: 'right' }}>
-                        &nbsp;
-                        <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={onBack}>
-                            Back
-                        </Button>
-                        <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={() => submitEdit()}>
-                            Edit
-                        </Button>
-                    </Grid>
                 </CardBody>
             </Card>
         </React.Fragment>
