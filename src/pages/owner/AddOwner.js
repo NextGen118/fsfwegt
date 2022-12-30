@@ -6,9 +6,9 @@ import axios from 'axios';
 
 import PageTitle from '../../components/PageTitle';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { createOwnerApiCall, showAllOwnerApi } from '../../axios/Owner/owner';
+import { createOwnerApiCall, showAllOwnerApi } from '../../axios/owner/owner.js';
 
-import SuccessMsg  from '../../components/AlertMsg';
+import SuccessMsg from '../../components/AlertMsg';
 import { create } from 'sortablejs';
 
 const AddOwner = () => {
@@ -90,9 +90,9 @@ const AddOwner = () => {
     };
 
     useEffect(() => {
-        SuccessMsg('Owner', true,"error");
+        SuccessMsg('Owner', true, "error");
         setTimeout(() => {
-            SuccessMsg('Owner', false,"error");
+            SuccessMsg('Owner', false, "error");
         }, 500);
     });
 
@@ -140,7 +140,7 @@ const AddOwner = () => {
                     history.push('/owner');
                     setAlertSucces(false);
                 } else {
-                
+
                     setAlertFaild(false);
                 }
             });
@@ -166,175 +166,193 @@ const AddOwner = () => {
             </Row>
             <Card>
                 <CardBody>
-                    <FormGroup onSubmit={onAdd}>
-                        <form>
-                            <Grid container spacing={2}>
-                                <Col lg={4} style={{ padding: '25px' }}>
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="owner_code"
-                                            label="Owner Code"
-                                            type="text"
-                                            id="outlined-required"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
+                    <AvForm onSubmit={onAdd}>
+                        <Grid container spacing={2}>
+                            <Col lg={4} style={{ padding: '25px' }}>
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="owner_code"
+                                        label="Owner Code"
+                                        type="text"
+                                        id="outlined-required"
+                                        required
+                                        onChange={handleChange}
 
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="owner_name"
-                                            label="Owner Name"
-                                            type="text"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="sub_code"
-                                            label="Sub Code"
-                                            type="text"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="email"
-                                            label="Email"
-                                            type="email"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                </Col>
-
-                                <Col lg={4} style={{ padding: '25px' }}>
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="mobile_number"
-                                            label="Mobile Number"
-                                            type="mobile"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="address"
-                                            label="Address"
-                                            type="text"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="Remarks"
-                                            label="remarks"
-                                            type="text"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="contact_name"
-                                            label="Contact Name"
-                                            type="text"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                </Col>
-
-                                <Col lg={4} style={{ padding: '25px' }}>
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="telephone_number"
-                                            label="Telephone Number"
-                                            type="mobile"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-
-                                    <Grid mb={2}>
-                                        <TextField
-                                            name="fax"
-                                            label="Fax"
-                                            type="text"
-                                            required
-                                            onChange={handleChange}
-                                            fullWidth
-                                        />
-                                    </Grid>
-
-                                    <Grid mb={2}>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">Port *</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={portselect}
-                                                onChange={changePort}
-                                                sx={{ width: '100%' }}
-                                                label="Port">
-                                                {port.map((con) => (
-                                                    <MenuItem value={con.id} key={con.id}>
-                                                        {con.port_name}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
-                                    <Grid mb={2}>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">Country *</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={countryselect}
-                                                onChange={changeCountry}
-                                                sx={{ width: '100%' }}
-                                                required
-                                                label="Country">
-                                                {country.map((con) => (
-                                                    <MenuItem value={con.id} key={con.id}>
-                                                        {con.country_name}
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </FormControl>
-                                    </Grid>
-                                </Col>
-
-                                <Grid md={12} sx={{ textAlign: 'right' }}>
-                                    <Button color="danger" style={{ marginLeft: 15 }} onClick={Back}>
-                                        Back
-                                    </Button>
-                                    <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
-                                        Submit
-                                    </Button>
+                                    />
                                 </Grid>
+
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="owner_name"
+                                        label="Owner Name"
+                                        type="text"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="sub_code"
+                                        label="Sub Code"
+                                        type="text"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="email"
+                                        label="Email"
+                                        type="email"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+                            </Col>
+
+                            <Col lg={4} style={{ padding: '25px' }}>
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="mobile_number"
+                                        label="Mobile Number"
+                                        type="mobile"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="address"
+                                        label="Address"
+                                        type="text"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="Remarks"
+                                        label="remarks"
+                                        type="text"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="contact_name"
+                                        label="Contact Name"
+                                        type="text"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+                            </Col>
+
+                            <Col lg={4} style={{ padding: '25px' }}>
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="telephone_number"
+                                        label="Telephone Number"
+                                        type="mobile"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+
+                                <Grid mb={2}>
+                                    <AvField
+                                        name="fax"
+                                        label="Fax"
+                                        type="text"
+                                        required
+                                        onChange={handleChange}
+
+                                    />
+                                </Grid>
+
+                                <Grid mb={2}>
+
+                                    <AvField type="select" value={portselect}
+                                        onChange={changePort} required label="Country" name="selectport" >
+
+                                        {port.map((con) => (
+                                            <option value={con.id} key={con.id}> {con.port_name}</option>
+
+                                        ))}
+                                    </AvField>
+
+                                    {/* <InputLabel id="demo-simple-select-label">Port *</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={portselect}
+                                        onChange={changePort}
+                                        sx={{ width: '100%', height: 40 }}
+                                        label="Port">
+                                        {port.map((con) => (
+                                            <MenuItem value={con.id} key={con.id}>
+                                                {con.port_name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select> */}
+
+                                </Grid>
+                                <Grid mb={2}>
+
+                                    <AvField type="select" value={countryselect} required
+                                        onChange={changeCountry} label="Country" name="selectcountry" >
+
+                                        {country.map((con) => (
+                                            <option value={con.id} key={con.id}> {con.country_name}</option>
+
+                                        ))}
+
+
+                                    </AvField>
+
+                                    {/* <InputLabel id="demo-simple-select-label">Country *</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={countryselect}
+                                        onChange={changeCountry}
+                                        sx={{ width: '100%', height: 40 }}
+                                        required
+                                        label="Country">
+                                        {country.map((con) => (
+                                            <MenuItem value={con.id} key={con.id}>
+                                                {con.country_name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select> */}
+
+                                </Grid>
+                            </Col>
+
+                            <Grid md={12} sx={{ textAlign: 'right' }}>
+                                <Button color="danger" style={{ marginLeft: 15 }} onClick={Back}>
+                                    Back
+                                </Button>
+                                <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={AddOwner}>
+                                    Submit
+                                </Button>
                             </Grid>
-                        </form>
-                    </FormGroup>
+                        </Grid>
+                    </AvForm>
                 </CardBody>
             </Card>
         </React.Fragment>
