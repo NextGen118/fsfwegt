@@ -288,7 +288,7 @@ const ownerAddRotes = {
     component: OwnerAdd,
 };
 const ownerEditRotes = {
-    path: '/owner-edit',
+    path: '/owner-edit/:id',
     name: 'Owner Edit',
     icon: FeatherIcon.Anchor,
     roles: ['Admin'],

@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import PageTitle from '../../components/PageTitle';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { createOwnerApiCall, showAllOwnerApi } from '../../axios/Owner/owner';
+import { createOwnerApiCall, showAllOwnerApi } from '../../axios/owner/Owner';
 
 import SuccessMsg from '../../components/AlertMsg';
 import { create } from 'sortablejs';

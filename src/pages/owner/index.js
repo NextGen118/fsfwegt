@@ -39,7 +39,7 @@ const OwnerListTable = () => {
         { Key: 2, Value: 'De Active' },
     ]);
     const editOwner = (id) => {
-        history.push(`owner-edit/${id}`);
+        history.push(`/owner-edit/${id}`);
     };
 
     const getPort = () => {
@@ -246,7 +246,7 @@ const OwnerListTable = () => {
                                             )}
                                         </th>
                                         <td>
-                                            <Edit color="blue" size={20} onClick={() => editOwner(record.id)} />
+                                            <Edit color="blue" size={20} onClick={(e) => editOwner(record.id)} />
                                         </td>{' '}
                                     </tr>
                                 );

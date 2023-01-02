@@ -3,15 +3,17 @@ import PageTitle from '../../components/PageTitle';
 import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useParams } from 'react-router-dom/cjs/react-router-dom';
+
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
-import { editOwnerApiCall, showAllOwnerApi } from '../../axios/Owner/owner';
+import { editOwnerApiCall, showAllOwnerApi } from '../../axios/owner/Owner';
 import SuccessMsg from '../../components/AlertMsg';
 
-const EditOwner = (props) => {
+const EditOwner = () => {
     const { id } = useParams();
     const [values, setValues] = useState({
         owner_code: '',
@@ -29,11 +31,6 @@ const EditOwner = (props) => {
 
     const history = useHistory();
 
-    useEffect(() => {
-        getCountry();
-        getPort();
-        getOwnerByid();
-    }, [props.id]);
 
     const [port, setPort] = useState([]);
     const [country, setCountry] = useState([]);
@@ -77,9 +74,13 @@ const EditOwner = (props) => {
 
     const getOwnerByid = () => {
         axios
-            .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoice/show/all`)
+            .get(`${process.env.REACT_APP_BASE_URL}/owners/show/all`)
             .then((res) => {
-                const data = res.data.data.filter((ress) => ress.id === parseInt(id));
+                console.log(res.data.data, "datas")
+                const ownerData = res.data.data
+                const data = ownerData.filter(ress => ress.id === parseInt(id));
+
+                console.log(data, "data")
                 setValues({
                     owner_code: data[0].owner_code,
                     owner_name: data[0].owner_name,
@@ -102,6 +103,12 @@ const EditOwner = (props) => {
             });
     };
 
+    useEffect(() => {
+        getCountry();
+        getPort();
+        getOwnerByid();
+        console.log(id, "ir")
+    }, []);
     const handleChange = (evt) => {
         const value = evt.target.value;
         setValues({
