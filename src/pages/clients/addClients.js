@@ -167,18 +167,7 @@ const AddClients = (props) =>{
                             <Col lg={4}><AvField name="mobile_number" label="Mobile Number" type="text" required onChange={handleChange}/></Col>
                             <Col lg={4}><AvField name="fax" label="Fax" type="text" required onChange={handleChange}/></Col>
                             <Col lg={4}><AvField name="address" label="Address" type="text" required onChange={handleChange}/></Col>
-                            <Col lg={4}><InputLabel id="demo-simple-select-label">Country</InputLabel>
-                                <Select 
-                                labelId="demo-simple-select-label" 
-                                id="demo-simple-select" 
-                                value={countryselect}
-                                onChange={changeCountry} 
-                                sx={{ width: '100%', height:36 , mb: 2 }}>
-                                    {country.map((con) => 
-                                    (<MenuItem value={con.id} key={con.id}>{con.country_name}</MenuItem>))
-                                    }
-                                </Select>
-                                </Col>
+                            <Col lg={4}><InputLabel id="demo-simple-select-label">Country</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={countryselect} onChange={changeCountry} sx={{ width: '100%', height:36 , mb: 2 }}>{country.map((con) =>(<MenuItem value={con.id} key={con.id}>{con.country_name}</MenuItem>))}</Select></Col>
                             <Col lg={4}><InputLabel id="demo-simple-select-label">Port</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={portselect} onChange={changePort} sx={{ width: '100%', height:36, mb: 2 }}>{port.map((por) => (<MenuItem value={por.id} key={por.id}>{por.port_name}</MenuItem>))}</Select></Col>
                             <Col lg={4}><InputLabel id="demo-simple-select-label">Currency</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={currencyselect} onChange={changeCurrency} sx={{ width: '100%', height:36, mb: 2 }}>{currency.map((cur) => (<MenuItem value={cur.id} key={cur.id}>{cur.currency_name}</MenuItem>))}</Select></Col>
                             <Col lg={4}><AvField name="remarks" label="Remarks" type="text" required onChange={handleChange}/></Col>                  

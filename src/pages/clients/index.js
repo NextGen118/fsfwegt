@@ -22,7 +22,6 @@ const ClientsTable = (props) => {
 
     const handleSearchChange = (event) => {
         setValues(event.target.value);
-        console.log('search', values);
     };
 
     useEffect(() => {
@@ -132,7 +131,7 @@ const ClientsTable = (props) => {
                                         <td>{record.port_name}</td>
                                         <td>{record.remarks}</td>
                                         <th>
-                                            {record.status == 1 ? (
+                                            {record.is_active == 1 ? (
                                                 <>
                                                     <Badge badgeContent={'Active'} color="success" sx={{ ml: 3 }}></Badge>
                                                 </>
