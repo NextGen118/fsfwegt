@@ -8,7 +8,7 @@ import Pagination from '@mui/material/Pagination';
 import AddSwaphistories from "./addSwaphistories";
 import EditSwaphistories from "./editSwaphistories";
 
-const SwaphistoriesTable = (props) => {
+const SwaphistoriesTable = ({ isRefresh }) => {
 
     const history = useHistory()
 
@@ -20,7 +20,7 @@ const SwaphistoriesTable = (props) => {
 
     useEffect(() => {
         getSwaphistories()
-    }, [])
+    }, [isRefresh])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -99,6 +99,7 @@ const SwaphistoriesTable = (props) => {
 }
 
 const SwaphistoriesList = (props) => {
+    const [refresh, setRefresh] = useState(false);
 
     const childref = useRef();
     const handleAddUserForm = (event) => {
@@ -127,10 +128,10 @@ const SwaphistoriesList = (props) => {
             &nbsp;
             <Row>
                 <Col xl={12}>
-                    <SwaphistoriesTable />
+                    <SwaphistoriesTable isRefresh={refresh}/>
                 </Col>
             </Row>
-            <AddSwaphistories ref={childref} />
+            <AddSwaphistories ref={childref} refresh={() => setRefresh(true)}/>
         </React.Fragment>
     )
 }
