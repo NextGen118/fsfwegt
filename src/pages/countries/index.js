@@ -95,7 +95,7 @@ const CountriesTable = ({ isRefresh }) => {
 }
 
 const CountriesList = (props) => {
-    const [refresh, setRefresh] = useState(false)
+    const [refresh, setRefresh] = useState(false);
 
     const childref = useRef();
     const handleAddUserForm = (event) => {
