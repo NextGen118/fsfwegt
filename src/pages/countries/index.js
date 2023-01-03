@@ -8,7 +8,7 @@ import Pagination from '@mui/material/Pagination';
 import AddCountries from "./addCountries";
 import EditCountries from "./editCountries";
 
-const CountriesTable = (props) => {
+const CountriesTable = ({ isRefresh }) => {
 
     const history = useHistory()
 
@@ -20,7 +20,7 @@ const CountriesTable = (props) => {
 
     useEffect(() => {
         getCountries()
-    }, [])
+    }, [isRefresh])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -95,6 +95,7 @@ const CountriesTable = (props) => {
 }
 
 const CountriesList = (props) => {
+    const [refresh, setRefresh] = useState(false)
 
     const childref = useRef();
     const handleAddUserForm = (event) => {
@@ -123,10 +124,10 @@ const CountriesList = (props) => {
             &nbsp;
             <Row>
                 <Col xl={12}>
-                    <CountriesTable />
+                    <CountriesTable isRefresh={refresh}/>
                 </Col>
             </Row>
-            <AddCountries ref={childref} />
+            <AddCountries ref={childref} refresh={() => setRefresh(true)}/>
         </React.Fragment>
     )
 }

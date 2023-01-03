@@ -33,9 +33,8 @@ const AddCountries = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios.post(`${process.env.REACT_APP_BASE_URL}/countries/store?country_name=${values.countriesname}&capital_city_name=${values.countrycapitalname}`)
             .then(res => {
+                props.refresh();
                 handleClose();
-                // props.refresh();
-                window.location.reload(false);
             })
             .catch((error) => {
                 console.log(error);
