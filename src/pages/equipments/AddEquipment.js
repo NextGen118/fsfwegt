@@ -19,11 +19,16 @@ const AddEquipment = () => {
     const [vendor, setVendor] = useState([])
     const [client, setClient] = useState([])
 
+    const [ownerselect, setOwnerselect] = useState('')
+    const [typeofselect, setTypeofselect] = useState('')
+    const [clientselect, setClientselect] = useState('')
+    const [vendorselect, setVendorselect] = useState('')
 
     const getOwner = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/owners/show/all`)
             .then(res => {
-                setOwner(res.data.data)
+                setOwner(res.data.data);
+                setOwnerselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -33,7 +38,8 @@ const AddEquipment = () => {
     const getTypeofunit = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/typeofunits/show/all`)
             .then(res => {
-                setTypeofunit(res.data.data)
+                setTypeofunit(res.data.data);
+                setTypeofselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -43,7 +49,8 @@ const AddEquipment = () => {
     const getVendor = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then(res => {
-                setVendor(res.data.data)
+                setVendor(res.data.data);
+                setVendorselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -53,7 +60,8 @@ const AddEquipment = () => {
     const getClient = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then(res => {
-                setClient(res.data.data)
+                setClient(res.data.data);
+                setClientselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -67,29 +75,20 @@ const AddEquipment = () => {
         getTypeofunit()
     }, [])
 
-    const [ownerselect, setOwnerselect] = useState('')
-
     const changeOwner = (event) => {
         setOwnerselect(event.target.value);
         console.log(event.target.value, " select")
     };
-
-
-    const [typeofselect, setTypeofselect] = useState('')
 
     const changeType = (event) => {
         setTypeofselect(event.target.value);
         console.log(event.target.value, " select")
     };
 
-    const [vendorselect, setVendorselect] = useState('')
-
     const changeVendor = (event) => {
         setVendorselect(event.target.value);
         console.log(event.target.value, " select")
     };
-
-    const [clientselect, setClientselect] = useState('')
 
     const changeClient = (event) => {
         setClientselect(event.target.value);
