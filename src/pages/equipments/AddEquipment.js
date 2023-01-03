@@ -106,17 +106,34 @@ const AddEquipment = () => {
             [evt.target.name]: value
         });
     }
+    function isFormValidate() {
+        if (
+            !values.equipment_number ||
+            !ownerselect ||
+            !typeofselect ||
+            !values.grade ||
+            !values.status ||
+            !vendorselect ||
+            !clientselect
+        ) {
+            return false;
+        }
+
+        return true;
+    }
 
     const onSubmit = () => {
-        axios.post(`${process.env.REACT_APP_BASE_URL}/equipments/store?equipment_number=${values.equipment_number}&owner_id=${ownerselect}&type_of_unit_id=${typeofselect}&grade=${values.grade}&status=${values.status}&vendor_id_yard=${vendorselect}&client_id_agent=${clientselect}`)
-            .then(res => {
-                console.log("successfully")
-                history.push('/equipments')
+        if (isFormValidate()) {
+            axios.post(`${process.env.REACT_APP_BASE_URL}/equipments/store?equipment_number=${values.equipment_number}&owner_id=${ownerselect}&type_of_unit_id=${typeofselect}&grade=${values.grade}&status=${values.status}&vendor_id_yard=${vendorselect}&client_id_agent=${clientselect}`)
+                .then(res => {
+                    console.log("successfully")
+                    history.push('/equipments')
 
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
 
     }
 
@@ -137,15 +154,16 @@ const AddEquipment = () => {
                     />
                 </Col>
             </Row>
+            <AvForm onSubmit={onSubmit}>
+                <Row>
 
-            <Row>
-                <Col lg={6}>
-                    <Card>
-                        <CardBody>
+                    <Col lg={6}>
 
-                            <AvForm>
+                        <Card>
+                            <CardBody>
+
+
                                 <AvField name="equipment_number" label="Equipment Number" type="text" required onChange={handleChange} />
-
 
                                 <InputLabel id="demo-simple-select-label">Owner</InputLabel>
                                 <Select
@@ -153,7 +171,8 @@ const AddEquipment = () => {
                                     id="demo-simple-select"
                                     value={ownerselect}
                                     onChange={changeOwner}
-                                    sx={{ width: 150, mb: 5, height: 45 }}
+                                    fullWidth
+                                    sx={{ mb: 5, height: 45 }}
 
                                 >
                                     {owner.map((con) => (
@@ -169,7 +188,9 @@ const AddEquipment = () => {
                                     id="demo-simple-select"
                                     value={typeofselect}
                                     onChange={changeType}
-                                    sx={{ width: 150, mb: 5, height: 45 }}
+                                    fullWidth
+                                    required
+                                    sx={{ mb: 5, height: 45 }}
 
                                 >
                                     {typeofunit.map((con) => (
@@ -182,16 +203,14 @@ const AddEquipment = () => {
 
                                 <AvField name="grade" label="Grade" type="text" required onChange={handleChange} />
 
-                            </AvForm>
-                        </CardBody>
-                    </Card>
-                </Col>
 
-                <Col lg={6}>
-                    <Card>
-                        <CardBody>
+                            </CardBody>
+                        </Card>
+                    </Col>
 
-                            <AvForm>
+                    <Col lg={6}>
+                        <Card>
+                            <CardBody>
                                 <AvField name="status" label="Status" type="text" required onChange={handleChange} />
 
 
@@ -201,7 +220,9 @@ const AddEquipment = () => {
                                     id="demo-simple-select"
                                     value={vendorselect}
                                     onChange={changeVendor}
-                                    sx={{ width: 150, mb: 5, height: 45 }}
+                                    fullWidth
+                                    required
+                                    sx={{ mb: 5, height: 45 }}
 
                                 >
                                     {vendor.map((con) => (
@@ -217,7 +238,9 @@ const AddEquipment = () => {
                                     id="demo-simple-select"
                                     value={clientselect}
                                     onChange={changeClient}
-                                    sx={{ width: 150, mb: 5, height: 45 }}
+                                    fullWidth
+                                    required
+                                    sx={{ mb: 5, height: 45 }}
 
                                 >
                                     {client.map((con) => (
@@ -227,21 +250,20 @@ const AddEquipment = () => {
 
                                 </Select>
                                 <br />
+                                <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
+                                    Submit
+                                </Button>
+                                <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={Back}>
+                                    Back
+                                </Button>
 
+                            </CardBody>
+                        </Card>
 
+                    </Col>
 
-                            </AvForm>
-                        </CardBody>
-                    </Card>
-
-                </Col>
-                <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={onSubmit}>
-                    Submit
-                </Button>
-                <Button color="danger" type="submit" style={{ marginLeft: 15 }} onClick={Back}>
-                    Back
-                </Button>
-            </Row>
+                </Row>
+            </AvForm>
         </React.Fragment>
     );
 };

@@ -266,7 +266,7 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
 const rootRoute = {
     path: '/',
     exact: true,
-    component: () => <Redirect to="/dashboard" />,
+    component: () => <Redirect to="/equipments" />,
     route: PrivateRoute,
 };
 
@@ -832,19 +832,19 @@ const detentionRoutes = {
 /******************* Detention **********************/
 
 // dashboards
-const dashboardRoutes = {
-    path: '/dashboard',
-    name: 'Dashboard',
-    icon: FeatherIcon.Home,
-    // header: 'Navigation',
-    // badge: {
-    //     variant: 'success',
-    //     text: '1',
-    // },
-    component: Dashboard,
-    roles: ['Admin'],
-    route: PrivateRoute,
-};
+// const dashboardRoutes = {
+//     path: '/dashboard',
+//     name: 'Dashboard',
+//     icon: FeatherIcon.Home,
+//     // header: 'Navigation',
+//     // badge: {
+//     //     variant: 'success',
+//     //     text: '1',
+//     // },
+//     component: Dashboard,
+//     roles: ['Admin'],
+//     route: PrivateRoute,
+// };
 
 const equipmentsRoutes = {
     path: '/equipments',
@@ -852,21 +852,29 @@ const equipmentsRoutes = {
     icon: FeatherIcon.Anchor,
     roles: ['Admin'],
     route: PrivateRoute,
-    children: [
-        {
-            path: '/equipments',
-            name: 'List',
-            component: Equipments,
-            route: PrivateRoute,
-        },
-        {
-            path: '/add-equipments',
-            name: 'Add Equipment',
-            component: AddEquipment,
-            route: PrivateRoute,
-        },
-    ],
+    component: Equipments
+    // children: [
+    //     {
+    //         path: '/equipments',
+    //         name: 'List',
+    //         component: Equipments,
+    //         route: PrivateRoute,
+    //     }
+    //     // {
+    //     //     path: '/add-equipments',
+    //     //     name: 'Add Equipment',
+    //     //     component: AddEquipment,
+    //     //     route: PrivateRoute,
+    //     // },
+    // ],
 };
+
+const AddEquipmentRotes = {
+    path: '/add-equipments',
+    name: 'Add Equipment',
+    component: AddEquipment,
+    route: PrivateRoute,
+}
 //Countries
 const countriesRoutes = {
     path: '/countries',
@@ -1766,7 +1774,8 @@ const flattenRoutes = (routes) => {
 // All routes
 const allRoutes = [
     rootRoute,
-    dashboardRoutes,
+    AddEquipmentRotes,
+    //dashboardRoutes,
     equipmentsRoutes,
     ...appRoutes,
     pagesRoutes,
@@ -1839,7 +1848,7 @@ const allRoutes = [
     addclientsRoutes,
     editclientsRoutes,
     countriesRoutes,
-    rolesRoutes,
+    //rolesRoutes,
     currenciesRoutes,
     accesspointsRoutes,
     defaultvaluesRoutes,
@@ -1870,7 +1879,7 @@ const allRoutes = [
 ];
 
 const authProtectedRoutes = [
-    dashboardRoutes,
+    //dashboardRoutes,
     equipmentsRoutes,
     Master,
     ownerRoutes,
@@ -1883,7 +1892,7 @@ const authProtectedRoutes = [
     clientmasterRoutes,
     exportRoutes,
     equipmentsaledetailsRoutes,
-    rolesRoutes,
+    //rolesRoutes,
     // ...appRoutes,
     // pagesRoutes,
     // componentsRoutes,
