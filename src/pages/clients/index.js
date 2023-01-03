@@ -5,6 +5,8 @@ import { Edit } from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
+import { Grid, TextField } from '@mui/material';
+import Badge from '@mui/material/Badge';
 
 const ClientsTable = (props) => {
 
@@ -13,12 +15,19 @@ const ClientsTable = (props) => {
     const [clients, setClients] = useState([])
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postPerPage, setPostPerPage] = useState(8)
+    const [postPerPage, setPostPerPage] = useState(10)
     const [postCount, setPostCount] = useState(1)
+
+    const [values, setValues] = React.useState('');
+
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+        console.log('search', values);
+    };
 
     useEffect(() => {
         getClients()
-    }, [])
+    }, [values])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -34,7 +43,23 @@ const ClientsTable = (props) => {
     };
 
     const getClients = () => {
-        axios.get(`http://127.0.0.1:8000/api/clients/show/all`)
+        if(values !== ''){
+            axios.get(`${process.env.REACT_APP_BASE_URL}/clients/search/query?query=${values}`)
+            .then((res) => {
+                setClients(res.data);
+                setPostCount(() => {
+                    if (res.data.length < 8) {
+                        return 1;
+                    }
+
+                    return Math.ceil(res.data.length / 8);
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }else{
+            axios.get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then(res => {
                 setClients(res.data.data)
                 setPostCount(() => {
@@ -48,21 +73,32 @@ const ClientsTable = (props) => {
             .catch((error) => {
                 console.log(error);
             })
+        }
     }
 
     const editClients = (id) => {
-        console.log(id);
         history.push(`edit-clients/${id}`)
     }
 
     return (
         <>
             <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
                 <CardBody style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     <Table>
                         <thead>
                             <tr>
-                                {/* <th>#</th> */}
                                 <th>Client Name</th>
                                 <th>Contact Name</th>
                                 <th>Client Code</th>
@@ -83,7 +119,6 @@ const ClientsTable = (props) => {
                             {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
-                                        {/* <th scope="row">{record.id}</th> */}
                                         <td>{record.client_name}</td>
                                         <td>{record.contact_name}</td>
                                         <td>{record.client_code}</td>
@@ -96,9 +131,16 @@ const ClientsTable = (props) => {
                                         <td>{record.country_name}</td>
                                         <td>{record.port_name}</td>
                                         <td>{record.remarks}</td>
-                                        {/* <td>{record.is_active}</td> */}
-                                        <td>{record.is_active == '0' ? <h>Inctive</h> : <h>Active</h>}</td>
-                                        <td><Edit onClick={() => editClients(record.id)} /></td>
+                                        <th>
+                                            {record.status == 1 ? (
+                                                <>
+                                                    <Badge badgeContent={'Active'} color="success" sx={{ ml: 3 }}></Badge>
+                                                </>
+                                            ) : (
+                                                <Badge color="error" badgeContent={'Inactive'} sx={{ ml: 3 }}></Badge>
+                                            )}
+                                        </th>
+                                        <td><Edit color="blue" size={20} onClick={() => editClients(record.id)} /></td>
                                     </tr>
                                 )
                             })}
@@ -106,7 +148,7 @@ const ClientsTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination style={{ float: 'right' }} count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
         </>
     );
 }
@@ -123,15 +165,17 @@ const ClientsList = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'clients', path: '/clients' }]}
-                        title={'Clients List'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Clients</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'clients', path: '/clients' }]} />
+                    </Row>
                 </Col>
-            </Row>
-            <Row>
                 <Col>
-                    <Button color="info" className="float-right" onClick={() => addClientForm()}>Add</Button>
+                    <Button color="info" className="float-right" onClick={() => addClientForm()}>
+                        + Create Detention Invoice
+                    </Button>
                 </Col>
             </Row>
             &nbsp;
