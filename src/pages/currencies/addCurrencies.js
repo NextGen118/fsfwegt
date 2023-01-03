@@ -42,7 +42,8 @@ const AddCurrencies = forwardRef((props, ref) => {
     const getCountry = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then(res => {
-                setCountry(res.data.data)
+                setCountry(res.data.data);
+                setCountryselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
