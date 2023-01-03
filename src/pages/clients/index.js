@@ -174,7 +174,7 @@ const ClientsList = (props) => {
                 </Col>
                 <Col>
                     <Button color="info" className="float-right" onClick={() => addClientForm()}>
-                        + Create Detention Invoice
+                        + Create Client
                     </Button>
                 </Col>
             </Row>

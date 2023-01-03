@@ -173,7 +173,7 @@ const EditOwner = () => {
         console.log(ownerobj, 'owner obj');
         if (isFormValidate) {
             event.preventDefault();
-            const editRes = editOwnerApiCall(ownerobj).then((editRes) => {
+            editOwnerApiCall(ownerobj).then((editRes) => {
                 console.log(editRes);
                 if (editRes.status === 200) {
                     showAllOwnerApi();
@@ -216,6 +216,7 @@ const EditOwner = () => {
                                         id="outlined-required"
                                         required
                                         onChange={handleChange}
+                                        value={values.owner_code}
                                     />
                                 </Grid>
 
@@ -226,6 +227,7 @@ const EditOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
+                                        value={values.owner_name}
                                     />
                                 </Grid>
 
@@ -236,11 +238,12 @@ const EditOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
+                                        value={values.sub_code}
                                     />
                                 </Grid>
 
                                 <Grid mb={2}>
-                                    <AvField name="email" label="Email" type="email" required onChange={handleChange} />
+                                    <AvField name="email" label="Email" type="email" required onChange={handleChange} value={values.email} />
                                 </Grid>
                             </Col>
 
@@ -252,6 +255,7 @@ const EditOwner = () => {
                                         type="mobile"
                                         required
                                         onChange={handleChange}
+                                        value={values.mobile_number}
                                     />
                                 </Grid>
 
@@ -262,6 +266,7 @@ const EditOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
+                                        value={values.address}
                                     />
                                 </Grid>
 
@@ -272,6 +277,7 @@ const EditOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
+                                        value={values.remarks}
                                     />
                                 </Grid>
 
@@ -282,6 +288,7 @@ const EditOwner = () => {
                                         type="text"
                                         required
                                         onChange={handleChange}
+                                        value={values.contact_name}
                                     />
                                 </Grid>
                             </Col>
@@ -294,11 +301,12 @@ const EditOwner = () => {
                                         type="mobile"
                                         required
                                         onChange={handleChange}
+                                        value={values.telephone_number}
                                     />
                                 </Grid>
 
                                 <Grid mb={2}>
-                                    <AvField name="fax" label="Fax" type="text" required onChange={handleChange} />
+                                    <AvField name="fax" label="Fax" type="text" required onChange={handleChange} value={values.fax} />
                                 </Grid>
 
                                 <Grid mb={2}>
