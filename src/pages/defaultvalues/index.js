@@ -8,7 +8,7 @@ import Pagination from '@mui/material/Pagination';
 import AddDefaultvalues from "./addDefaultValues";
 import EditDefaultvalues from "./editDefaultValues";
 
-const DefaultvaluesTable = (props) => {
+const DefaultvaluesTable = ({ isRefresh }) => {
 
     const history = useHistory()
 
@@ -21,7 +21,7 @@ const DefaultvaluesTable = (props) => {
 
     useEffect(() => {
         getDefaultvalues()
-    }, [])
+    }, [isRefresh])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -96,6 +96,7 @@ const DefaultvaluesTable = (props) => {
 }
 
 const DefaultvaluesList = (props) => {
+    const [refresh, setRefresh] = useState(false)
 
     const childref = useRef();
     const handleAddUserForm = (event) => {
@@ -124,10 +125,10 @@ const DefaultvaluesList = (props) => {
             &nbsp;
             <Row>
                 <Col xl={12}>
-                    <DefaultvaluesTable />
+                    <DefaultvaluesTable isRefresh={refresh}/>
                 </Col>
             </Row>
-            <AddDefaultvalues ref={childref} />
+            <AddDefaultvalues ref={childref} refresh={() => setRefresh(true)}/>
         </React.Fragment>
     )
 }

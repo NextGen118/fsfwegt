@@ -32,8 +32,8 @@ const AddDefaultvalues = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios.post(`${process.env.REACT_APP_BASE_URL}/defaultvalues/store?category=${values.category}&c_value=${values.c_value}`)
             .then(res => {
+                props.refresh();
                 handleClose();
-                window.location.reload(false);
             })
             .catch((error) => {
                 console.log(error);
