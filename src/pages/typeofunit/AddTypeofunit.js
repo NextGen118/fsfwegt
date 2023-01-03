@@ -22,7 +22,7 @@ const AddTypeofunit = (props) => {
     }
 
     const onSubmit = () => {
-        axios.post(`http://127.0.0.1:8000/api/typeofunits/store?type_of_unit=${values.type_of_unit}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/typeofunits/store?type_of_unit=${values.type_of_unit}`)
             .then(res => {
                 console.log("successfully")
                 history.push('/typeofunit')

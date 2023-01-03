@@ -38,7 +38,7 @@ const SwapsTable = (props) => {
     };
 
     const getSwaps = () => {
-        axios.get(`http://127.0.0.1:8000/api/swaps/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/swaps/show/all`)
             .then(res => {
                 setSwaps(res.data.data)
                 setPostCount(() => {

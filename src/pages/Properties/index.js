@@ -25,7 +25,7 @@ const Propertiestable = (props) => {
     }, [])
 
     const getProperties = () => {
-        axios.get(`http://127.0.0.1:8000/api/properties/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/properties/show/all`)
             .then(res => {
                 console.log(res.data)
                 setProperties(res.data.data)

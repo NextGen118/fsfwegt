@@ -131,18 +131,17 @@ const AddOwner = () => {
             activeselect: 1,
         };
         console.log(ownerobj, 'owner obj');
-        if (isFormValidate) {
+        if (isFormValidate()) {
             event.preventDefault();
-            const createRes = createOwnerApiCall(ownerobj).then((createRes) => {
-                console.log(createRes);
-                if (createRes.status === 200) {
+            createOwnerApiCall(ownerobj)
+                .then((createRes) => {
+
+                    console.log(createRes);
                     showAllOwnerApi();
                     history.push('/owner');
                     setAlertSucces(false);
-                } else {
-                    setAlertFaild(false);
-                }
-            });
+
+                });
         }
     };
 

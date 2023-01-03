@@ -20,7 +20,7 @@ const TypeofunitTable = (props) => {
     }, [])
 
     const getTypeofunit = () => {
-        axios.get(`http://127.0.0.1:8000/api/typeofunits/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/typeofunits/show/all`)
             .then(res => {
                 console.log(res.data)
                 setTypeofunit(res.data.data)

@@ -39,7 +39,7 @@ const EditPort = forwardRef((props, ref) => {
 
 
     const getPropertiesByid = () => {
-        axios.get(`http://127.0.0.1:8000/api/ports/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then(res => {
                 console.log(res.data)
                 const data = res.data.data.filter(ress => ress.id === parseInt(props.id))
@@ -59,7 +59,7 @@ const EditPort = forwardRef((props, ref) => {
 
 
     const getCountry = () => {
-        axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then(res => {
                 setCountry(res.data.data)
             })
@@ -83,7 +83,7 @@ const EditPort = forwardRef((props, ref) => {
     }
 
     const submitEdit = () => {
-        axios.post(`http://127.0.0.1:8000/api/ports/store?port_code=${values.port_code}&port_name=${values.port_name}&sub_code=${values.sub_code}&country_id=${countryselect}&id=${props.id}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/ports/store?port_code=${values.port_code}&port_name=${values.port_name}&sub_code=${values.sub_code}&country_id=${countryselect}&id=${props.id}`)
             .then(res => {
                 props.refresh()
                 handleClose()

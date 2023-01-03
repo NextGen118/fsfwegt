@@ -35,7 +35,7 @@ const BilloflandingsTable = (props) => {
     };
 
     const getBilloflandings = () => {
-        axios.get(`http://127.0.0.1:8000/api/billoflandings/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/billoflandings/show/all`)
             .then(res => {
                 setBilloflandings(res.data.data)
                 setPostCount(() => {

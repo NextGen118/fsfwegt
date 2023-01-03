@@ -1,27 +1,27 @@
-import React, { useEffect, useState,forwardRef,useImperativeHandle } from 'react';
-import { Row, Col, Card, CardBody, Button} from 'reactstrap';
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
-import { Modal,Backdrop,Fade,Box } from "@material-ui/core";
+import { Modal, Backdrop, Fade, Box } from "@material-ui/core";
 
-const EditEquipmentSaleDetails = forwardRef((props,ref) => {
+const EditEquipmentSaleDetails = forwardRef((props, ref) => {
 
-    const [open,setOpen] = React.useState(false);
-    const handleClose = () =>{
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
         setOpen(false);
     }
-    
-    useImperativeHandle(ref,()=>({
-        handleOpen(){
+
+    useImperativeHandle(ref, () => ({
+        handleOpen() {
             setOpen(true);
         }
     }));
-    
-    const [values, setValues] = useState({ equipment_sale_id: '', equipment_id: '',amount:'',destination:'' });
+
+    const [values, setValues] = useState({ equipment_sale_id: '', equipment_id: '', amount: '', destination: '' });
 
     const history = useHistory()
 
@@ -31,28 +31,28 @@ const EditEquipmentSaleDetails = forwardRef((props,ref) => {
         getEquipmentsale()
     }, [props.id])
 
-    const [equipment,setEquipment] = useState([])
+    const [equipment, setEquipment] = useState([])
     const [equipmentselect, setEquipmentselect] = useState('')
 
-    const [equipmentsale,setEquipmentsale] = useState([])
+    const [equipmentsale, setEquipmentsale] = useState([])
     const [equipmentsaleselect, setEquipmentsaleselect] = useState('')
 
     const getEquipment = () => {
-        axios.get(`http://127.0.0.1:8000/api/equipments/show/all`)
-            .then(res=>{
+        axios.get(`${process.env.REACT_APP_BASE_URL}/equipments/show/all`)
+            .then(res => {
                 setEquipment(res.data.data)
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             });
     }
 
     const getEquipmentsale = () => {
-        axios.get(`http://127.0.0.1:8000/api/equipmentsales/show/all`)
-            .then(res=>{
+        axios.get(`${process.env.REACT_APP_BASE_URL}/equipmentsales/show/all`)
+            .then(res => {
                 setEquipmentsale(res.data.data)
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             });
     }
@@ -66,7 +66,7 @@ const EditEquipmentSaleDetails = forwardRef((props,ref) => {
     }
 
     const getEquipmentSaleDetailsByid = () => {
-        axios.get(`http://127.0.0.1:8000/api/equipmentsaledetails/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/equipmentsaledetails/show/all`)
             .then(res => {
                 console.log(res.data)
                 const data = res.data.data.filter(ress => ress.id === parseInt(props.id))
@@ -94,7 +94,7 @@ const EditEquipmentSaleDetails = forwardRef((props,ref) => {
     }
 
     const submitEdit = () => {
-        axios.post(`http://127.0.0.1:8000/api/equipmentsaledetails/store?equipment_sale_id=${equipmentsaleselect}&equipment_id=${equipmentselect}&amount=${values.amount}&destination=${values.destination}&id=${props.id}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/equipmentsaledetails/store?equipment_sale_id=${equipmentsaleselect}&equipment_id=${equipmentselect}&amount=${values.amount}&destination=${values.destination}&id=${props.id}`)
             .then(res => {
                 props.refresh();
                 handleClose();
@@ -106,72 +106,72 @@ const EditEquipmentSaleDetails = forwardRef((props,ref) => {
 
     return (
         <>
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{timeout:500}}
-        >
-            <Fade in={open}>
-                <Box sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 600,
-                    bgcolor: 'background.paper',
-                    boxShadow: 10,
-                    pt: 3,
-                }}>
-                    <Row>
-                        <Col>
-                            <Card>
-                                <CardBody>
-                                    <AvForm>
-                                        <InputLabel id="demo-simple-select-label">Equipment</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={equipmentselect}
-                                            onChange={changeEquipment}
-                                            sx={{ width: 540, height:36 , mb: 2}}
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{ timeout: 500 }}
+            >
+                <Fade in={open}>
+                    <Box sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 600,
+                        bgcolor: 'background.paper',
+                        boxShadow: 10,
+                        pt: 3,
+                    }}>
+                        <Row>
+                            <Col>
+                                <Card>
+                                    <CardBody>
+                                        <AvForm>
+                                            <InputLabel id="demo-simple-select-label">Equipment</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={equipmentselect}
+                                                onChange={changeEquipment}
+                                                sx={{ width: 540, height: 36, mb: 2 }}
 
-                                        >
-                                            {equipment.map((equ) => (
-                                                <MenuItem value={equ.id} key={equ.id}>{equ.equipment_number}</MenuItem>
-                                            ))}
-                                        </Select>  
-            
-                                        <InputLabel id="demo-simple-select-label">Equipment Sale</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={equipmentsaleselect}
-                                            onChange={changeEquipmentsale}
-                                            sx={{ width: 540, height:36 , mb: 2}}
+                                            >
+                                                {equipment.map((equ) => (
+                                                    <MenuItem value={equ.id} key={equ.id}>{equ.equipment_number}</MenuItem>
+                                                ))}
+                                            </Select>
 
-                                        >
-                                            {equipmentsale.map((esale) => (
-                                                <MenuItem value={esale.id} key={esale.id}>{esale.description}</MenuItem>
-                                            ))}
-                                        </Select>  
+                                            <InputLabel id="demo-simple-select-label">Equipment Sale</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={equipmentsaleselect}
+                                                onChange={changeEquipmentsale}
+                                                sx={{ width: 540, height: 36, mb: 2 }}
 
-                                        <AvField name="amount" label="Amount" type="text" required onChange={handleChange} value={values.amount} />
-                                        <AvField name="destination" label="Destination" type="text" required onChange={handleChange} value={values.destination} />
+                                            >
+                                                {equipmentsale.map((esale) => (
+                                                    <MenuItem value={esale.id} key={esale.id}>{esale.description}</MenuItem>
+                                                ))}
+                                            </Select>
 
-                                        <Button color="primary" type="submit" onClick={submitEdit} style={{ marginRight: '2%' }}>Edit</Button>
-                                        <Button color="danger" onClick={handleClose}>Close</Button>
-                                    </AvForm>
-                                </CardBody>
-                            </Card>
-                        </Col>
-                    </Row>
-                </Box>
-            </Fade>
-        </Modal>
+                                            <AvField name="amount" label="Amount" type="text" required onChange={handleChange} value={values.amount} />
+                                            <AvField name="destination" label="Destination" type="text" required onChange={handleChange} value={values.destination} />
+
+                                            <Button color="primary" type="submit" onClick={submitEdit} style={{ marginRight: '2%' }}>Edit</Button>
+                                            <Button color="danger" onClick={handleClose}>Close</Button>
+                                        </AvForm>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Box>
+                </Fade>
+            </Modal>
         </>
     );
 })

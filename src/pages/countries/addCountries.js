@@ -1,25 +1,25 @@
-import React,{useState,forwardRef,useImperativeHandle} from "react";
-import {Row,Col,Card,CardBody,Button} from 'reactstrap';
-import { AvForm,AvField } from "availity-reactstrap-validation";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
+import { Row, Col, Card, CardBody, Button } from 'reactstrap';
+import { AvForm, AvField } from "availity-reactstrap-validation";
 import PageTitle from "../../components/PageTitle";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { Modal,Backdrop,Fade,Box } from "@material-ui/core";
+import { Modal, Backdrop, Fade, Box } from "@material-ui/core";
 
-const AddCountries = forwardRef((props,ref) =>{
+const AddCountries = forwardRef((props, ref) => {
 
-    const [open,setOpen] = React.useState(false);
-    const handleClose=()=>{
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
         setOpen(false);
     }
 
-    useImperativeHandle(ref,()=>({
-        handleOpen(){
+    useImperativeHandle(ref, () => ({
+        handleOpen() {
             setOpen(true);
         },
     }));
 
-    const [values,setValues] = useState({});
+    const [values, setValues] = useState({});
     let history = useHistory()
 
     const handleChange = (evt) => {
@@ -30,19 +30,19 @@ const AddCountries = forwardRef((props,ref) =>{
         });
     }
 
-    const onSubmit = () =>{
-        axios.post(`http://127.0.0.1:8000/api/countries/store?country_name=${values.countriesname}&capital_city_name=${values.countrycapitalname}`)
-            .then(res=>{
+    const onSubmit = () => {
+        axios.post(`${process.env.REACT_APP_BASE_URL}/countries/store?country_name=${values.countriesname}&capital_city_name=${values.countrycapitalname}`)
+            .then(res => {
                 handleClose();
                 // props.refresh();
                 window.location.reload(false);
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             });
     }
 
-    return(
+    return (
 
         <>
             <Modal
@@ -52,7 +52,7 @@ const AddCountries = forwardRef((props,ref) =>{
                 onClose={handleClose}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
-                BackdropProps={{timeout:500}}
+                BackdropProps={{ timeout: 500 }}
             >
                 <Fade in={open}>
                     <Box sx={{
@@ -70,10 +70,10 @@ const AddCountries = forwardRef((props,ref) =>{
                                 <Card>
                                     <CardBody>
                                         <AvForm>
-                                            <AvField name="countriesname" label="Country Name" type="text" required onChange={handleChange}/>
-                                            <AvField name="countrycapitalname" label="Capital City Name" type="text" required onChange={handleChange}/>
+                                            <AvField name="countriesname" label="Country Name" type="text" required onChange={handleChange} />
+                                            <AvField name="countrycapitalname" label="Capital City Name" type="text" required onChange={handleChange} />
 
-                                            <Button color="primary" type="submit" onClick={onSubmit} style={{marginRight:'2%'}}>Submit</Button>
+                                            <Button color="primary" type="submit" onClick={onSubmit} style={{ marginRight: '2%' }}>Submit</Button>
                                             <Button color="danger" onClick={handleClose}>Close</Button>
                                         </AvForm>
                                     </CardBody>

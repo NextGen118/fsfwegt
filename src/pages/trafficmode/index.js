@@ -21,7 +21,7 @@ const TrafficmodeTable = (props) => {
     }, [])
 
     const getTimemode = () => {
-        axios.get(`http://127.0.0.1:8000/api/trafficmodes/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/trafficmodes/show/all`)
             .then(res => {
                 console.log(res.data)
                 setTrafficmode(res.data.data)

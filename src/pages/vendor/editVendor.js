@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PageTitle from '../../components/PageTitle';
-import { Row, Col, Card, CardBody, Button} from 'reactstrap';
+import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
@@ -11,7 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 const EditVendors = (props) => {
 
     const { id } = useParams()
-    const [values, setValues] = useState({ vendor_code: '',vendor_name: '',sub_code: '',country_id: '',port_id: '',currency_id: '',email: '',telephone_number: '',fax: '',mobile_number: '',contact_name: '',remarks: '',is_active: '',address: '' });
+    const [values, setValues] = useState({ vendor_code: '', vendor_name: '', sub_code: '', country_id: '', port_id: '', currency_id: '', email: '', telephone_number: '', fax: '', mobile_number: '', contact_name: '', remarks: '', is_active: '', address: '' });
 
     const history = useHistory()
 
@@ -21,30 +21,30 @@ const EditVendors = (props) => {
         getPort()
     }, [props.id])
 
-    const [country,setCountry] = useState([])
+    const [country, setCountry] = useState([])
     const [countryselect, setCountryselect] = useState('')
 
-    const [port,setPort] = useState([])
+    const [port, setPort] = useState([])
     const [portselect, setPortselect] = useState('')
 
     const [activeselect, setActiveselect] = useState('')
 
     const getCountry = () => {
-        axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
-            .then(res=>{
+        axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
+            .then(res => {
                 setCountry(res.data.data)
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             });
     }
 
     const getPort = () => {
-        axios.get(`http://127.0.0.1:8000/api/ports/show/all`)
-            .then(res=>{
+        axios.get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
+            .then(res => {
                 setPort(res.data.data)
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             });
     }
@@ -60,7 +60,7 @@ const EditVendors = (props) => {
     }
 
     const getVendorsByid = () => {
-        axios.get(`http://127.0.0.1:8000/api/vendors/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then(res => {
                 const data = res.data.data.filter(ress => ress.id === parseInt(id))
                 console.log(data, 'edit data')
@@ -98,7 +98,7 @@ const EditVendors = (props) => {
     }
 
     const submitEdit = () => {
-        axios.post(`http://127.0.0.1:8000/api/vendors/store?vendor_code=${values.vendor_code}
+        axios.post(`${process.env.REACT_APP_BASE_URL}/vendors/store?vendor_code=${values.vendor_code}
         &vendor_name=${values.vendor_name}&sub_code=${values.sub_code}&country_id=${countryselect}&port_id=${portselect}&email=${values.email}&telephone_number=${values.telephone_number}
         &fax=${values.fax}&mobile_number=${values.mobile_number}&contact_name=${values.contact_name}&address=${values.address}&image=&remarks=${values.remarks}&is_active=${activeselect}&id=${id}`)
             .then(res => {
@@ -110,7 +110,7 @@ const EditVendors = (props) => {
             });
     }
 
-    const onBack = () =>{
+    const onBack = () => {
         history.push('/vendors')
     }
 
@@ -135,26 +135,26 @@ const EditVendors = (props) => {
                             <Row>
                                 <Col lg={6}>
                                     <AvForm>
-                                        <AvField name="vendor_code" label="Vendor Code" type="text" required onChange={handleChange} value={values.vendor_code}/>
-                                        <AvField name="vendor_name" label="Vendor Name" type="text" required onChange={handleChange} value={values.vendor_name}/>
-                                        <AvField name="contact_name" label="Contact Name" type="text" required onChange={handleChange} value={values.contact_name}/>
-                                        <AvField name="sub_code" label="Sub Code" type="text" required onChange={handleChange} value={values.sub_code}/>
-                                        <AvField name="email" label="Email" type="email" required onChange={handleChange} value={values.email}/>
-                                        <AvField name="telephone_number" label="Telephone Number" type="text" required onChange={handleChange} value={values.telephone_number}/>
-                                        <AvField name="mobile_number" label="Mobile Number" type="text" required onChange={handleChange} value={values.mobile_number}/>               
+                                        <AvField name="vendor_code" label="Vendor Code" type="text" required onChange={handleChange} value={values.vendor_code} />
+                                        <AvField name="vendor_name" label="Vendor Name" type="text" required onChange={handleChange} value={values.vendor_name} />
+                                        <AvField name="contact_name" label="Contact Name" type="text" required onChange={handleChange} value={values.contact_name} />
+                                        <AvField name="sub_code" label="Sub Code" type="text" required onChange={handleChange} value={values.sub_code} />
+                                        <AvField name="email" label="Email" type="email" required onChange={handleChange} value={values.email} />
+                                        <AvField name="telephone_number" label="Telephone Number" type="text" required onChange={handleChange} value={values.telephone_number} />
+                                        <AvField name="mobile_number" label="Mobile Number" type="text" required onChange={handleChange} value={values.mobile_number} />
                                     </AvForm>
                                 </Col>
                                 <Col lg={6}>
                                     <AvForm>
-                                        <AvField name="fax" label="Fax" type="text" required onChange={handleChange} value={values.fax}/>            
-                                        <AvField name="address" label="Address" type="text" required onChange={handleChange} value={values.address}/>
-                                        <InputLabel id="demo-simple-select-label">Country</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={countryselect} onChange={changeCountry} sx={{  width: 540, height:36 , mb: 2 }}>{country.map((con) => (<MenuItem value={con.id} key={con.id}>{con.country_name}</MenuItem>))}</Select>
-                                        <InputLabel id="demo-simple-select-label">Port</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={portselect} onChange={changePort} sx={{ width: 540, height:36 , mb: 2 }}>{port.map((por) => (<MenuItem value={por.id} key={por.id}>{por.port_name}</MenuItem>))}</Select>  
-                                        <AvField name="remarks" label="Remarks" type="text" required onChange={handleChange} value={values.remarks}/>
-                                        <InputLabel id="demo-simple-select-label">Active</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={activeselect} onChange={changeActive} sx={{ width: 540, height:36 , mb: 2 }}><MenuItem value={1}>Active</MenuItem><MenuItem value={0}>Inactive</MenuItem></Select>
+                                        <AvField name="fax" label="Fax" type="text" required onChange={handleChange} value={values.fax} />
+                                        <AvField name="address" label="Address" type="text" required onChange={handleChange} value={values.address} />
+                                        <InputLabel id="demo-simple-select-label">Country</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={countryselect} onChange={changeCountry} sx={{ width: 540, height: 36, mb: 2 }}>{country.map((con) => (<MenuItem value={con.id} key={con.id}>{con.country_name}</MenuItem>))}</Select>
+                                        <InputLabel id="demo-simple-select-label">Port</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={portselect} onChange={changePort} sx={{ width: 540, height: 36, mb: 2 }}>{port.map((por) => (<MenuItem value={por.id} key={por.id}>{por.port_name}</MenuItem>))}</Select>
+                                        <AvField name="remarks" label="Remarks" type="text" required onChange={handleChange} value={values.remarks} />
+                                        <InputLabel id="demo-simple-select-label">Active</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={activeselect} onChange={changeActive} sx={{ width: 540, height: 36, mb: 2 }}><MenuItem value={1}>Active</MenuItem><MenuItem value={0}>Inactive</MenuItem></Select>
                                     </AvForm>
                                 </Col>
-                            </Row>                       
+                            </Row>
                         </CardBody>
                     </Card>
                 </Col>

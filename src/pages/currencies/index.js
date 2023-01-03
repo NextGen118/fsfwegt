@@ -26,7 +26,7 @@ const CurrenciesTable = (props) => {
     const [postCount, setPostCount] = useState(1)
 
     const getCountry = () => {
-        axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then(res => {
                 setCountry(res.data.data)
                 setPostCount(() => {
@@ -77,7 +77,7 @@ const CurrenciesTable = (props) => {
     };
 
     const getCurrencies = () => {
-        axios.get(`http://127.0.0.1:8000/api/currencies/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then(res => {
                 setCurrencies(res.data.data)
                 setPostCount(() => {

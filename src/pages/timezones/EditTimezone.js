@@ -17,7 +17,7 @@ const EditTimezone = (props) => {
     }, [])
 
     const getPropertiesByid = () => {
-        axios.get(`http://127.0.0.1:8000/api/timezones/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/timezones/show/all`)
             .then(res => {
                 console.log(res.data)
                 const data = res.data.data.filter(ress => ress.id === parseInt(id))
@@ -41,7 +41,7 @@ const EditTimezone = (props) => {
     }
 
     const submitEdit = () => {
-        axios.post(`http://127.0.0.1:8000/api/timezones/store?timezone_data_name=${values.timezone_data_name} &timezone_data_value=${values.timezone_data_value}&id=${id}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/timezones/store?timezone_data_name=${values.timezone_data_name} &timezone_data_value=${values.timezone_data_value}&id=${id}`)
             .then(res => {
                 history.push('/timezone')
                 console.log("success to edit")

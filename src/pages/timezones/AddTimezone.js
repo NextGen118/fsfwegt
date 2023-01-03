@@ -22,7 +22,7 @@ const AddTimezone = (props) => {
     }
 
     const onSubmit = () => {
-        axios.post(`http://127.0.0.1:8000/api/timezones/store?timezone_data_name=${values.timezonedataname}&timezone_data_value=${values.timezonedatavalue}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/timezones/store?timezone_data_name=${values.timezonedataname}&timezone_data_value=${values.timezonedatavalue}`)
             .then(res => {
                 console.log("successfully")
                 history.push('/timezone')

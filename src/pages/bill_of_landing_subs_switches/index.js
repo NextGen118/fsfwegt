@@ -34,7 +34,7 @@ const BilloflandingsubsTable = (props) => {
     };
 
     const getBilloflandingsubs = () => {
-        axios.get(`http://127.0.0.1:8000/api/billoflandingsubswitches/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/billoflandingsubswitches/show/all`)
             .then(res => {
                 setBilloflandingsubs(res.data.data)
                 setPostCount(() => {

@@ -36,7 +36,7 @@ const RolesTable = (props) => {
     };
 
     const getRoles = () => {
-        axios.get(`http://127.0.0.1:8000/api/roles/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/roles/show/all`)
             .then(res => {
                 console.log(res.data.data)
                 setRoles(res.data.data)

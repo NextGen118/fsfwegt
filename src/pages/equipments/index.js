@@ -24,7 +24,7 @@ const EquipmentListTable = () => {
     }, [])
 
     const getEquipments = () => {
-        axios.get(`http://127.0.0.1:8000/api/equipments/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/equipments/show/all`)
             .then(res => {
                 console.log(res.data)
                 setEquipments(res.data.data)

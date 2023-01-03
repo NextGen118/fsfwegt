@@ -43,7 +43,7 @@ const Addport = forwardRef((props, ref) => {
     const [countryselect, setCountryselect] = useState('')
 
     const getCountry = () => {
-        axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then(res => {
                 setCountry(res.data.data)
             })
@@ -58,9 +58,12 @@ const Addport = forwardRef((props, ref) => {
     };
 
     const onSubmit = () => {
-        axios.post(`http://127.0.0.1:8000/api/ports/store?port_code=${values.port_code}&port_name=${values.port_name}&sub_code=${values.sub_code}&country_id=${countryselect}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/ports/store?port_code=${values.port_code}&port_name=${values.port_name}&sub_code=${values.sub_code}&country_id=${countryselect}`)
             .then(res => {
+                console.log(res, "port res")
+
                 console.log("successfully")
+                props.refresh()
                 handleClose()
 
             })

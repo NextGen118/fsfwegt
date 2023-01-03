@@ -17,7 +17,7 @@ const EditTrafficmode = (props) => {
     }, [])
 
     const getPropertiesByid = () => {
-        axios.get(`http://127.0.0.1:8000/api/trafficmodes/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/trafficmodes/show/all`)
             .then(res => {
                 console.log(res.data)
                 const data = res.data.filter(ress => ress.id === parseInt(id))
@@ -40,7 +40,7 @@ const EditTrafficmode = (props) => {
     }
 
     const submitEdit = () => {
-        axios.post(`http://127.0.0.1:8000/api/trafficmodes/store?trafficmode_type=${values.trafficmode_type}&id=${id}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/trafficmodes/store?trafficmode_type=${values.trafficmode_type}&id=${id}`)
             .then(res => {
                 history.push('/trafficmode')
                 console.log("success to edit")

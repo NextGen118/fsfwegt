@@ -32,7 +32,7 @@ const Addproperties = forwardRef((props, ref) => {
 
     };
     const onSubmit = () => {
-        axios.post(`http://127.0.0.1:8000/api/properties/store?property_name=${values.propertiesname}&description=${values.description}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/properties/store?property_name=${values.propertiesname}&description=${values.description}`)
             .then(res => {
                 console.log("successfully")
                 handleClose()

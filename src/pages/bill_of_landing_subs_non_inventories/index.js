@@ -33,7 +33,7 @@ const BilloflandingsubsTable = (props) => {
     };
 
     const getBilloflandingsubs = () => {
-        axios.get(`http://127.0.0.1:8000/api/billoflandingsubnoninventories/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/billoflandingsubnoninventories/show/all`)
             .then(res => {
                 setBilloflandingsubs(res.data.data)
                 setPostCount(() => {

@@ -36,7 +36,7 @@ const AccesspointsTable = (props) => {
     };
 
     const getAccesspoints = () => {
-        axios.get(`http://127.0.0.1:8000/api/accesspoints/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/accesspoints/show/all`)
             .then(res => {
                 setAccesspoints(res.data.data)
                 setPostCount(() => {

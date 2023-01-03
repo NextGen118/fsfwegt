@@ -1,24 +1,24 @@
-import React,{useState,forwardRef,useImperativeHandle} from "react";
-import {Row,Col,Card,CardBody,Button} from 'reactstrap';
-import { AvForm,AvField } from "availity-reactstrap-validation";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
+import { Row, Col, Card, CardBody, Button } from 'reactstrap';
+import { AvForm, AvField } from "availity-reactstrap-validation";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { Modal,Backdrop,Fade,Box } from "@material-ui/core";
+import { Modal, Backdrop, Fade, Box } from "@material-ui/core";
 
-const AddRoles = forwardRef((props,ref) =>{
+const AddRoles = forwardRef((props, ref) => {
 
-    const [open,setOpen] = React.useState(false);
-    const handleClose=()=>{
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => {
         setOpen(false);
     }
 
-    useImperativeHandle(ref,()=>({
-        handleOpen(){
+    useImperativeHandle(ref, () => ({
+        handleOpen() {
             setOpen(true);
         },
     }));
 
-    const [values,setValues] = useState({});
+    const [values, setValues] = useState({});
     let history = useHistory()
 
     const handleChange = (evt) => {
@@ -29,19 +29,19 @@ const AddRoles = forwardRef((props,ref) =>{
         });
     }
 
-    const onSubmit = () =>{
-        axios.post(`http://127.0.0.1:8000/api/roles/store?role_name=${values.rolename}&description=${values.description}`)
-            .then(res=>{
+    const onSubmit = () => {
+        axios.post(`${process.env.REACT_APP_BASE_URL}/roles/store?role_name=${values.rolename}&description=${values.description}`)
+            .then(res => {
                 console.log("success");
                 handleClose();
                 window.location.reload(false);
             })
-            .catch((error)=>{
+            .catch((error) => {
                 console.log(error);
             });
     }
 
-    return(
+    return (
         <>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -50,7 +50,7 @@ const AddRoles = forwardRef((props,ref) =>{
                 onClose={handleClose}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
-                BackdropProps={{timeout:500}}
+                BackdropProps={{ timeout: 500 }}
             >
                 <Fade in={open}>
                     <Box sx={{
@@ -68,10 +68,10 @@ const AddRoles = forwardRef((props,ref) =>{
                                 <Card>
                                     <CardBody>
                                         <AvForm>
-                                            <AvField name="rolename" label="Role Name" type="text" required onChange={handleChange}/>
-                                            <AvField name="description" label="Description" type="text" required onChange={handleChange}/>
+                                            <AvField name="rolename" label="Role Name" type="text" required onChange={handleChange} />
+                                            <AvField name="description" label="Description" type="text" required onChange={handleChange} />
 
-                                            <Button color="primary" type="submit" onClick={onSubmit} style={{marginRight:'2%'}}>Submit</Button>
+                                            <Button color="primary" type="submit" onClick={onSubmit} style={{ marginRight: '2%' }}>Submit</Button>
                                             <Button color="danger" onClick={handleClose}>Close</Button>
                                         </AvForm>
                                     </CardBody>

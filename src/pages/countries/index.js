@@ -36,7 +36,7 @@ const CountriesTable = (props) => {
     };
 
     const getCountries = () => {
-        axios.get(`http://127.0.0.1:8000/api/countries/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then(res => {
                 setCountries(res.data.data)
                 setPostCount(() => {

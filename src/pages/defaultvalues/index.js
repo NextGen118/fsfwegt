@@ -37,7 +37,7 @@ const DefaultvaluesTable = (props) => {
     };
 
     const getDefaultvalues = () => {
-        axios.get(`http://127.0.0.1:8000/api/defaultvalues/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/defaultvalues/show/all`)
             .then(res => {
                 setDefaultvalues(res.data.data)
                 setPostCount(() => {

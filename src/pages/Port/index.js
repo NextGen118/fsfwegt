@@ -9,7 +9,7 @@ import EditPort from './EditPort';
 import Pagination from '@mui/material/Pagination';
 
 
-const Porttable = (props) => {
+const Porttable = ({ isRefresh }) => {
     const history = useHistory()
 
     const [port, setPort] = useState([])
@@ -20,12 +20,13 @@ const Porttable = (props) => {
 
 
 
+
     useEffect(() => {
         getProperties()
-    }, [])
+    }, [isRefresh])
 
     const getProperties = () => {
-        axios.get(`http://127.0.0.1:8000/api/ports/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then(res => {
                 console.log(res.data)
                 setPort(res.data.data)
@@ -123,6 +124,8 @@ const Porttable = (props) => {
 
 const Portlist = (props) => {
 
+    const [refresh, setRefresh] = useState(false)
+
     const childref = useRef();
     const handleAddUserForm = (event) => {
         event.preventDefault();
@@ -150,11 +153,11 @@ const Portlist = (props) => {
             </Row>
             <Row>
                 <Col xl={12}>
-                    <Porttable />
+                    <Porttable isRefresh={refresh} />
                 </Col>
             </Row>
 
-            <Addport ref={childref} />
+            <Addport ref={childref} refresh={() => setRefresh(true)} />
         </React.Fragment>
     );
 }

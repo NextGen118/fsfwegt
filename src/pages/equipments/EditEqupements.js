@@ -25,7 +25,7 @@ const EditEquipment = () => {
 
 
     const getOwner = () => {
-        axios.get(`http://127.0.0.1:8000/api/owners/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/owners/show/all`)
             .then(res => {
                 setOwner(res.data.data)
             })
@@ -35,7 +35,7 @@ const EditEquipment = () => {
     }
 
     const getTypeofunit = () => {
-        axios.get(`http://127.0.0.1:8000/api/typeofunits/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/typeofunits/show/all`)
             .then(res => {
                 setTypeofunit(res.data.data)
             })
@@ -45,7 +45,7 @@ const EditEquipment = () => {
     }
 
     const getVendor = () => {
-        axios.get(`http://127.0.0.1:8000/api/vendors/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then(res => {
                 setVendor(res.data.data)
             })
@@ -55,7 +55,7 @@ const EditEquipment = () => {
     }
 
     const getClient = () => {
-        axios.get(`http://127.0.0.1:8000/api/clients/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then(res => {
                 setClient(res.data.data)
             })
@@ -65,7 +65,7 @@ const EditEquipment = () => {
     }
 
     const getEqupementsByid = () => {
-        axios.get(`http://127.0.0.1:8000/api/equipments/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/equipments/show/all`)
             .then(res => {
                 console.log(res.data.data)
                 const filter = res.data.data
@@ -139,7 +139,7 @@ const EditEquipment = () => {
     }
 
     const onSubmit = () => {
-        axios.post(`http://127.0.0.1:8000/api/equipments/store?equipment_number=${values.equipment_number}&owner_id=${ownerselect}&typeofunit_id=${typeofselect}&grade=${values.grade}&status=${values.status}&vendor_id_yard=${vendorselect}&client_id_agent=${clientselect}&id=${id}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/equipments/store?equipment_number=${values.equipment_number}&owner_id=${ownerselect}&typeofunit_id=${typeofselect}&grade=${values.grade}&status=${values.status}&vendor_id_yard=${vendorselect}&client_id_agent=${clientselect}&id=${id}`)
             .then(res => {
                 console.log("successfully")
                 history.push('/equipments')

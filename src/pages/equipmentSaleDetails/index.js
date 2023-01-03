@@ -36,7 +36,7 @@ const EquipmentSaleDetailsTable = (props) => {
     };
 
     const getEquipmentSaleDetails = () => {
-        axios.get(`http://127.0.0.1:8000/api/equipmentsaledetails/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/equipmentsaledetails/show/all`)
             .then(res => {
                 setEquipmentSaleDetails(res.data.data)
                 setPostCount(() => {

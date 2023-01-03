@@ -17,7 +17,7 @@ const EditTypeofunit = (props) => {
     }, [])
 
     const getPropertiesByid = () => {
-        axios.get(`http://127.0.0.1:8000/api/typeofunits/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/typeofunits/show/all`)
             .then(res => {
                 console.log(res.data)
                 const data = res.data.filter(ress => ress.id === parseInt(id))
@@ -40,7 +40,7 @@ const EditTypeofunit = (props) => {
     }
 
     const submitEdit = () => {
-        axios.post(`http://127.0.0.1:8000/api/typeofunits/store?typeofunit_type=${values.type_of_unit}&id=${id}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/typeofunits/store?typeofunit_type=${values.type_of_unit}&id=${id}`)
             .then(res => {
                 history.push('/typeofunit')
                 console.log("success to edit")

@@ -22,7 +22,7 @@ const AddTrafficmode = (props) => {
     }
 
     const onSubmit = () => {
-        axios.post(`http://127.0.0.1:8000/api/trafficmodes/store?trafficmode_type=${values.trafficmode_type}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/trafficmodes/store?trafficmode_type=${values.trafficmode_type}`)
             .then(res => {
                 console.log("successfully")
                 history.push('/trafficmode')

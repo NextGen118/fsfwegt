@@ -36,7 +36,7 @@ const SwaphistoriesTable = (props) => {
     };
 
     const getSwaphistories = () => {
-        axios.get(`http://127.0.0.1:8000/api/swaphistories/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/swaphistories/show/all`)
             .then(res => {
                 setSwaphistories(res.data.data)
                 setPostCount(() => {

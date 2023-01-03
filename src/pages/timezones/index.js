@@ -20,7 +20,7 @@ const TimezoneTable = (props) => {
     }, [])
 
     const getTimezone = () => {
-        axios.get(`http://127.0.0.1:8000/api/timezones/show/all`)
+        axios.get(`${process.env.REACT_APP_BASE_URL}/timezones/show/all`)
             .then(res => {
                 console.log(res.data)
                 setTimezone(res.data.data)
