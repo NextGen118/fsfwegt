@@ -46,7 +46,8 @@ const AddSwaps = forwardRef((props, ref) => {
     const getClient = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/clients/show/all`)
             .then(res => {
-                setClient(res.data.data)
+                setClient(res.data.data);
+                setClientselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -56,7 +57,8 @@ const AddSwaps = forwardRef((props, ref) => {
     const getEquipment = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/equipments/show/all`)
             .then(res => {
-                setEquipment(res.data.data)
+                setEquipment(res.data.data);
+                setEquipmentselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -74,8 +76,8 @@ const AddSwaps = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios.post(`${process.env.REACT_APP_BASE_URL}/swaps/store?date=${values.date}&equipment_id=${equipmentselect}&description=${values.description}&client_id_agent=${clientselect}`)
             .then(res => {
+                props.refresh();
                 handleClose();
-                window.location.reload(false);
             })
             .catch((error) => {
                 console.log(error);

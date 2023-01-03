@@ -9,7 +9,7 @@ import EditSwaps from "./editSwap";
 import AddSwaps from "./addSwap";
 
 
-const SwapsTable = (props) => {
+const SwapsTable = ({ isRefresh }) => {
 
     const history = useHistory()
 
@@ -22,7 +22,7 @@ const SwapsTable = (props) => {
 
     useEffect(() => {
         getSwaps()
-    }, [])
+    }, [isRefresh])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -102,6 +102,7 @@ const SwapsTable = (props) => {
 }
 
 const SwapsList = (props) => {
+    const [refresh, setRefresh] = useState(false);
 
     const childref = useRef();
     const handleAddUserForm = (event) => {
@@ -130,10 +131,10 @@ const SwapsList = (props) => {
             &nbsp;
             <Row>
                 <Col xl={12}>
-                    <SwapsTable />
+                    <SwapsTable isRefresh={refresh}/>
                 </Col>
             </Row>
-            <AddSwaps ref={childref} />
+            <AddSwaps ref={childref} refresh={() => setRefresh(true)}/>
         </React.Fragment>
     )
 }
