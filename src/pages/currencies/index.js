@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Select from '@mui/material/Select';
 
-const CurrenciesTable = (props) => {
+const CurrenciesTable = ({ isRefresh }) => {
 
     const history = useHistory()
 
@@ -45,7 +45,7 @@ const CurrenciesTable = (props) => {
     useEffect(() => {
         getCurrencies()
         getCountry()
-    }, [])
+    }, [isRefresh])
 
     const filterSelect = (country) => {
         setFilter(currencies.filter((res) => res.country_id === country))
@@ -154,6 +154,7 @@ const CurrenciesTable = (props) => {
 }
 
 const CurrenciesList = (props) => {
+    const [refresh, setRefresh] = useState(false)
 
     const childref = useRef();
     const handleAddUserForm = (event) => {
@@ -182,10 +183,10 @@ const CurrenciesList = (props) => {
             &nbsp;
             <Row>
                 <Col xl={12}>
-                    <CurrenciesTable />
+                    <CurrenciesTable isRefresh={refresh} />
                 </Col>
             </Row>
-            <AddCurrencies ref={childref} />
+            <AddCurrencies ref={childref} refresh={() => setRefresh(true)} />
         </React.Fragment>
     )
 }

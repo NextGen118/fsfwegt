@@ -57,8 +57,8 @@ const AddCurrencies = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios.post(`${process.env.REACT_APP_BASE_URL}/currencies/store?currency_code=${values.currencycode}&currency_name=${values.currencyname}&country_id=${countryselect}`)
             .then(res => {
+                props.refresh();
                 handleClose();
-                window.location.reload(false);
             })
             .catch((error) => {
                 console.log(error);
