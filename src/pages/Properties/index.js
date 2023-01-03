@@ -9,7 +9,7 @@ import EditProperties from './EditProperties';
 import Pagination from '@mui/material/Pagination';
 
 
-const Propertiestable = (props) => {
+const Propertiestable = ({ isRefresh }) => {
     const history = useHistory()
 
     const [properties, setProperties] = useState([])
@@ -22,7 +22,7 @@ const Propertiestable = (props) => {
 
     useEffect(() => {
         getProperties()
-    }, [])
+    }, [isRefresh])
 
     const getProperties = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/properties/show/all`)
@@ -116,6 +116,7 @@ const Propertiestable = (props) => {
 }
 
 const Propertieslist = (props) => {
+    const [refresh, setRefresh] = useState(false);
 
     const childref = useRef();
     const handleAddUserForm = (event) => {
@@ -144,11 +145,11 @@ const Propertieslist = (props) => {
             </Row>
             <Row>
                 <Col xl={12}>
-                    <Propertiestable />
+                    <Propertiestable isRefresh={refresh}/>
                 </Col>
             </Row>
 
-            <Addproperties ref={childref} />
+            <Addproperties ref={childref} refresh={() => setRefresh(true)}/>
         </React.Fragment>
     );
 }

@@ -34,8 +34,8 @@ const Addproperties = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios.post(`${process.env.REACT_APP_BASE_URL}/properties/store?property_name=${values.propertiesname}&description=${values.description}`)
             .then(res => {
-                console.log("successfully")
-                handleClose()
+                props.refresh();
+                handleClose();
 
             })
             .catch((error) => {
