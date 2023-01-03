@@ -10,7 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { Grid } from "@mui/material";
 import { createClientApiCall, showAllClientApi } from '../../axios/clients/Clients';
 
-const AddClients = (props) =>{
+const AddClients = () =>{
 
     const [values,setValues] = useState({});
     let history = useHistory()
@@ -44,7 +44,8 @@ const AddClients = (props) =>{
     const getCountry = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then(res=>{
-                setCountry(res.data.data)
+                setCountry(res.data.data);
+                setCountryselect(res.data.data[0]?.id);
             })
             .catch((error)=>{
                 console.log(error);
@@ -54,7 +55,8 @@ const AddClients = (props) =>{
     const getCurrency = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then(res=>{
-                setCurrency(res.data.data)
+                setCurrency(res.data.data);
+                setCurrencyselect(res.data.data[0]?.id);
             })
             .catch((error)=>{
                 console.log(error);
@@ -64,7 +66,8 @@ const AddClients = (props) =>{
     const getPort = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then(res=>{
-                setPort(res.data.data)
+                setPort(res.data.data);
+                setPortselect(res.data.data[0]?.id);
             })
             .catch((error)=>{
                 console.log(error);
@@ -121,17 +124,13 @@ const AddClients = (props) =>{
             remarks:values.remarks,
             activeselect: 1,
         };
-        if (isFormValidate) {
+        if (isFormValidate()) {
             event.preventDefault();
-            const createRes = createClientApiCall(clientsobj).then((createRes) => {
-                console.log(createRes);
-                if (createRes.status === 200) {
+            createClientApiCall(clientsobj)
+            .then((createRes) => {
                     showAllClientApi();
                     history.push('/clients');
                     setAlertSucces(false);
-                } else {
-                    setAlertFaild(false);
-                }
             });
         }
     };
@@ -163,8 +162,8 @@ const AddClients = (props) =>{
                             <Col lg={4}><AvField name="contact_name" label="Contact Name" type="text" required onChange={handleChange}/></Col>
                             <Col lg={4}><AvField name="sub_code" label="Sub Code" type="text" required onChange={handleChange}/></Col>
                             <Col lg={4}><AvField name="email" label="Email" type="email" required onChange={handleChange}/></Col>
-                            <Col lg={4}><AvField name="telephone_number" label="Telephone Number" type="text" required onChange={handleChange}/></Col>
-                            <Col lg={4}><AvField name="mobile_number" label="Mobile Number" type="text" required onChange={handleChange}/></Col>
+                            <Col lg={4}><AvField name="telephone_number" label="Telephone Number" type="number" required onChange={handleChange}/></Col>
+                            <Col lg={4}><AvField name="mobile_number" label="Mobile Number" type="number" required onChange={handleChange}/></Col>
                             <Col lg={4}><AvField name="fax" label="Fax" type="text" required onChange={handleChange}/></Col>
                             <Col lg={4}><AvField name="address" label="Address" type="text" required onChange={handleChange}/></Col>
                             <Col lg={4}><InputLabel id="demo-simple-select-label">Country</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={countryselect} onChange={changeCountry} sx={{ width: '100%', height:36 , mb: 2 }}>{country.map((con) =>(<MenuItem value={con.id} key={con.id}>{con.country_name}</MenuItem>))}</Select></Col>
