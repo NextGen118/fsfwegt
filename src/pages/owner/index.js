@@ -147,6 +147,7 @@ const OwnerListTable = () => {
         getCountry();
         getPort();
         getOwner();
+        console.log("refrsh")
     }, [values]);
 
     return (

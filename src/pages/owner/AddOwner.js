@@ -31,6 +31,7 @@ const AddOwner = () => {
             .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then((res) => {
                 setPort(res.data.data);
+                setPortselect(res.data.data[0]?.id)
             })
             .catch((error) => {
                 console.log(error);
@@ -42,6 +43,7 @@ const AddOwner = () => {
             .get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then((res) => {
                 setCountry(res.data.data);
+                setCountryselect(res.data.data[0]?.id)
             })
             .catch((error) => {
                 console.log(error);
@@ -66,9 +68,9 @@ const AddOwner = () => {
         console.log(event.target.value, 'country select');
     };
 
-    const [portselect, setPortselect] = useState('');
+    const [portselect, setPortselect] = useState();
     const changePort = (event) => {
-        setPortselect(event.target.value);
+        setPortselect(event.target.key);
         console.log(event.target.value, 'country select');
     };
 
@@ -132,7 +134,7 @@ const AddOwner = () => {
         };
         console.log(ownerobj, 'owner obj');
         if (isFormValidate()) {
-            event.preventDefault();
+            //event.preventDefault();
             createOwnerApiCall(ownerobj)
                 .then((createRes) => {
 
@@ -226,7 +228,7 @@ const AddOwner = () => {
 
                                 <Grid mb={2}>
                                     <AvField
-                                        name="Remarks"
+                                        name="remarks"
                                         label="remarks"
                                         type="text"
                                         required
@@ -266,7 +268,7 @@ const AddOwner = () => {
                                         value={portselect}
                                         onChange={changePort}
                                         required
-                                        label="Country"
+                                        label="Port"
                                         name="selectport">
                                         {port.map((con) => (
                                             <option value={con.id} key={con.id}>
@@ -329,7 +331,7 @@ const AddOwner = () => {
                                 <Button color="danger" style={{ marginLeft: 15 }} onClick={Back}>
                                     Back
                                 </Button>
-                                <Button color="primary" type="submit" style={{ marginLeft: 15 }} onClick={AddOwner}>
+                                <Button color="primary" type="submit" style={{ marginLeft: 15 }}>
                                     Submit
                                 </Button>
                             </Grid>
