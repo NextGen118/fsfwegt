@@ -7,7 +7,7 @@ import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
 import EditSwaps from "./editSwap";
 import AddSwaps from "./addSwap";
-
+import { Grid, TextField } from '@mui/material';
 
 const SwapsTable = ({ isRefresh }) => {
 
@@ -19,6 +19,12 @@ const SwapsTable = ({ isRefresh }) => {
     const [postPerPage, setPostPerPage] = useState(10)
     const [postCount, setPostCount] = useState(1)
 
+    const [values, setValues] = React.useState('');
+
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+        console.log('search', values);
+    };
 
     useEffect(() => {
         getSwaps()
@@ -38,20 +44,39 @@ const SwapsTable = ({ isRefresh }) => {
     };
 
     const getSwaps = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/swaps/show/all`)
-            .then(res => {
-                setSwaps(res.data.data)
+        if (values !== '') {
+        axios
+            .get(`${process.env.REACT_APP_BASE_URL}/swaps/search/query?query=${values}`)
+            .then((res) => {
+                setSwaps(res.data);
                 setPostCount(() => {
-                    if (res.data.data.length < 8) {
-                        return 1
+                    if (res.data.length < 8) {
+                        return 1;
                     }
 
-                    return Math.ceil(res.data.data.length / 8)
-                })
+                    return Math.ceil(res.data.length / 8);
+                });
             })
             .catch((error) => {
                 console.log(error);
-            })
+            });
+        } else {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/swaps/show/all`)
+                .then((res) => {
+                    setSwaps(res.data.data);
+                    setPostCount(() => {
+                        if (res.data.data.length < 8) {
+                            return 1;
+                        }
+
+                        return Math.ceil(res.data.data.length / 8);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
 
     const [id, setId] = useState('');
@@ -66,6 +91,20 @@ const SwapsTable = ({ isRefresh }) => {
 
     return (
         <>
+            <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
+            </Card>
             <Card>
                 <CardBody>
                     <Table className="mb-o">
@@ -86,7 +125,7 @@ const SwapsTable = ({ isRefresh }) => {
                                         <td>{record.equipment_number}</td>
                                         <td>{record.date}</td>
                                         <td>{record.description}</td>
-                                        <td><Edit onClick={(e) => editSwaps(e, record.id)} /></td>
+                                        <td><Edit color="blue" onClick={(e) => editSwaps(e, record.id)} /></td>
                                     </tr>
                                 )
                             })}
@@ -94,7 +133,7 @@ const SwapsTable = ({ isRefresh }) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination style={{ float: 'right' }} count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
             <EditSwaps ref={updateRef} id={id} refresh={getSwaps} />
 
         </>
@@ -116,19 +155,20 @@ const SwapsList = (props) => {
     return (
         <React.Fragment>
             <Row className="page-title">
-                <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'swaps', path: '/swaps' }]}
-                        title={'Swaps List'}
-                    />
+                <Col>
+                    <Row>
+                        <h3 className="mb-1 mt-0">Swaps</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'Swaps', path: '/swaps' }]} />
+                    </Row>
+                </Col>
+                <Col>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>
+                        + Create Swap
+                    </Button>
                 </Col>
             </Row>
-            <Row>
-                <Col md={12}>
-                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>Add</Button>
-                </Col>
-            </Row>
-            &nbsp;
             <Row>
                 <Col xl={12}>
                     <SwapsTable isRefresh={refresh}/>
