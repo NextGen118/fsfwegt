@@ -7,6 +7,7 @@ import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
 import AddCountries from "./addCountries";
 import EditCountries from "./editCountries";
+import { Grid, TextField } from '@mui/material';
 
 const CountriesTable = ({ isRefresh }) => {
 
@@ -15,8 +16,14 @@ const CountriesTable = ({ isRefresh }) => {
     const [countries, setCountries] = useState([])
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postPerPage, setPostPerPage] = useState(8)
+    const [postPerPage, setPostPerPage] = useState(10)
     const [postCount, setPostCount] = useState(1)
+
+    const [values, setValues] = React.useState('');
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+        console.log('search', values);
+    };
 
     useEffect(() => {
         getCountries()
@@ -36,20 +43,40 @@ const CountriesTable = ({ isRefresh }) => {
     };
 
     const getCountries = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
-            .then(res => {
-                setCountries(res.data.data)
-                setPostCount(() => {
-                    if (res.data.data.length < 8) {
-                        return 1
-                    }
+        if (values !== '') {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/countries/search/query?query=${values}`)
+                .then((res) => {
+                    setCountries(res.data);
+                    setPostCount(() => {
+                        if (res.data.length < 8) {
+                            return 1;
+                        }
 
-                    return Math.ceil(res.data.data.length / 8)
+                        return Math.ceil(res.data.length / 8);
+                    });
                 })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
+                .then((res) => {
+                    console.log(res.data.data);
+                    setCountries(res.data.data);
+                    setPostCount(() => {
+                        if (res.data.data.length < 8) {
+                            return 1;
+                        }
+
+                        return Math.ceil(res.data.data.length / 8);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
 
     const [id, setId] = useState('');
@@ -65,7 +92,21 @@ const CountriesTable = ({ isRefresh }) => {
     return (
         <>
             <Card>
-                <CardBody>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
+            </Card>
+            <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
                     <Table className="mb-o">
                         <thead>
                             <tr>
@@ -80,7 +121,7 @@ const CountriesTable = ({ isRefresh }) => {
                                     <tr key={record.id}>
                                         <td>{record.country_name}</td>
                                         <td>{record.capital_city_name}</td>
-                                        <td><Edit onClick={(e) => editCountries(e, record.id)} /></td>
+                                        <td><Edit color="blue" onClick={(e) => editCountries(e, record.id)} /></td>
                                     </tr>
                                 )
                             })}
@@ -88,7 +129,7 @@ const CountriesTable = ({ isRefresh }) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination style={{ float: 'right' }} count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
             <EditCountries ref={updateRef} id={id} refresh={getCountries} />
         </>
     );
@@ -109,19 +150,20 @@ const CountriesList = (props) => {
     return (
         <React.Fragment>
             <Row className="page-title">
-                <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'countries', path: '/countries' }]}
-                        title={'Countries List'}
-                    />
-                </Col>
-            </Row>
-            <Row>
                 <Col>
-                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>Add</Button>
+                    <Row>
+                        <h3 className="mb-1 mt-0">Countries</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'countries', path: '/countries' }]} />
+                    </Row>
+                </Col>
+                <Col>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>
+                        + Create Country
+                    </Button>
                 </Col>
             </Row>
-            &nbsp;
             <Row>
                 <Col xl={12}>
                     <CountriesTable isRefresh={refresh}/>
