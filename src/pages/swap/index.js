@@ -121,7 +121,7 @@ const SwapsTable = ({ isRefresh }) => {
                             {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
-                                        <td>{record.client_name}</td>
+                                        <td>{record.client_id_agent}</td>
                                         <td>{record.equipment_number}</td>
                                         <td>{record.date}</td>
                                         <td>{record.description}</td>
