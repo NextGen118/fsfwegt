@@ -5,6 +5,8 @@ import { Edit } from "react-feather";
 import { useHistory } from "react-router-dom";
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
+import { Grid, TextField } from '@mui/material';
+import Badge from '@mui/material/Badge';
 
 const VendorsTable = (props) => {
 
@@ -14,10 +16,17 @@ const VendorsTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(10)
+    const [postCount, setPostCount] = useState(1)
+
+    const [values, setValues] = React.useState('');
+
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+    };
 
     useEffect(() => {
         getVendors()
-    }, [])
+    }, [values])
 
     //getCurrent data  //pagination part
     const indexOfLastdata = currentPage * postPerPage
@@ -33,13 +42,37 @@ const VendorsTable = (props) => {
     };
 
     const getVendors = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
+        if(values !== ''){
+            axios.get(`${process.env.REACT_APP_BASE_URL}/vendors/search/query?query=${values}`)
+            .then((res) => {
+                setVendors(res.data);
+                setPostCount(() => {
+                    if (res.data.length < 8) {
+                        return 1;
+                    }
+
+                    return Math.ceil(res.data.length / 8);
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }else{
+            axios.get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then(res => {
                 setVendors(res.data.data)
+                setPostCount(() => {
+                    if (res.data.data.length < 8) {
+                        return 1
+                    }
+
+                    return Math.ceil(res.data.data.length / 8)
+                })
             })
             .catch((error) => {
                 console.log(error);
             })
+        }
     }
 
     const editVendors = (id) => {
@@ -49,6 +82,18 @@ const VendorsTable = (props) => {
     return (
         <>
             <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
                 <CardBody style={{ width: "100%", overflow: "auto", display: "flex" }}>
                     <Table>
                         <thead>
@@ -81,8 +126,16 @@ const VendorsTable = (props) => {
                                         <td>{record.fax}</td>
                                         <td>{record.address}</td>
                                         <td>{record.remarks}</td>
-                                        <td>{record.is_active}</td>
-                                        <td><Edit onClick={() => editVendors(record.id)} /></td>
+                                        <th>
+                                            {record.is_active == 1 ? (
+                                                <>
+                                                    <Badge badgeContent={'Active'} color="success" sx={{ ml: 3 }}></Badge>
+                                                </>
+                                            ) : (
+                                                <Badge color="error" badgeContent={'Inactive'} sx={{ ml: 3 }}></Badge>
+                                            )}
+                                        </th>
+                                        <td><Edit color="blue" size={20} onClick={() => editVendors(record.id)} /></td>
                                     </tr>
                                 )
                             })}
@@ -90,7 +143,7 @@ const VendorsTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postPerPage} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination style={{ float: 'right' }} count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
         </>
     );
 }
@@ -107,15 +160,17 @@ const VendorsList = (props) => {
         <React.Fragment>
             <Row className="page-title">
                 <Col>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'Vendors', path: '/vendors' }]}
-                        title={'Vendors List'}
-                    />
+                    <Row>
+                        <h3 className="mb-1 mt-0">Vendors</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'vendors', path: '/vendors' }]} />
+                    </Row>
                 </Col>
-            </Row>
-            <Row>
                 <Col>
-                    <Button color="info" className="float-right" onClick={() => addVendorsForm()}>Add</Button>
+                    <Button color="info" className="float-right" onClick={() => addVendorsForm()}>
+                        + Create Vendor
+                    </Button>
                 </Col>
             </Row>
             &nbsp;
