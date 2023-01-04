@@ -48,8 +48,6 @@ const AddSwaphistories = forwardRef((props, ref) => {
     const [equipment, setEquipment] = useState([])
     const [equipmentselect, setEquipmentselect] = useState('')
 
-    const [activeselect, setActiveselect] = useState('')
-
     const getSwap = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/swaps/show/all`)
             .then(res => {
@@ -95,12 +93,8 @@ const AddSwaphistories = forwardRef((props, ref) => {
         setClientselect(event.target.value);
     }
 
-    const changeActive = (event) => {
-        setActiveselect(event.target.value);
-    }
-
     const onSubmit = () => {
-        axios.post(`${process.env.REACT_APP_BASE_URL}/swaphistories/store?swap_id=${swapselect}&status=${activeselect}&equipment_id=${equipmentselect}&client_id_agent=${clientselect}`)
+        axios.post(`${process.env.REACT_APP_BASE_URL}/swaphistories/store?swap_id=${swapselect}&status=1&equipment_id=${equipmentselect}&client_id_agent=${clientselect}`)
             .then(res => {
                 props.refresh();
                 handleClose();
@@ -137,10 +131,9 @@ const AddSwaphistories = forwardRef((props, ref) => {
                                 <Card>
                                     <CardBody>
                                         <AvForm>
-                                            <InputLabel id="demo-simple-select-label">Swap</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={swapselect} onChange={changeSwap} sx={{ width: 540, height: 36, mb: 2 }}>{swap.map((swp) => (<MenuItem value={swp.id} key={swp.id}>{swp.description}</MenuItem>))}</Select>
-                                            <InputLabel id="demo-simple-select-label">Client</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={clientselect} onChange={changeClient} sx={{ width: 540, height: 36, mb: 2 }}>{client.map((con) => (<MenuItem value={con.id} key={con.id}>{con.client_name}</MenuItem>))}</Select>
-                                            <InputLabel id="demo-simple-select-label">Equipment</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={equipmentselect} onChange={changeEquipment} sx={{ width: 540, height: 36, mb: 2 }}>{equipment.map((equ) => (<MenuItem value={equ.id} key={equ.id}>{equ.equipment_number}</MenuItem>))}</Select>
-                                            <InputLabel id="demo-simple-select-label">Active</InputLabel><Select labelId="demo-simple-select-label" id="demo-simple-select" value={activeselect} onChange={changeActive} sx={{ width: 540, height: 36, mb: 2 }}><MenuItem value={1}>Active</MenuItem><MenuItem value={0}>Inactive</MenuItem></Select>
+                                            <InputLabel id="demo-simple-select-label">Swap</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={swapselect} onChange={changeSwap} sx={{ width: '100%', height: 40, mb: 2 }}>{swap.map((swp) => (<MenuItem value={swp.id} key={swp.id}>{swp.description}</MenuItem>))}</Select>
+                                            <InputLabel id="demo-simple-select-label">Client</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={clientselect} onChange={changeClient} sx={{ width: '100%', height: 40, mb: 2 }}>{client.map((con) => (<MenuItem value={con.id} key={con.id}>{con.client_name}</MenuItem>))}</Select>
+                                            <InputLabel id="demo-simple-select-label">Equipment</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={equipmentselect} onChange={changeEquipment} sx={{ width: '100%', height: 40, mb: 2 }}>{equipment.map((equ) => (<MenuItem value={equ.id} key={equ.id}>{equ.equipment_number}</MenuItem>))}</Select>
 
                                             <Button color="primary" type="submit" onClick={onSubmit} style={{ marginRight: '2%' }}>Submit</Button>
                                             <Button color="danger" onClick={handleClose}>Close</Button>
