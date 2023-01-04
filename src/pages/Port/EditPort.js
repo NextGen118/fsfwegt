@@ -137,7 +137,7 @@ const EditPort = forwardRef((props, ref) => {
                                                 id="demo-simple-select"
                                                 value={countryselect}
                                                 onChange={changeCountry}
-                                                sx={{ width: 150, mb: 5 }}
+                                                sx={{ width: '100%', height: 40,mb: 2 }}
 
                                             >
 
