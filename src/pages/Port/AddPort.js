@@ -45,7 +45,8 @@ const Addport = forwardRef((props, ref) => {
     const getCountry = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/countries/show/all`)
             .then(res => {
-                setCountry(res.data.data)
+                setCountry(res.data.data);
+                setCountryselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -115,7 +116,7 @@ const Addport = forwardRef((props, ref) => {
                                                 id="demo-simple-select"
                                                 value={countryselect}
                                                 onChange={changeCountry}
-                                                sx={{ width: 150, mb: 5 }}
+                                                sx={{ width: '100%', height: 40,mb: 2 }}
 
                                             >
 
