@@ -55,18 +55,13 @@ const Addport = forwardRef((props, ref) => {
 
     const changeCountry = (event) => {
         setCountryselect(event.target.value);
-        console.log(event.target.value, "country select")
     };
 
     const onSubmit = () => {
         axios.post(`${process.env.REACT_APP_BASE_URL}/ports/store?port_code=${values.port_code}&port_name=${values.port_name}&sub_code=${values.sub_code}&country_id=${countryselect}`)
             .then(res => {
-                console.log(res, "port res")
-
-                console.log("successfully")
-                props.refresh()
-                handleClose()
-
+                props.refresh();
+                handleClose();
             })
             .catch((error) => {
                 console.log(error);
@@ -76,7 +71,6 @@ const Addport = forwardRef((props, ref) => {
 
     return (
         <>
-            {console.log(country, "country")}
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

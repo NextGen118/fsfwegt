@@ -42,7 +42,8 @@ const AddAccesspoints = forwardRef((props, ref) => {
     const getAccessmodel = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/accessmodels/show/all`)
             .then(res => {
-                setAccessmodel(res.data.data)
+                setAccessmodel(res.data.data);
+                setAccessmodelselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -56,8 +57,8 @@ const AddAccesspoints = forwardRef((props, ref) => {
     const onSubmit = () => {
         axios.post(`${process.env.REACT_APP_BASE_URL}/accesspoints/store?display_name=${values.display_name}&value=${values.value}&access_model_id=${accessmodelselect}`)
             .then(res => {
+                props.refresh();
                 handleClose();
-                window.location.reload(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -97,8 +98,7 @@ const AddAccesspoints = forwardRef((props, ref) => {
                                                 id="demo-simple-select"
                                                 value={accessmodelselect}
                                                 onChange={changeAccessmodel}
-                                                sx={{ width: 540, height: 36, mb: 2 }}
-
+                                                sx={{ width: '100%', height: 40,mb: 2 }}
                                             >
                                                 {accessmodel.map((acc) => (
                                                     <MenuItem value={acc.id} key={acc.id}>{acc.name}</MenuItem>
