@@ -111,8 +111,8 @@ const AddSwaps = forwardRef((props, ref) => {
                                 <Card>
                                     <CardBody>
                                         <AvForm>
-                                            <InputLabel id="demo-simple-select-label">Client</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={clientselect} onChange={changeClient} sx={{ width: 540, height: 36, mb: 2 }}>{client.map((con) => (<MenuItem value={con.id} key={con.id}>{con.client_name}</MenuItem>))}</Select>
-                                            <InputLabel id="demo-simple-select-label">Equipment</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={equipmentselect} onChange={changeEquipment} sx={{ width: 540, height: 36, mb: 2 }}>{equipment.map((equ) => (<MenuItem value={equ.id} key={equ.id}>{equ.equipment_number}</MenuItem>))}</Select>
+                                            <InputLabel id="demo-simple-select-label">Client</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={clientselect} onChange={changeClient} sx={{ width: '100%', height: 40, mb: 2 }}>{client.map((con) => (<MenuItem value={con.id} key={con.id}>{con.client_name}</MenuItem>))}</Select>
+                                            <InputLabel id="demo-simple-select-label">Equipment</InputLabel><Select abelId="demo-simple-select-label" id="demo-simple-select" value={equipmentselect} onChange={changeEquipment} sx={{ width: '100%', height: 40, mb: 2 }}>{equipment.map((equ) => (<MenuItem value={equ.id} key={equ.id}>{equ.equipment_number}</MenuItem>))}</Select>
                                             <AvField name="date" label="Date" type="date" required onChange={handleChange} />
                                             <AvField name="description" label="Description" type="text" required onChange={handleChange} />
 
