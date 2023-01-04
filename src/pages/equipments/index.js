@@ -15,7 +15,7 @@ const EquipmentListTable = () => {
 
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postPerPage, setPostPerPage] = useState(8)
+    const [postPerPage, setPostPerPage] = useState(10)
     const [postCount, setPostCount] = useState(1)
 
 
@@ -27,7 +27,7 @@ const EquipmentListTable = () => {
         axios.get(`${process.env.REACT_APP_BASE_URL}/equipments/show/all`)
             .then(res => {
                 console.log(res.data)
-                setEquipments(res.data.data)
+                setEquipments(res.data.data);
                 setPostCount(() => {
                     if (res.data.data.length < 8) {
                         return 1

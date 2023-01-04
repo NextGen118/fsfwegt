@@ -92,7 +92,7 @@ const AddClients = () =>{
             !values.client_name ||
             !values.sub_code ||
             !values.email ||
-            !values.telephone_number ||
+            !values.mobile_number ||
             !values.fax ||
             !countryselect ||
             !portselect ||
