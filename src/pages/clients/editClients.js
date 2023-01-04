@@ -201,7 +201,6 @@ const EditClients = (props) => {
             <Card>
                 <CardBody>
                     <AvForm onSubmit={onEdit}>
-
                         <Row container item spacing={2}>
                             <Col lg={4}><AvField name="client_code" label="Client Code" type="text" required onChange={handleChange} value={values.client_code}/></Col>
                             <Col lg={4}><AvField name="client_name" label="Client Name" type="text" required onChange={handleChange} value={values.client_name}/></Col>
