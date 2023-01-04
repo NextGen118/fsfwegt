@@ -117,7 +117,7 @@ const EditCurrencies = forwardRef((props, ref) => {
                                                 id="demo-simple-select"
                                                 value={countryselect}
                                                 onChange={changeCountry}
-                                                sx={{ width: 540, height: 36, mb: 2 }}
+                                                sx={{ width: '100%', height: 40, mb: 2 }}
                                             >
                                                 {country.map((con) => (
                                                     <MenuItem value={con.id} key={con.id}>{con.country_name}</MenuItem>
