@@ -7,6 +7,8 @@ import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
 import AddSwaphistories from "./addSwaphistories";
 import EditSwaphistories from "./editSwaphistories";
+import { Grid, TextField } from '@mui/material';
+import Badge from '@mui/material/Badge';
 
 const SwaphistoriesTable = ({ isRefresh }) => {
 
@@ -17,6 +19,12 @@ const SwaphistoriesTable = ({ isRefresh }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [postPerPage, setPostPerPage] = useState(10)
     const [postCount, setPostCount] = useState(1)
+
+    const [values, setValues] = React.useState('');
+
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+    };
 
     useEffect(() => {
         getSwaphistories()
@@ -36,20 +44,39 @@ const SwaphistoriesTable = ({ isRefresh }) => {
     };
 
     const getSwaphistories = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/swaphistories/show/all`)
-            .then(res => {
-                setSwaphistories(res.data.data)
-                setPostCount(() => {
-                    if (res.data.data.length < 8) {
-                        return 1
-                    }
+        if (values !== '') {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/swaphistories/search/query?query=${values}`)
+                .then((res) => {
+                    setSwaphistories(res.data);
+                    setPostCount(() => {
+                        if (res.data.length < 8) {
+                            return 1;
+                        }
 
-                    return Math.ceil(res.data.data.length / 8)
+                        return Math.ceil(res.data.length / 8);
+                    });
                 })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/swaphistories/show/all`)
+                .then((res) => {
+                    setSwaphistories(res.data.data);
+                    setPostCount(() => {
+                        if (res.data.data.length < 8) {
+                            return 1;
+                        }
+
+                        return Math.ceil(res.data.data.length / 8);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
 
     const [id, setId] = useState('');
@@ -65,7 +92,21 @@ const SwaphistoriesTable = ({ isRefresh }) => {
     return (
         <>
             <Card>
-                <CardBody>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
+            </Card>
+            <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
                     <Table className="mb-o">
                         <thead>
                             <tr>
@@ -83,8 +124,16 @@ const SwaphistoriesTable = ({ isRefresh }) => {
                                         <td>{record.swap_id}</td>
                                         <td>{record.client_name}</td>
                                         <td>{record.equipment_id}</td>
-                                        <td>{record.status}</td>
-                                        <td><Edit onClick={(e) => editSwaphistories(e, record.id)} /></td>
+                                        <th>
+                                            {record.status == 1 ? (
+                                                <>
+                                                    <Badge badgeContent={'Active'} color="success" sx={{ ml: 3 }}></Badge>
+                                                </>
+                                            ) : (
+                                                <Badge color="error" badgeContent={'Inactive'} sx={{ ml: 3 }}></Badge>
+                                            )}
+                                        </th>
+                                        <td><Edit color="blue" onClick={(e) => editSwaphistories(e, record.id)} /></td>
                                     </tr>
                                 )
                             })}
@@ -92,7 +141,7 @@ const SwaphistoriesTable = ({ isRefresh }) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination style={{ float: 'right' }} count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
             <EditSwaphistories ref={updateRef} id={id} refresh={getSwaphistories} />
         </>
     );
@@ -113,19 +162,20 @@ const SwaphistoriesList = (props) => {
     return (
         <React.Fragment>
             <Row className="page-title">
-                <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'swaphistories', path: '/swaphistories' }]}
-                        title={'SwapHistories List'}
-                    />
+                <Col>
+                    <Row>
+                        <h3 className="mb-1 mt-0">Swap Histories</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'Swap Histories', path: '/swaphistories' }]} />
+                    </Row>
+                </Col>
+                <Col>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>
+                        + Create SwapHistory
+                    </Button>
                 </Col>
             </Row>
-            <Row>
-                <Col md={12}>
-                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>Add</Button>
-                </Col>
-            </Row>
-            &nbsp;
             <Row>
                 <Col xl={12}>
                     <SwaphistoriesTable isRefresh={refresh}/>
