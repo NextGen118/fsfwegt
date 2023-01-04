@@ -117,8 +117,7 @@ const EditAccesspoints = forwardRef((props, ref) => {
                                                 id="demo-simple-select"
                                                 value={accessmodelselect}
                                                 onChange={changeAccessmodel}
-                                                sx={{ width: 540, height: 36, mb: 2 }}
-
+                                                sx={{ width: '100%', height: 40,mb: 2 }}
                                             >
                                                 {accessmodel.map((acc) => (
                                                     <MenuItem value={acc.id} key={acc.id}>{acc.name}</MenuItem>
