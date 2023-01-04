@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 import Addport from './AddPort';
 import EditPort from './EditPort';
 import Pagination from '@mui/material/Pagination';
-
+import { Grid, TextField } from '@mui/material';
 
 const Porttable = ({ isRefresh }) => {
     const history = useHistory()
@@ -15,32 +15,55 @@ const Porttable = ({ isRefresh }) => {
     const [port, setPort] = useState([])
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [postPerPage, setPostPerPage] = useState(8)
+    const [postPerPage, setPostPerPage] = useState(10)
     const [postCount, setPostCount] = useState(1)
 
+    const [values, setValues] = React.useState('');
 
-
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+        console.log('search', values);
+    };
 
     useEffect(() => {
-        getProperties()
+        getPorts()
     }, [isRefresh])
 
-    const getProperties = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
-            .then(res => {
-                console.log(res.data)
-                setPort(res.data.data)
-                setPostCount(() => {
-                    if (res.data.data.length < 8) {
-                        return 1
-                    }
+    const getPorts = () => {
+        if (values !== '') {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/ports/search/query?query=${values}`)
+                .then((res) => {
+                    setPort(res.data);
+                    setPostCount(() => {
+                        if (res.data.length < 8) {
+                            return 1;
+                        }
 
-                    return Math.ceil(res.data.data.length / 8)
+                        return Math.ceil(res.data.length / 8);
+                    });
                 })
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
+                .then((res) => {
+                    console.log(res.data.data);
+                    setPort(res.data.data);
+                    setPostCount(() => {
+                        if (res.data.data.length < 8) {
+                            return 1;
+                        }
+
+                        return Math.ceil(res.data.data.length / 8);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
 
     //getCurrent data  //pagination part
@@ -56,18 +79,9 @@ const Porttable = ({ isRefresh }) => {
         setCurrentPage(value);
     };
 
-    const deleteProperties = (id) => {
-        axios.delete(`http://127.0.0.1:8000/properties/show/all?${id}`)
-            .then(res => {
-                getProperties()
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
 
     const goEdit = (id) => {
-        history.push(`edit-properties/${id}`)
+        history.push(`edit-ports/${id}`)
     }
 
     const [id, seiId] = useState('')
@@ -84,11 +98,24 @@ const Porttable = ({ isRefresh }) => {
     return (
         <>
             <Card>
-                <CardBody>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
+            </Card>
+            <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'flex' }}>
                     <Table className="mb-0">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Port code</th>
                                 <th>port name</th>
                                 <th>Sub code</th>
@@ -101,14 +128,18 @@ const Porttable = ({ isRefresh }) => {
                             {currentData.map((record) => {
                                 return (
                                     <tr key={record.id}>
-                                        <th scope="row">{record.id}</th>
                                         <td>{record.port_code}</td>
                                         <td>{record.port_name}</td>
                                         <td>{record.sub_code}</td>
                                         <td>{record.country_name}</td>
                                         <td>{record.capital_city_name}</td>
-                                        <td>  {/*<Trash color='red' onClick={() => deleteProperties(record.id)} />*/}<Edit style={{ cursor: 'pointer' }} onClick={(e) => handleUpdateForm(e, record.id)} /></td>
-
+                                        <td>
+                                            <Edit
+                                                color="blue"
+                                                size={20}
+                                                onClick={(e) => handleUpdateForm(e, record.id)}
+                                            />
+                                        </td>
                                     </tr>
                                 );
                             })}
@@ -116,8 +147,8 @@ const Porttable = ({ isRefresh }) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
-            <EditPort ref={updateRef} id={id} refresh={getProperties} />
+            <Pagination style={{ float: 'right' }} count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <EditPort ref={updateRef} id={id} refresh={getPorts} />
         </>
     );
 }
@@ -138,17 +169,18 @@ const Portlist = (props) => {
     return (
         <React.Fragment>
             <Row className="page-title">
-
-                <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'Port', path: '/port' }]}
-                        title={'Port'}
-                    />
+                <Col>
+                    <Row>
+                        <h3 className="mb-1 mt-0">Ports</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'Ports', path: '/ports' }]} />
+                    </Row>
                 </Col>
-            </Row>
-            <Row>
-                <Col md={12}>
-                    <Button color='info' onClick={(e) => handleAddUserForm(e)} style={{ float: 'right', marginBottom: 10 }}>Add</Button>
+                <Col>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>
+                        + Create Port
+                    </Button>
                 </Col>
             </Row>
             <Row>
