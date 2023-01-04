@@ -7,8 +7,9 @@ import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
 import AddAccesspoints from "./addAccessPoints";
 import EditAccesspoints from "./editAccessPoints";
+import { Grid, TextField } from '@mui/material';
 
-const AccesspointsTable = (props) => {
+const AccesspointsTable = ({ isRefresh }) => {
 
     const history = useHistory()
 
@@ -18,6 +19,12 @@ const AccesspointsTable = (props) => {
     const [postPerPage, setPostPerPage] = useState(10)
     const [postCount, setPostCount] = useState(1)
 
+    const [values, setValues] = React.useState('');
+
+    const handleSearchChange = (event) => {
+        setValues(event.target.value);
+        console.log('search', values);
+    };
     useEffect(() => {
         getAccesspoints()
     }, [])
@@ -36,20 +43,39 @@ const AccesspointsTable = (props) => {
     };
 
     const getAccesspoints = () => {
-        axios.get(`${process.env.REACT_APP_BASE_URL}/accesspoints/show/all`)
-            .then(res => {
-                setAccesspoints(res.data.data)
-                setPostCount(() => {
-                    if (res.data.data.length < 8) {
-                        return 1
-                    }
+            if (values !== '') {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/accesspoints/search/query?query=${values}`)
+                .then((res) => {
+                    setAccesspoints(res.data);
+                    setPostCount(() => {
+                        if (res.data.length < 8) {
+                            return 1;
+                        }
 
-                    return Math.ceil(res.data.data.length / 8)
+                        return Math.ceil(res.data.length / 8);
+                    });
                 })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            axios
+                .get(`${process.env.REACT_APP_BASE_URL}/accesspoints/show/all`)
+                .then((res) => {
+                    setAccesspoints(res.data.data);
+                    setPostCount(() => {
+                        if (res.data.data.length < 8) {
+                            return 1;
+                        }
+
+                        return Math.ceil(res.data.data.length / 8);
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     }
 
     const [id, setId] = useState('');
@@ -64,6 +90,20 @@ const AccesspointsTable = (props) => {
 
     return (
         <>
+            <Card>
+                <CardBody style={{ width: '100%', overflow: 'auto', display: 'grid' }}>
+                    <Grid md={6} sx={{ textAlign: 'right' }}>
+                        <TextField
+                            id="standard-basic"
+                            label="Search"
+                            variant="outlined"
+                            value={values}
+                            onChange={handleSearchChange}
+                            sx={{ width: '30%' }}
+                        />
+                    </Grid>
+                </CardBody>
+            </Card>
             <Card>
                 <CardBody>
                     <Table className="mb-o">
@@ -82,7 +122,7 @@ const AccesspointsTable = (props) => {
                                         <td>{record.name}</td>
                                         <td>{record.display_name}</td>
                                         <td>{record.value}</td>
-                                        <td><Edit onClick={(e) => editAccesspoints(e, record.id)} /></td>
+                                        <td><Edit color="blue" onClick={(e) => editAccesspoints(e, record.id)} /></td>
                                     </tr>
                                 )
                             })}
@@ -90,13 +130,14 @@ const AccesspointsTable = (props) => {
                     </Table>
                 </CardBody>
             </Card>
-            <Pagination count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
+            <Pagination style={{ float: 'right' }} count={postCount} page={currentPage} onChange={handlePaginationChange} variant="outlined" />
             <EditAccesspoints ref={updateRef} id={id} refresh={getAccesspoints} />
         </>
     );
 }
 
 const AccesspointsList = (props) => {
+    const [refresh, setRefresh] = useState(false)
 
     const childref = useRef();
     const handleAddUserForm = (event) => {
@@ -110,25 +151,26 @@ const AccesspointsList = (props) => {
     return (
         <React.Fragment>
             <Row className="page-title">
-                <Col md={12}>
-                    <PageTitle
-                        breadCrumbItems={[{ label: 'accesspoints', path: '/accesspoints' }]}
-                        title={'Accesspoints List'}
-                    />
+                <Col>
+                    <Row>
+                        <h3 className="mb-1 mt-0">Accesspoints</h3>
+                    </Row>
+                    <Row>
+                        <PageTitle breadCrumbItems={[{ label: 'Accesspoints', path: '/accesspoints' }]} />
+                    </Row>
+                </Col>
+                <Col>
+                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>
+                        + Create Accesspoint
+                    </Button>
                 </Col>
             </Row>
-            <Row>
-                <Col md={12}>
-                    <Button color="info" className="float-right" onClick={(e) => handleAddUserForm(e)}>Add</Button>
-                </Col>
-            </Row>
-            &nbsp;
             <Row>
                 <Col xl={12}>
-                    <AccesspointsTable />
+                    <AccesspointsTable isRefresh={refresh} />
                 </Col>
             </Row>
-            <AddAccesspoints ref={childref} />
+            <AddAccesspoints ref={childref} refresh={() => setRefresh(true)} />
         </React.Fragment>
     )
 }
