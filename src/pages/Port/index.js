@@ -50,7 +50,6 @@ const Porttable = ({ isRefresh }) => {
             axios
                 .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
                 .then((res) => {
-                    console.log(res.data.data);
                     setPort(res.data.data);
                     setPostCount(() => {
                         if (res.data.data.length < 8) {
