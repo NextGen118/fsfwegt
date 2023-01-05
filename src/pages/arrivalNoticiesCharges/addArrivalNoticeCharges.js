@@ -4,9 +4,6 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import PageTitle from '../../components/PageTitle';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 import {
     createArrivalNoticeChargesApiCall,
@@ -43,6 +40,7 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/arivalnotices/show/all`)
             .then((res) => {
                 setArrivalNotice(res.data.data);
+                setArrivalNoticeselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -54,7 +52,10 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then((res) => {
                 setCurrency(res.data.data);
+                setCurrencyselect(res.data.data[0]?.id);
+
                 setMyCurrency(res.data.data);
+                setMyCurrencyselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -178,49 +179,52 @@ const AddArrivalNoticeCharges = forwardRef((props, ref) => {
                     <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Arrival Notice</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={arrivalNoticeselect}
+                                    required
                                     onChange={changeArrivalNotice}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {arrivalNotice.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.arrival_notice_no}
-                                        </MenuItem>
+                                    label="Arrival Notice No  *"
+                                    name="selectarrivalNotice">
+                                    {arrivalNotice.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.arrival_notice_no}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Currency</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={currencyselect}
+                                    required
                                     onChange={changeCurrency}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {currency.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.currency_name}
-                                        </MenuItem>
+                                    label="Currency *"
+                                    name="selectcurrency">
+                                    {currency.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.currency_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">My Currency</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={myCurrencyselect}
+                                    required
                                     onChange={changeMyCurrency}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {myCurrency.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.currency_name}
-                                        </MenuItem>
+                                    label="My Currency *"
+                                    name="selectmyCurrency">
+                                    {myCurrency.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.currency_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
                                 <AvField

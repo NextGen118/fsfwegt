@@ -4,9 +4,6 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import PageTitle from '../../components/PageTitle';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 import { createReceiptPaymentsApiCall, showAllReceiptPaymentsApi } from '../../axios/receiptPayments/receiptPayments';
 import SuccessMsg from '../../components/AlertMsg';
@@ -38,6 +35,7 @@ const AddReceiptPayments = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/receipts/show/all`)
             .then((res) => {
                 setReceipts(res.data.data);
+                setReceiptsselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -150,19 +148,20 @@ const AddReceiptPayments = forwardRef((props, ref) => {
                     <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Receipt</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={receiptsselect}
+                                    required
                                     onChange={changeReceipts}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {receipts.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.receipt_no}
-                                        </MenuItem>
+                                    label="Receipt *"
+                                    name="selectreceipts">
+                                    {receipts.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.receipt_no}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
                                 <AvField

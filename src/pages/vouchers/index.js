@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, CardBody, Table, Button } from 'reactstrap';
+import { Row, Col, Card, CardBody, Table, Button, Badge } from 'reactstrap';
 import axios from 'axios';
 import { Delete, Edit, Trash2 } from 'react-feather';
 import { useHistory } from 'react-router-dom';
 import PageTitle from '../../components/PageTitle';
 import Pagination from '@mui/material/Pagination';
-import Badge from '@mui/material/Badge';
 import { Grid, TextField } from '@mui/material';
 
 const VouchersTable = (props) => {
@@ -123,13 +122,14 @@ const VouchersTable = (props) => {
                                         <th>
                                             {record.status == 1 ? (
                                                 <>
-                                                    <Badge
-                                                        badgeContent={'Active'}
-                                                        color="success"
-                                                        sx={{ ml: 3 }}></Badge>
+                                                    <Badge color="success" sx={{ ml: 3 }}>
+                                                        success
+                                                    </Badge>
                                                 </>
                                             ) : (
-                                                <Badge color="error" badgeContent={'Inactive'} sx={{ ml: 3 }}></Badge>
+                                                <Badge color="danger" sx={{ ml: 3 }}>
+                                                    Inactive
+                                                </Badge>
                                             )}
                                         </th>{' '}
                                         <td>

@@ -4,9 +4,6 @@ import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 import { editReceiptPaymentsApiCall, showAllReceiptPaymentsApi } from '../../axios/receiptPayments/receiptPayments';
 import SuccessMsg from '../../components/AlertMsg';
@@ -40,6 +37,7 @@ const EditReceiptPayments = (props) => {
             .get(`${process.env.REACT_APP_BASE_URL}/receipts/show/all`)
             .then((res) => {
                 setReceipts(res.data.data);
+                setReceiptsselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -181,19 +179,20 @@ const EditReceiptPayments = (props) => {
                     <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Receipt</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={receiptsselect}
+                                    required
                                     onChange={changeReceipts}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {receipts.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.receipt_no}
-                                        </MenuItem>
+                                    label="Receipt *"
+                                    name="selectreceipts">
+                                    {receipts.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.receipt_no}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
                                 <AvField
@@ -256,16 +255,16 @@ const EditReceiptPayments = (props) => {
                                 />
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={activeselect}
+                                    required
                                     onChange={changeActive}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    <MenuItem value={1}>Active</MenuItem>
-                                    <MenuItem value={0}>Inactive</MenuItem>
-                                </Select>
+                                    label="Status *"
+                                    name="selectstatus">
+                                    <option value={1}>Active</option>
+                                    <option value={0}>Inactive</option>
+                                </AvField>
                             </Col>
                         </Row>
                         <Grid md={12} sx={{ textAlign: 'right' }}>

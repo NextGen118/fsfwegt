@@ -4,12 +4,9 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import PageTitle from '../../components/PageTitle';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import { Grid } from '@mui/material';
 import { createVouchersApiCall, showAllVouchersApi } from '../../axios/vouchers/vouchers';
 import SuccessMsg from '../../components/AlertMsg';
+import { Grid } from '@mui/material';
 
 const AddVouchers = forwardRef((props, ref) => {
     const [values, setValues] = useState({});
@@ -47,6 +44,7 @@ const AddVouchers = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/billoflandings/show/all`)
             .then((res) => {
                 setBilloflanding(res.data.data);
+                setBilloflandingselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -57,6 +55,7 @@ const AddVouchers = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/bookingconfirmations/show/all`)
             .then((res) => {
                 setBookingconfirmation(res.data.data);
+                setBookingconfirmationselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -67,6 +66,7 @@ const AddVouchers = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then((res) => {
                 setVendor(res.data.data);
+                setVendorselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -77,6 +77,7 @@ const AddVouchers = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then((res) => {
                 setCurrency(res.data.data);
+                setCurrencyselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -198,64 +199,68 @@ const AddVouchers = forwardRef((props, ref) => {
                                 />
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Currency</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={currencyselect}
+                                    required
                                     onChange={changeCurrency}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {currency.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.currency_name}
-                                        </MenuItem>
+                                    label="Currency *"
+                                    name="selectcurrency">
+                                    {currency.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.currency_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Bill of Landing</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={billoflandingselect}
+                                    required
                                     onChange={changeBilloflanding}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {billoflanding.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.bill_of_landing_number}
-                                        </MenuItem>
+                                    label="Bill of Landing *"
+                                    name="selectbilloflanding">
+                                    {billoflanding.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.bill_of_landing_number}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Vendor</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={vendorselect}
+                                    required
                                     onChange={changeVendor}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {vendor.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.vendor_name}
-                                        </MenuItem>
+                                    label="Vendor *"
+                                    name="selectVendor">
+                                    {vendor.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.vendor_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Booking Confirmation</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={bookingconfirmationselect}
+                                    required
                                     onChange={changeBookingconfirmation}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {bookingconfirmation.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.booking_confirmation_number}
-                                        </MenuItem>
+                                    label="Booking Confimation"
+                                    name="selectBookingConfirmation">
+                                    {bookingconfirmation.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.booking_confirmation_number}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                         </Row>
                         <Grid md={12} sx={{ textAlign: 'right' }}>

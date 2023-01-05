@@ -4,9 +4,6 @@ import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 import {
     editDetentionInvoiceSlabsApiCall,
@@ -36,6 +33,7 @@ const EditDetentionInvoiceSlabs = (props) => {
             .get(`${process.env.REACT_APP_BASE_URL}/detentioninvoice/show/all`)
             .then((res) => {
                 setDetentionInvoice(res.data.data);
+                setDetentionInvoiceselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -141,19 +139,20 @@ const EditDetentionInvoiceSlabs = (props) => {
                     <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={6}>
-                                <InputLabel id="demo-simple-select-label">Detention Invoice No</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={detentionInvoiceselect}
+                                    required
                                     onChange={changeDetentionInvoice}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {detentionInvoice.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.detention_no}
-                                        </MenuItem>
+                                    label="Detention Invoice  *"
+                                    name="selectdetentionInvoice">
+                                    {detentionInvoice.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.detention_no}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
 
                             <Col lg={6}>

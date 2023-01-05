@@ -48,6 +48,7 @@ const AddDetentionNoticeContainers = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/arivalnotices/show/all`)
             .then((res) => {
                 setArrivalNotice(res.data.data);
+                setArrivalNoticeselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -59,6 +60,7 @@ const AddDetentionNoticeContainers = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/equipments/show/all`)
             .then((res) => {
                 setEquipment(res.data.data);
+                setEquipmentselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -70,6 +72,7 @@ const AddDetentionNoticeContainers = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/typeofunits/show/all`)
             .then((res) => {
                 setTypeofunit(res.data.data);
+                setTypeofselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -178,49 +181,52 @@ const AddDetentionNoticeContainers = forwardRef((props, ref) => {
                     <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Arrival Notice No</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={arrivalNoticeselect}
+                                    required
                                     onChange={changeArrivalNotice}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {arrivalNotice.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.arrival_notice_no}
-                                        </MenuItem>
+                                    label="Arrival Notice No  *"
+                                    name="selectarrivalNotice">
+                                    {arrivalNotice.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.arrival_notice_no}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Equipment NO</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={equipmentselect}
+                                    required
                                     onChange={changeEquipment}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {equipment.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.equipment_number}
-                                        </MenuItem>
+                                    label="Equipment NO *"
+                                    name="selectequipment">
+                                    {equipment.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.equipment_number}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Type Of Unit</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={typeofselect}
+                                    required
                                     onChange={changeType}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {typeofunit.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.type_of_unit}
-                                        </MenuItem>
+                                    label="Type Of Unit *"
+                                    name="selecttypeofunit">
+                                    {typeofunit.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.type_of_unit}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
 
                             <Col lg={4}>

@@ -4,9 +4,6 @@ import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 import {
     editDetentionTraffiesApiCall,
@@ -178,34 +175,36 @@ const EditDetentionTraffies = (props) => {
                             </Col>
 
                             <Col lg={6}>
-                                <InputLabel id="demo-simple-select-label">Client Agent</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={clientAgentselect}
+                                    required
                                     onChange={changeClientAgent}
-                                    sx={{ width: '100%', mb: 2, height: 40 }}>
+                                    label="Client Agent *"
+                                    name="selectclientAgent">
                                     {clientAgent.map((con) => (
-                                        <MenuItem value={con.id} key={con.id}>
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
                                             {con.client_name}
-                                        </MenuItem>
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={6}>
-                                <InputLabel id="demo-simple-select-label">Currency</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={currencyselect}
+                                    required
                                     onChange={changeCurrency}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {currency.map((cur) => (
-                                        <MenuItem value={cur.id} key={cur.id}>
-                                            {cur.currency_name}
-                                        </MenuItem>
+                                    label="Currency *"
+                                    name="selectcurrency">
+                                    {currency.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.currency_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                         </Row>
                         <Grid md={12} sx={{ textAlign: 'right' }}>

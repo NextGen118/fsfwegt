@@ -4,9 +4,6 @@ import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 import { editInvoiceChargesApiCall, showAllInvoiceChargesApi } from '../../axios/invoiceCharges/invoiceCharges';
 import SuccessMsg from '../../components/AlertMsg';
@@ -52,6 +49,7 @@ const EditInvoiceCharges = (props) => {
             .get(`${process.env.REACT_APP_BASE_URL}/invoices/show/all`)
             .then((res) => {
                 setInvoice(res.data.data);
+                setInvoiceselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -63,7 +61,10 @@ const EditInvoiceCharges = (props) => {
             .get(`${process.env.REACT_APP_BASE_URL}/currencies/show/all`)
             .then((res) => {
                 setCurrency(res.data.data);
+                setCurrencyselect(res.data.data[0]?.id);
+
                 setMyCurrency(res.data.data);
+                setMyCurrencyselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -220,49 +221,52 @@ const EditInvoiceCharges = (props) => {
                     <AvForm onSubmit={onEdit}>
                         <Row>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Invoice No</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={invoiceselect}
+                                    required
                                     onChange={changeInvoice}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {invoice.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.invoice_no}
-                                        </MenuItem>
+                                    label="Invoice No *"
+                                    name="selectinvoice">
+                                    {invoice.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.invoice_no}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Currency</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={currencyselect}
+                                    required
                                     onChange={changeCurrency}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {currency.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.currency_name}
-                                        </MenuItem>
+                                    label="Currency *"
+                                    name="selectcurrency">
+                                    {currency.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.currency_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">My Currency</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={myCurrencyselect}
+                                    required
                                     onChange={changeMyCurrency}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {myCurrency.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.currency_name}
-                                        </MenuItem>
+                                    label="My Currency *"
+                                    name="selectmyCurrency">
+                                    {myCurrency.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.currency_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
                                 <AvField

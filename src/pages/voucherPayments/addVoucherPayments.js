@@ -4,9 +4,6 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import PageTitle from '../../components/PageTitle';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 import { createVoucherPaymentsApiCall, showAllVoucherPaymentsApi } from '../../axios/voucherPayments/voucherPayments';
 import SuccessMsg from '../../components/AlertMsg';
@@ -35,6 +32,7 @@ const AddVoucherPayments = forwardRef((props, ref) => {
             .get(`${process.env.REACT_APP_BASE_URL}/vouchers/show/all`)
             .then((res) => {
                 setVouchers(res.data.data);
+                setVouchersselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -124,19 +122,20 @@ const AddVoucherPayments = forwardRef((props, ref) => {
                     <AvForm onSubmit={onAdd}>
                         <Row>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Voucher No</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={vouchersselect}
+                                    required
                                     onChange={changeVouchers}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {vouchers.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.voucher_no}
-                                        </MenuItem>
+                                    label="Voucher No *"
+                                    name="selectvouchers">
+                                    {vouchers.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.voucher_no}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
 
                             <Col lg={4}>

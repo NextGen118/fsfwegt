@@ -4,9 +4,6 @@ import { Row, Col, Card, CardBody, Button } from 'reactstrap';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import { Grid } from '@mui/material';
 import {
     editDetentionTraffSubsApiCall,
@@ -37,6 +34,7 @@ const EditDetentionTraffSubs = (props) => {
             .get(`${process.env.REACT_APP_BASE_URL}/detentiontraffies/show/all`)
             .then((res) => {
                 setDetentiontraffies(res.data.data);
+                setDetentiontraffiesselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -172,19 +170,20 @@ const EditDetentionTraffSubs = (props) => {
                             </Col>
 
                             <Col lg={6}>
-                                <InputLabel id="demo-simple-select-label">Detention Traff</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={detentiontraffiesselect}
+                                    required
                                     onChange={changeDetentiontraffies}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
+                                    label="Detention Traff *"
+                                    name="selectdetentiontraffies">
                                     {detentiontraffies.map((con) => (
-                                        <MenuItem value={con.id} key={con.id}>
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
                                             {con.id}
-                                        </MenuItem>
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                         </Row>
                         <Grid md={12} sx={{ textAlign: 'right' }}>

@@ -80,7 +80,10 @@ const EditBookingConfirmations = (props) => {
             .get(`${process.env.REACT_APP_BASE_URL}/ports/show/all`)
             .then((res) => {
                 setPort_loading(res.data.data);
+                setPort_loadingselect(res.data.data[0]?.id);
+
                 setPort_discharge(res.data.data);
+                setPort_dischargeselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -104,7 +107,10 @@ const EditBookingConfirmations = (props) => {
             .get(`${process.env.REACT_APP_BASE_URL}/vendors/show/all`)
             .then((res) => {
                 setVendor(res.data.data);
+                setVendorselect(res.data.data[0]?.id);
+
                 setVendoryard(res.data.data);
+                setVendoryardselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -116,6 +122,7 @@ const EditBookingConfirmations = (props) => {
             .get(`${process.env.REACT_APP_BASE_URL}/igmindiavoyages/show/all`)
             .then((res) => {
                 setIgm(res.data.data);
+                setIgmselect(res.data.data[0]?.id);
             })
             .catch((error) => {
                 console.log(error);
@@ -356,125 +363,133 @@ const EditBookingConfirmations = (props) => {
                             </Col>
 
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Shipper Client</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={clientshipperselect}
+                                    required
                                     onChange={changeClientshipper}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {clientshipper.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.client_name}
-                                        </MenuItem>
+                                    label="Shipper Client *"
+                                    name="selectclientshipper">
+                                    {clientshipper.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.client_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Client</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={clientselect}
+                                    required
                                     onChange={changeClient}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {client.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.client_name}
-                                        </MenuItem>
+                                    label="Client *"
+                                    name="selectclient">
+                                    {client.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.client_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Vendor</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={vendorselect}
+                                    required
                                     onChange={changeVendor}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {vendor.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.vendor_name}
-                                        </MenuItem>
+                                    label="Vendor Yard *"
+                                    name="selectvendor">
+                                    {vendor.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.vendor_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Loading Port</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={port_loadingselect}
+                                    required
                                     onChange={changePort_loading}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {port_loading.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.port_name}
-                                        </MenuItem>
+                                    label="Loading Port *"
+                                    name="selectport_loading">
+                                    {port_loading.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.port_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Discharge Port</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={port_dischargeselect}
+                                    required
                                     onChange={changePort_discharge}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {port_discharge.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.port_name}
-                                        </MenuItem>
+                                    label="Discharge Port *"
+                                    name="selectport_discharge">
+                                    {port_discharge.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.port_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">IGM India Voyage</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={igmselect}
+                                    required
                                     onChange={changeIgm}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {igm.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.voyage}
-                                        </MenuItem>
+                                    label="IGM India Voyage *"
+                                    name="selectigm">
+                                    {igm.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.voyage}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
 
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Vendor Yard</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={vendoryardselect}
-                                    onChange={changeVendoryard}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {vendoryard.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.vendor_name}
-                                        </MenuItem>
+                                    required
+                                    onChange={changeVendor}
+                                    label="Vendor Yard *"
+                                    name="changeVendoryard">
+                                    {vendoryard.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.vendor_name}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Type Of Unit</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={typeofselect}
+                                    required
                                     onChange={changeType}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    {typeofunit.map((rec) => (
-                                        <MenuItem value={rec.id} key={rec.id}>
-                                            {rec.type_of_unit}
-                                        </MenuItem>
+                                    label="Type Of Unit *"
+                                    name="selecttypeofunit">
+                                    {typeofunit.map((con) => (
+                                        <option value={con.id} key={con.id}>
+                                            {' '}
+                                            {con.type_of_unit}
+                                        </option>
                                     ))}
-                                </Select>
+                                </AvField>
                             </Col>
 
                             <Col lg={4}>
@@ -651,16 +666,16 @@ const EditBookingConfirmations = (props) => {
                                 />
                             </Col>
                             <Col lg={4}>
-                                <InputLabel id="demo-simple-select-label">Status 2</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                <AvField
+                                    type="select"
                                     value={activeselect}
+                                    required
                                     onChange={changeActive}
-                                    sx={{ width: '100%', height: 40, mb: 2 }}>
-                                    <MenuItem value={1}>Active</MenuItem>
-                                    <MenuItem value={0}>Inactive</MenuItem>
-                                </Select>
+                                    label="Status *"
+                                    name="selectstatus">
+                                    <option value={1}>Active</option>
+                                    <option value={0}>Inactive</option>
+                                </AvField>
                             </Col>
                         </Row>
                         <Grid md={12} sx={{ textAlign: 'right' }}>
